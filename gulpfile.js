@@ -5,25 +5,16 @@ var log = u.log;
 var c = u.colors;
 
 // Project deps
+var nodemon = require('gulp-nodemon');
 var sass = require('gulp-sass');
 var prefix = require('gulp-autoprefixer');
 var bs = require('browser-sync');
 var reload = bs.reload;
 
 // -----------------------------------------------------------------------------
-// Browser Sync
-// -----------------------------------------------------------------------------
-gulp.task('browser-sync', function() {
-  bs({
-    server: './'
-  });
-});
-
-// -----------------------------------------------------------------------------
 // Sass Task
 //
-// Compiles Sass and runs the CSS through autoprefixer. A separate task will
-// combine the compiled CSS with vendor files and minify the aggregate.
+// Compiles Sass and runs the CSS through autoprefixer.
 // -----------------------------------------------------------------------------
 gulp.task('sass', function() {
   bs.notify('<span style="color: grey">Running:</span> Sass task');
@@ -42,9 +33,25 @@ gulp.task('sass', function() {
     .pipe(reload({stream:true}));
 });
 
+// -----------------------------------------------------------------------------
+// Watch tasks
+// -----------------------------------------------------------------------------
 gulp.task('watch', function() {
   gulp.watch('sass/**/*', ['sass']);
 });
 
-// Default should just open the site
-gulp.task('default', ['browser-sync', 'watch']);
+// -----------------------------------------------------------------------------
+// Run the server
+// -----------------------------------------------------------------------------
+gulp.task('start', ['sass', 'watch'], function () {
+  nodemon({
+    script: 'index.js',
+    ext: 'js html',
+    env: { 'NODE_ENV': 'development' }
+  });
+});
+
+// -----------------------------------------------------------------------------
+// Default should just start the server
+// -----------------------------------------------------------------------------
+gulp.task('default', ['start']);
