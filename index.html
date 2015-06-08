@@ -10,11 +10,30 @@
     <form class="controls" action="">
       <button id="add">Add</button>
       <label for="opacity">Opacity</label>
-      <input id="opacity" type="range" name="opacity" min="0" max="1" step=".05" value="1">
+      <input id="opacity" type="range" name="opacity" min="0" max="1" step=".05" value=".7">
       <label for="color">Color</label>
       <input id="color" type="color" name="color" value="#3366cc">
       <label for="size">Size</label>
-      <input id="size" type="number" name="size" min="0" max="400" step="20" value="100">
+      <input id="size" type="number" name="size" min="0" max="400" step="20" value="120">
+      <label for="blend">Blend mode</label>
+      <select name="mix-blend" id="mix-blend">
+        <option value="normal">normal</option>
+        <option value="multiply">multiply</option>
+        <option value="screen">screen</option>
+        <option value="overlay">overlay</option>
+        <option value="darken">darken</option>
+        <option value="lighten">lighten</option>
+        <option value="color-dodge">color-dodge</option>
+        <option value="color-burn">color-burn</option>
+        <option value="hard-light">hard-light</option>
+        <option value="soft-light">soft-light</option>
+        <option value="difference">difference</option>
+        <option value="exclusion">exclusion</option>
+        <option value="hue">hue</option>
+        <option value="saturation">saturation</option>
+        <option value="color">color</option>
+        <option value="luminosity">luminosity</option>
+      </select>
     </form>
 
     <script src="/socket.io/socket.io.js"></script>

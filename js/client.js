@@ -6,7 +6,8 @@ $('#add').click(function(e){
     opacity: $('#opacity').val(),
     backgroundColor: $('#color').val(),
     width: $('#size').val() + 'px',
-    height: $('#size').val() + 'px'
+    height: $('#size').val() + 'px',
+    mixBlendMode: $('#mix-blend').val()
   });
   e.preventDefault();
 });
