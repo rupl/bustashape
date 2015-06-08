@@ -20,6 +20,14 @@ socket.on('add', function(props) {
     .on('dragstart', function( event, ui ) {
       $(this).addClass('grabbing');
     })
+    .on('drag', function ( event, ui ) {
+      socket.emit('move', {
+        me: socket.id,
+        id: $(this).attr('id'),
+        left: $(this).css('left'),
+        top: $(this).css('top')
+      });
+    })
     .on('dragstop', function( event, ui ) {
       $(this).removeClass('grabbing');
 
@@ -33,8 +41,10 @@ socket.on('add', function(props) {
 });
 
 socket.on('move', function(props) {
-  $('#' + props.id).css({
-    left: props.left,
-    top: props.top
-  });
+  if (props.me !== socket.id) {
+    $('#' + props.id).css({
+      left: props.left,
+      top: props.top
+    });
+  }
 });
