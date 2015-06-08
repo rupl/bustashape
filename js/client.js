@@ -2,7 +2,7 @@ var socket = io();
 
 $('#add').click(function(e){
   socket.emit('add', {
-    id: 'shape-' + Math.floor(Math.random() * 10000000),
+    id: 'shape-' + Math.floor(Math.random() * 1000000000),
     opacity: $('#opacity').val(),
     backgroundColor: $('#color').val(),
     width: $('#size').val() + 'px',
@@ -31,6 +31,8 @@ socket.on('add', function(props) {
     .on('dragstop', function( event, ui ) {
       $(this).removeClass('grabbing');
 
+      // On dragstop we don't send the "me" ID because it should end up in the
+      // same place regardless of who moved it.
       socket.emit('move', {
         id: $(this).attr('id'),
         left: $(this).css('left'),
