@@ -1,6 +1,6 @@
 # Socket Art
 
-A collaborative, real-time tool for creating artwork in the browser. Inspired by [Afra Noubarzadeh](https://github.com/afragon)'s work with [CSS live coding](https://www.youtube.com/watch?v=MrYOnQTXWzs)
+A collaborative, real-time tool for creating artwork in the browser. Inspired by [Afra Noubarzadeh](https://github.com/afragon)'s work with [CSS live coding](https://www.youtube.com/watch?v=MrYOnQTXWzs) ([see a video](https://www.youtube.com/watch?v=ztwSAZ7lJg8))
 
 An experiment by [Chris Ruppel](https://github.com/rupl)
 
