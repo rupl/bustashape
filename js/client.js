@@ -174,7 +174,6 @@ socket.on('add', function(props) {
       logEvent(ev.type);
   }
 
-
   socket.on('move', function(props) {
     if (props.me !== socket.id) {
       $('#' + props.id).css({
@@ -182,29 +181,4 @@ socket.on('add', function(props) {
       });
     }
   });
-
-
-      // .draggable()
-      // .on('dragstart', function( event, ui ) {
-      //   $(this).addClass('grabbing');
-      // })
-      // .on('drag', function ( event, ui ) {
-      //   socket.emit('move', {
-      //     me: socket.id,
-      //     id: $(this).attr('id'),
-      //     left: $(this).css('left'),
-      //     top: $(this).css('top')
-      //   });
-      // })
-      // .on('dragstop', function( event, ui ) {
-      //   $(this).removeClass('grabbing');
-
-      //   // On dragstop we don't send the "me" ID because it should end up in the
-      //   // same place regardless of who moved it.
-      //   socket.emit('move', {
-      //     id: $(this).attr('id'),
-      //     left: $(this).css('left'),
-      //     top: $(this).css('top')
-      //   });
-      // })
 });
