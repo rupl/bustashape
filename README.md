@@ -24,3 +24,7 @@ Open any number of browsers, point them at http://localhost:3000, and have fun!
 ## Multiplayer art
 
 Once this is a little more developed I'd like to put it online. But for now, local development will have to do.
+
+## Video
+
+Here's a very short video of my WIP: https://www.youtube.com/watch?v=Czg--AgziuI
