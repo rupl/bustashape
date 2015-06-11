@@ -2,6 +2,8 @@
   "name": "socket-art",
   "version": "0.0.2",
   "description": "my second socket.io app",
+  "repository": "https://github.com/rupl/socket-art",
+  "license": "MIT",
   "dependencies": {
     "express": "^4.12.4",
     "gulp": "^3.9.0",
