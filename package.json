@@ -15,5 +15,11 @@
     "gulp-autoprefixer": "^2.3.1",
     "gulp-nodemon": "^2.0.3",
     "gulp-sass": "^2.0.1"
+  },
+  "engines": {
+    "node": "0.10.x"
+  },
+  "scripts": {
+    "start": "gulp sass && node index.js"
   }
 }
