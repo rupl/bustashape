@@ -34,7 +34,7 @@ socket.on('add', function(props) {
   );
 
   // Set up Hammer event listeners
-  var el = document.querySelector('#' + props.id);
+  var el = document.getElementById(props.id);
   var initAngle = 0;
   var initScale = 1;
   var timer;
@@ -42,6 +42,7 @@ socket.on('add', function(props) {
   var transform = {
     x: 0,
     y: 0,
+    z: 0,
     scale: initScale,
     angle: initAngle,
     rx: 0,
@@ -54,14 +55,14 @@ socket.on('add', function(props) {
   mc.add(new Hammer.Pan({ threshold: 0, pointers: 0 }));
   mc.add(new Hammer.Rotate({ threshold: 0 })).recognizeWith(mc.get('pan'));
   mc.add(new Hammer.Pinch({ threshold: 0 })).recognizeWith([mc.get('pan'), mc.get('rotate')]);
-  mc.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
-  mc.add(new Hammer.Tap());
+  // mc.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
+  // mc.add(new Hammer.Tap());
 
   mc.on("panstart panmove", onPan);
   mc.on("rotatestart rotatemove", onRotate);
   mc.on("pinchstart pinchmove", onPinch);
-  mc.on("tap", onTap);
-  mc.on("doubletap", onDoubleTap);
+  // mc.on("tap", onTap);
+  // mc.on("doubletap", onDoubleTap);
   mc.on("hammer.input", function(ev) {
     if(ev.isFinal) {
       requestElementUpdate();
@@ -69,24 +70,23 @@ socket.on('add', function(props) {
   });
 
   /**
-   * Easily pull coords out of a transform string.
-   */
-  function extract(css) {
-    var coords = css.match(/translate3d\((\d+)px, (\d+)px/);
-
-    return {
-      x: coords[1],
-      y: coords[2]
-    };
-  }
-
-  /**
    * Paint the changes.
    */
-  function requestElementUpdate() {
+  function requestElementUpdate(opts) {
+    var emit = (opts === 'noEmit') ? 'noEmit' : null;
+
     if(!ticking) {
       reqAnimationFrame(updateElementTransform);
       ticking = true;
+
+      // If needed, send position to everyone else.
+      if (emit !== 'noEmit') {
+        socket.emit('change', {
+          me: socket.id,
+          id: props.id,
+          transform: transform
+        });
+      }
     }
   }
 
@@ -95,7 +95,7 @@ socket.on('add', function(props) {
    */
   function updateElementTransform() {
     var value = [
-      'translate3d(' + transform.x + 'px, ' + transform.y + 'px, 0px)',
+      'translate3d(' + transform.x + 'px, ' + transform.y + 'px, ' + transform.z + 'px)',
       'scale(' + transform.scale + ', ' + transform.scale + ')',
       'rotate3d('+ transform.rx +','+ transform.ry +','+ transform.rz +','+  transform.angle + 'deg)'
     ];
@@ -105,28 +105,16 @@ socket.on('add', function(props) {
     el.style.mozTransform = value;
     el.style.transform = value;
     ticking = false;
-
-    // Send position to everyone else.
-    socket.emit('move', {
-      me: socket.id,
-      id: props.id,
-      transform: value
-    });
   }
 
   /**
-   * Socket: listen for this shape to move.
+   * Socket: listen for this shape to change.
    */
-  socket.on('move', function(props) {
-    if (props.me !== socket.id) {
-      var iAmHere = extract(props.transform);
+  socket.on('change', function(props) {
+    if (props.me !== socket.id && props.id === el.id) {
+      transform = props.transform;
 
-      $('#' + props.id).css({
-        transform: props.transform
-      });
-
-      transform.x = iAmHere.x;
-      transform.y = iAmHere.y;
+      requestElementUpdate('noEmit');
     }
   });
 
@@ -139,8 +127,8 @@ socket.on('add', function(props) {
       initY = transform.y || 0;
     }
 
-    transform.x = initX + ev.deltaX;
-    transform.y = initY + ev.deltaY;
+    transform.x = parseInt(initX, 10) + parseInt(ev.deltaX, 10);
+    transform.y = parseInt(initY, 10) + parseInt(ev.deltaY, 10);
 
     requestElementUpdate();
   }
@@ -167,35 +155,35 @@ socket.on('add', function(props) {
     }
 
     transform.rz = 1;
-    transform.angle = initAngle + ev.rotation;
+    transform.angle = parseInt(initAngle, 10) + parseInt(ev.rotation, 10);
+
     requestElementUpdate();
   }
 
   /**
    * Hammer: listen for tap
    */
-  function onTap(ev) {
-    transform.rx = 1;
-    transform.angle = 25;
+  // function onTap(ev) {
+  //   clearTimeout(timer);
 
-    clearTimeout(timer);
-    timer = setTimeout(function () {
-      requestElementUpdate();
-    }, 200);
-    requestElementUpdate();
-  }
+  //   timer = setTimeout(function () {
+  //     requestElementUpdate();
+  //   }, 200);
+
+  //   requestElementUpdate();
+  // }
 
   /**
    * Hammer: listen for double tap
    */
-  function onDoubleTap(ev) {
-    transform.rx = 1;
-    transform.angle = 80;
+  // function onDoubleTap(ev) {
+  //   transform.rx = 1;
+  //   transform.angle = 80;
 
-    clearTimeout(timer);
-    timer = setTimeout(function () {
-      requestElementUpdate();
-    }, 500);
-    requestElementUpdate();
-  }
+  //   clearTimeout(timer);
+  //   timer = setTimeout(function () {
+  //     requestElementUpdate();
+  //   }, 500);
+  //   requestElementUpdate();
+  // }
 });
