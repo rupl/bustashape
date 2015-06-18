@@ -18,6 +18,7 @@
     "node": "0.10.x"
   },
   "scripts": {
-    "start": "gulp sass && node index.js"
+    "postinstall": "gulp sass",
+    "start": "node index.js"
   }
 }
