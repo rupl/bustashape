@@ -2,7 +2,8 @@
 <html lang="en-US">
   <head>
     <meta charset="utf-8">
-    <title>Socket.IO Art</title>
+    <title>socket art</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <link rel="stylesheet" media="all" href="/css/style.css">
   </head>
   <body>
@@ -10,11 +11,11 @@
     <form class="controls" action="">
       <button id="add">Add</button>
       <label for="opacity">Opacity</label>
-      <input id="opacity" type="range" name="opacity" min="0" max="1" step=".05" value=".7">
+      <input id="opacity" type="range" name="opacity" min="0" max="1" step=".05" value=".5">
       <label for="color">Color</label>
       <input id="color" type="color" name="color" value="#3366cc">
       <label for="size">Size</label>
-      <input id="size" type="number" name="size" min="0" max="400" step="20" value="120">
+      <input id="size" type="number" name="size" min="0" max="400" step="25" value="200">
       <label for="blend">Blend mode</label>
       <select name="mix-blend" id="mix-blend">
         <option value="normal">normal</option>
@@ -38,7 +39,7 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/jquery.min.js"></script>
-    <script src="/js/jquery-ui.min.js"></script>
+    <script src="/js/hammer.min.js"></script>
     <script src="/js/client.js"></script>
   </body>
 </html>

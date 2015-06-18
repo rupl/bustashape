@@ -23,16 +23,16 @@ io.on('connection', function(socket){
    * A new shape appears!
    */
   socket.on('add', function(props){
-    console.log('shape: added', props);
+    console.log('ADD', props);
     io.emit('add', props);
   });
 
   /**
    * A shape is being dragged.
    */
-  socket.on('move', function(props){
-    console.log('shape: moved', props);
-    io.emit('move', props);
+  socket.on('change', function(props){
+    console.log('CHANGE', props);
+    io.emit('change', props);
   });
 
   /**
