@@ -1,6 +1,6 @@
 {
   "name": "socket-art",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "my second socket.io app",
   "repository": "https://github.com/rupl/socket-art",
   "license": "MIT",
