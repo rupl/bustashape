@@ -35,6 +35,8 @@ socket.on('add', function(props) {
 
   // Set up Hammer event listeners
   var el = document.getElementById(props.id);
+  var initX;
+  var initY;
   var initAngle = 0;
   var initScale = 1;
   var timer;
@@ -127,8 +129,10 @@ socket.on('add', function(props) {
       initY = transform.y || 0;
     }
 
-    transform.x = parseInt(initX, 10) + parseInt(ev.deltaX, 10);
-    transform.y = parseInt(initY, 10) + parseInt(ev.deltaY, 10);
+    if (ev.type == 'panmove') {
+      transform.x = parseInt(initX, 10) + parseInt(ev.deltaX, 10);
+      transform.y = parseInt(initY, 10) + parseInt(ev.deltaY, 10);
+    }
 
     requestElementUpdate();
   }
