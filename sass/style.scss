@@ -9,15 +9,18 @@ body {
   color: #fff;
   font-size: 18px;
   font-family: Helvetica, Arial;
+  overflow: hidden;
 }
 
 .controls {
   background: rgba(255, 255, 255, .5);
   color: #000;
-  padding: .25em;
+  padding: 0;
   position: fixed;
   bottom: 0;
-  width: 100%;
+  width: 100vw;
+  height: 10vh;
+  transition: all .5s ease-in-out;
 
   input {
     border: 0;
@@ -30,15 +33,43 @@ body {
     padding: .5em;
     font-size: 16px;
   }
+
+  .hidden {
+    display: none;
+  }
+
+  //
+  // Touch controls
+  //
+
+  .proto {
+    display: inline-block;
+    width: 8vh;
+    height: 8vh;
+    background: #fff;
+  }
+
+  #square {
+
+  }
+
+  #circle {
+    border-radius: 50%;
+  }
 }
 
 #canvas {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .shape {
   cursor: grab;
-  position: absolute !important; // override jQuery UI
+  position: absolute;
 }
+
 .grabbing {
   cursor: grabbing;
 }

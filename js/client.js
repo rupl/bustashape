@@ -1,3 +1,5 @@
+'use strict';
+
 var socket = io();
 var reqAnimationFrame = (function () {
   return window[Hammer.prefixed(window, 'requestAnimationFrame')] || function (callback) {
@@ -12,6 +14,7 @@ var reqAnimationFrame = (function () {
 $('#add').click(function(e){
   socket.emit('add', {
     id: 'shape-' + Math.floor(Math.random() * 1000000000),
+    shape: type,
     opacity: $('#opacity').val(),
     backgroundColor: $('#color').val(),
     width: $('#size').val() + 'px',
@@ -124,12 +127,12 @@ socket.on('add', function(props) {
    * Hammer: listen for pan
    */
   function onPan(ev) {
-    if (ev.type == 'panstart') {
+    if (ev.type === 'panstart') {
       initX = transform.x || 0;
       initY = transform.y || 0;
     }
 
-    if (ev.type == 'panmove') {
+    if (ev.type === 'panmove') {
       transform.x = parseInt(initX, 10) + parseInt(ev.deltaX, 10);
       transform.y = parseInt(initY, 10) + parseInt(ev.deltaY, 10);
     }
@@ -141,7 +144,7 @@ socket.on('add', function(props) {
    * Hammer: listen for pinch
    */
   function onPinch(ev) {
-    if (ev.type == 'pinchstart') {
+    if (ev.type === 'pinchstart') {
       initScale = transform.scale || 1;
     }
 
@@ -154,7 +157,7 @@ socket.on('add', function(props) {
    * Hammer: listen for rotate
    */
   function onRotate(ev) {
-    if (ev.type == 'rotatestart') {
+    if (ev.type === 'rotatestart') {
       initAngle = transform.angle || 0;
     }
 
