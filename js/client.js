@@ -28,7 +28,7 @@ $('#add').click(function(e){
 socket.on('add', function(props) {
   // Add the new element
   $('#canvas').append($('<div>')
-    .addClass('shape')
+    .addClass('shape unchanged')
     .attr('id', props.id)
     .css(props)
   );
@@ -114,8 +114,11 @@ socket.on('add', function(props) {
    */
   socket.on('change', function(props) {
     if (props.me !== socket.id && props.id === el.id) {
-      transform = props.transform;
+      // In case this is the first time the shape has moved, remove this class.
+      el.classList.remove('unchanged');
 
+      // Transform and animate the shape.
+      transform = props.transform;
       requestElementUpdate('noEmit');
     }
   });
@@ -125,10 +128,15 @@ socket.on('add', function(props) {
    */
   function onPan(ev) {
     if (ev.type == 'panstart') {
+      // The first time any shape moves, it needs this class removed.
+      el.classList.remove('unchanged');
+
+      // Get the starting position for this gesture
       initX = transform.x || 0;
       initY = transform.y || 0;
     }
 
+    // We're already moving, use the values we stored during 'panstart'
     if (ev.type == 'panmove') {
       transform.x = parseInt(initX, 10) + parseInt(ev.deltaX, 10);
       transform.y = parseInt(initY, 10) + parseInt(ev.deltaY, 10);

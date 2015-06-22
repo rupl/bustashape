@@ -37,8 +37,22 @@ body {
 
 .shape {
   cursor: grab;
-  position: absolute !important; // override jQuery UI
+  position: absolute;
 }
+
+.unchanged {
+  // pop-in effect
+  transform: scale(0);
+  animation: appear .166666s ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes appear {
+  100% {
+    transform: scale(1);
+  }
+}
+
 .grabbing {
   cursor: grabbing;
 }
