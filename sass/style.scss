@@ -45,7 +45,7 @@ body {
 .unchanged {
   // pop-in effect
   transform: scale(0);
-  animation: appear .166666s ease-in-out;
+  animation: appear .33333s cubic-bezier(.17,.67,.19,1.92);
   animation-fill-mode: forwards;
 }
 
