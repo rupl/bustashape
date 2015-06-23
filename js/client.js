@@ -1,3 +1,4 @@
+var $ = function (selector) { return document.querySelector(selector); }
 var socket = io();
 var reqAnimationFrame = (function () {
   return window[Hammer.prefixed(window, 'requestAnimationFrame')] || function (callback) {
@@ -9,29 +10,30 @@ var reqAnimationFrame = (function () {
  * Add a new shape on all clients. It doesn't immediately add a shape to your
  * DOM, the 'add' listener below handles that part.
  */
-$('#add').click(function(e){
+$('#add').addEventListener('click', function(ev){
   socket.emit('add', {
     id: 'shape-' + Math.floor(Math.random() * 1000000000),
-    opacity: $('#opacity').val(),
-    backgroundColor: $('#color').val(),
-    width: $('#size').val() + 'px',
-    height: $('#size').val() + 'px',
-    mixBlendMode: $('#mix-blend').val(),
-    position: 'absolute'
+    opacity: $('#opacity').value,
+    backgroundColor: $('#color').value,
+    mixBlendMode: $('#mix-blend').value
   });
-  e.preventDefault();
+  ev.preventDefault();
 });
 
 /**
  * Listen for new additions and add them to DOM.
  */
 socket.on('add', function(props) {
+  // Create a new element
+  var el = document.createElement('div');
+  el.id = props.id;
+  el.classList.add('shape', 'unchanged');
+  el.style.opacity = props.opacity;
+  el.style.backgroundColor = props.backgroundColor;
+  el.style.mixBlendMode = props.mixBlendMode;
+
   // Add the new element
-  $('#canvas').append($('<div>')
-    .addClass('shape unchanged')
-    .attr('id', props.id)
-    .css(props)
-  );
+  $('#canvas').appendChild(el);
 
   // Set up Hammer event listeners
   var el = document.getElementById(props.id);
