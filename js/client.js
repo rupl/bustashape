@@ -76,15 +76,12 @@ socket.on('add', function(props) {
   /**
    * Paint the changes.
    */
-  function requestElementUpdate(opts) {
-    var emit = (opts === 'noEmit') ? 'noEmit' : null;
-
+  function requestElementUpdate(broadcast) {
     if(!ticking) {
       reqAnimationFrame(updateElementTransform);
       ticking = true;
 
-      // If needed, send position to everyone else.
-      if (emit !== 'noEmit') {
+      if (broadcast !== false) {
         socket.emit('change', {
           me: socket.id,
           id: props.id,
@@ -115,13 +112,13 @@ socket.on('add', function(props) {
    * Socket: listen for this shape to change.
    */
   socket.on('change', function(props) {
-    if (props.me !== socket.id && props.id === el.id) {
+    if (props.id === el.id) {
       // In case this is the first time the shape has moved, remove this class.
       el.classList.remove('unchanged');
 
       // Transform and animate the shape.
       transform = props.transform;
-      requestElementUpdate('noEmit');
+      requestElementUpdate(false);
     }
   });
 
