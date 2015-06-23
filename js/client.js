@@ -107,8 +107,8 @@ socket.on('add', function(props) {
   mc.on("pinchstart pinchmove", onPinch);
 
   // Tapping gesture
-  // mc.add(new Hammer.Tap());
-  // mc.on("tap", onTap);
+  mc.add(new Hammer.Tap());
+  mc.on("tap", onTap);
 
   // Double tapping gesture
   // mc.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
@@ -173,15 +173,9 @@ socket.on('add', function(props) {
   /**
    * Hammer: listen for tap
    */
-  // function onTap(ev) {
-  //   clearTimeout(timer);
-
-  //   timer = setTimeout(function () {
-  //     requestElementUpdate();
-  //   }, 200);
-
-  //   requestElementUpdate();
-  // }
+  function onTap(ev) {
+    ev.target.classList.toggle('selected');
+  }
 
   /**
    * Hammer: listen for double tap

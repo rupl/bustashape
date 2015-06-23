@@ -58,3 +58,8 @@ body {
 .grabbing {
   cursor: grabbing;
 }
+
+.selected {
+  border: 5px solid #fff;
+  border-radius: 5%;
+}
