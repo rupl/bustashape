@@ -1,18 +1,22 @@
 // Node/npm deps
 var express = require('express');
+var port = process.env.PORT || 3000;
+
+
+// Initialize app
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var port = process.env.PORT || 3000;
+
+
+// Configure app details like templates and static assets
+app.use(express.static(__dirname + '/public', {redirect: false}));
+
 
 // Main app URL
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
-
-// CSS/JS
-app.use('/css', express.static(__dirname + '/css'));
-app.use('/js', express.static(__dirname + '/js'));
 
 /**
  * Someone connected.
@@ -29,7 +33,7 @@ io.on('connection', function(socket){
   });
 
   /**
-   * A shape is being dragged.
+   * A shape is being changed.
    */
   socket.on('change', function(props){
     console.log('CHANGE', props);

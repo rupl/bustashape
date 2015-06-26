@@ -29,7 +29,7 @@ gulp.task('sass', function() {
       })
     )
     .pipe(prefix('last 2 versions', '> 1%'))
-    .pipe(gulp.dest('css'))
+    .pipe(gulp.dest('public/css'))
     .pipe(reload({stream:true}));
 });
 
