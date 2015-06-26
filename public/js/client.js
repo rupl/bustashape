@@ -1,5 +1,6 @@
 'use strict';
 
+var $ = function (selector) { return document.querySelector(selector); }
 var socket = io();
 var reqAnimationFrame = (function () {
   return window[Hammer.prefixed(window, 'requestAnimationFrame')] || function (callback) {
@@ -11,33 +12,34 @@ var reqAnimationFrame = (function () {
  * Add a new shape on all clients. It doesn't immediately add a shape to your
  * DOM, the 'add' listener below handles that part.
  */
-$('#add').click(function(e){
+$('#add').addEventListener('click', function(ev){
   socket.emit('add', {
     id: 'shape-' + Math.floor(Math.random() * 1000000000),
-    shape: type,
-    opacity: $('#opacity').val(),
-    backgroundColor: $('#color').val(),
-    width: $('#size').val() + 'px',
-    height: $('#size').val() + 'px',
-    mixBlendMode: $('#mix-blend').val(),
-    position: 'absolute'
+    opacity: $('#opacity').value,
+    backgroundColor: $('#color').value,
+    mixBlendMode: $('#mix-blend').value
   });
-  e.preventDefault();
+  ev.preventDefault();
 });
 
 /**
- * Listen for new additions and add them to DOM.
+ * Listen for new shapes and add them to DOM.
  */
 socket.on('add', function(props) {
-  // Add the new element
-  $('#canvas').append($('<div>')
-    .addClass('shape')
-    .attr('id', props.id)
-    .css(props)
-  );
+  // Create a new element
+  var el = document.createElement('div');
+  el.id = props.id;
+  el.classList.add('shape', 'unchanged');
+  el.style.opacity = props.opacity;
+  el.style.backgroundColor = props.backgroundColor;
+  el.style.mixBlendMode = props.mixBlendMode;
 
-  // Set up Hammer event listeners
+  // Add the new element
+  $('#canvas').appendChild(el);
+
+  // Set up Hammer
   var el = document.getElementById(props.id);
+  var mc = new Hammer.Manager(el);
   var initX;
   var initY;
   var initAngle = 0;
@@ -55,37 +57,19 @@ socket.on('add', function(props) {
     rz: 0
   };
 
-  var mc = new Hammer.Manager(el);
-
-  mc.add(new Hammer.Pan({ threshold: 0, pointers: 0 }));
-  mc.add(new Hammer.Rotate({ threshold: 0 })).recognizeWith(mc.get('pan'));
-  mc.add(new Hammer.Pinch({ threshold: 0 })).recognizeWith([mc.get('pan'), mc.get('rotate')]);
-  // mc.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
-  // mc.add(new Hammer.Tap());
-
-  mc.on("panstart panmove", onPan);
-  mc.on("rotatestart rotatemove", onRotate);
-  mc.on("pinchstart pinchmove", onPinch);
-  // mc.on("tap", onTap);
-  // mc.on("doubletap", onDoubleTap);
-  mc.on("hammer.input", function(ev) {
-    if(ev.isFinal) {
-      requestElementUpdate();
-    }
-  });
+  //----------------------------------------------------------------------------
+  // Rendering functions
+  //----------------------------------------------------------------------------
 
   /**
-   * Paint the changes.
+   * Ask for a render and broadcast the shape's current properties.
    */
-  function requestElementUpdate(opts) {
-    var emit = (opts === 'noEmit') ? 'noEmit' : null;
-
+  function requestElementUpdate(broadcast) {
     if(!ticking) {
       reqAnimationFrame(updateElementTransform);
       ticking = true;
 
-      // If needed, send position to everyone else.
-      if (emit !== 'noEmit') {
+      if (broadcast !== false) {
         socket.emit('change', {
           me: socket.id,
           id: props.id,
@@ -112,14 +96,30 @@ socket.on('add', function(props) {
     ticking = false;
   }
 
-  /**
-   * Socket: listen for this shape to change.
-   */
-  socket.on('change', function(props) {
-    if (props.me !== socket.id && props.id === el.id) {
-      transform = props.transform;
+  //----------------------------------------------------------------------------
+  // Touch gestures
+  //----------------------------------------------------------------------------
 
-      requestElementUpdate('noEmit');
+  // Set up the main gesture, multi-touch dragging/rotating
+  mc.add(new Hammer.Pan({ threshold: 0, pointers: 0 }));
+  mc.add(new Hammer.Rotate({ threshold: 0 })).recognizeWith(mc.get('pan'));
+  mc.add(new Hammer.Pinch({ threshold: 0 })).recognizeWith([mc.get('pan'), mc.get('rotate')]);
+  mc.on("panstart panmove", onPan);
+  mc.on("rotatestart rotatemove", onRotate);
+  mc.on("pinchstart pinchmove", onPinch);
+
+  // Tapping gesture
+  // mc.add(new Hammer.Tap());
+  // mc.on("tap", onTap);
+
+  // Double tapping gesture
+  // mc.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
+  // mc.on("doubletap", onDoubleTap);
+
+  // Clean up all gestures by doing a final render/broadcast.
+  mc.on("hammer.input", function(ev) {
+    if(ev.isFinal) {
+      requestElementUpdate();
     }
   });
 
@@ -128,10 +128,15 @@ socket.on('add', function(props) {
    */
   function onPan(ev) {
     if (ev.type === 'panstart') {
+      // The first time any shape moves, it needs this class removed.
+      el.classList.remove('unchanged');
+
+      // Get the starting position for this gesture
       initX = transform.x || 0;
       initY = transform.y || 0;
     }
 
+    // We're already moving, use the values we stored during 'panstart'
     if (ev.type === 'panmove') {
       transform.x = parseInt(initX, 10) + parseInt(ev.deltaX, 10);
       transform.y = parseInt(initY, 10) + parseInt(ev.deltaY, 10);
@@ -193,4 +198,22 @@ socket.on('add', function(props) {
   //   }, 500);
   //   requestElementUpdate();
   // }
+
+  //----------------------------------------------------------------------------
+  // Socket listeners
+  //----------------------------------------------------------------------------
+
+  /**
+   * Listen for this shape to change.
+   */
+  socket.on('change', function(props) {
+    if (props.id === el.id) {
+      // In case this is the first time the shape has moved, remove this class.
+      el.classList.remove('unchanged');
+
+      // Transform and animate the shape.
+      transform = props.transform;
+      requestElementUpdate(false);
+    }
+  });
 });

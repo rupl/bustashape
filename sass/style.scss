@@ -66,8 +66,23 @@ body {
 }
 
 .shape {
+  width: 200px;
+  height: 200px;
   cursor: grab;
   position: absolute;
+}
+
+.unchanged {
+  // pop-in effect
+  transform: scale(0);
+  animation: appear .33333s cubic-bezier(.17,.67,.19,1.92);
+  animation-fill-mode: forwards;
+}
+
+@keyframes appear {
+  100% {
+    transform: scale(1);
+  }
 }
 
 .grabbing {

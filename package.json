@@ -1,11 +1,13 @@
 {
-  "name": "socket-art",
-  "version": "0.0.3",
-  "description": "my second socket.io app",
-  "repository": "https://github.com/rupl/socket-art",
+  "name": "bustashape",
+  "version": "0.0.4",
+  "description": "Collaborative artwork powered by the web.",
+  "repository": "https://github.com/rupl/bustashape",
   "license": "MIT",
   "dependencies": {
     "browser-sync": "^2.7.6",
+    "consolidate": "^0.13.1",
+    "dustjs-linkedin": "^2.7.2",
     "express": "^4.12.4",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^2.3.1",

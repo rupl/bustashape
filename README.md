@@ -1,8 +1,8 @@
-# Socket Art
+# Bust a Shape
 
-A collaborative, real-time tool for creating artwork in the browser. Inspired by [Afra Noubarzadeh](https://github.com/afragon)'s work with [CSS live coding](https://www.youtube.com/watch?v=MrYOnQTXWzs) ([see a video](https://www.youtube.com/watch?v=ztwSAZ7lJg8))
+A collaborative, real-time tool for creating artwork in the browser. Inspired by [@afragon](https://twitter.com/afragon)'s work with [CSS live coding](https://www.youtube.com/watch?v=MrYOnQTXWzs) ([see a video](https://www.youtube.com/watch?v=ztwSAZ7lJg8))
 
-An experiment by [Chris Ruppel](https://github.com/rupl)
+An experiment by [Chris Ruppel](https://github.com/rupl) and [Afra Noubarzadeh](https://github.com/afragon).
 
 ## Installation and Setup
 
@@ -23,7 +23,7 @@ Open any number of browsers, point them at http://localhost:3000, and have fun!
 
 ## Multiplayer art
 
-Once this is a little more developed I'd like to put it online. But for now, local development will have to do.
+A hosted version is coming! But for now, local development will have to do.
 
 ## Video
 

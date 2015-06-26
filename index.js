@@ -1,18 +1,31 @@
 // Node/npm deps
 var express = require('express');
+var dust = require('dustjs-linkedin');
+var cons = require('consolidate');
+var port = process.env.PORT || 3000;
+var env = process.env.NODE_ENV || 'development';
+var GA = process.env.GA || '';
+
+
+// Initialize app
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var port = process.env.PORT || 3000;
+
+
+// Expose static assets
+app.use(express.static(__dirname + '/public', {redirect: false}));
+
 
 // Main app URL
 app.get('/', function(req, res){
-  res.sendFile(__dirname + '/index.html');
+  cons.dust('views/index.dust', {
+    GA: GA
+  }, function (err, out) {
+    if (err) {console.error(err); }
+    res.send(out);
+  });
 });
-
-// CSS/JS
-app.use('/css', express.static(__dirname + '/css'));
-app.use('/js', express.static(__dirname + '/js'));
 
 /**
  * Someone connected.
@@ -29,11 +42,11 @@ io.on('connection', function(socket){
   });
 
   /**
-   * A shape is being dragged.
+   * A shape is being changed.
    */
   socket.on('change', function(props){
     console.log('CHANGE', props);
-    io.emit('change', props);
+    socket.broadcast.emit('change', props);
   });
 
   /**
