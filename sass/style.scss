@@ -72,6 +72,14 @@ body {
   position: absolute;
 }
 
+.shape--square {
+  // default
+}
+
+.shape--circle {
+  border-radius: 50%;
+}
+
 .unchanged {
   // pop-in effect
   transform: scale(0);

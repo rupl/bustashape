@@ -15,6 +15,7 @@ var reqAnimationFrame = (function () {
 $('#add').addEventListener('click', function(ev){
   socket.emit('add', {
     id: 'shape-' + Math.floor(Math.random() * 1000000000),
+    class: $('#shape').value,
     opacity: $('#opacity').value,
     backgroundColor: $('#color').value,
     mixBlendMode: $('#mix-blend').value
@@ -29,7 +30,7 @@ socket.on('add', function(props) {
   // Create a new element
   var el = document.createElement('div');
   el.id = props.id;
-  el.classList.add('shape', 'unchanged');
+  el.classList.add('shape', 'unchanged', 'shape--' + props.class);
   el.style.opacity = props.opacity;
   el.style.backgroundColor = props.backgroundColor;
   el.style.mixBlendMode = props.mixBlendMode;
