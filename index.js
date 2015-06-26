@@ -1,5 +1,7 @@
 // Node/npm deps
 var express = require('express');
+var dust = require('dustjs-linkedin');
+var cons = require('consolidate');
 var port = process.env.PORT || 3000;
 
 
@@ -9,13 +11,16 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 
-// Configure app details like templates and static assets
+// Expose static assets
 app.use(express.static(__dirname + '/public', {redirect: false}));
 
 
 // Main app URL
 app.get('/', function(req, res){
-  res.sendFile(__dirname + '/index.html');
+  cons.dust('views/index.dust', {}, function (err, out) {
+    if (err) {console.error(err); }
+    res.send(out);
+  });
 });
 
 /**
