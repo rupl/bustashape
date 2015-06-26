@@ -3,6 +3,8 @@ var express = require('express');
 var dust = require('dustjs-linkedin');
 var cons = require('consolidate');
 var port = process.env.PORT || 3000;
+var env = process.env.NODE_ENV || 'development';
+var GA = process.env.GA || '';
 
 
 // Initialize app
@@ -17,7 +19,9 @@ app.use(express.static(__dirname + '/public', {redirect: false}));
 
 // Main app URL
 app.get('/', function(req, res){
-  cons.dust('views/index.dust', {}, function (err, out) {
+  cons.dust('views/index.dust', {
+    GA: GA
+  }, function (err, out) {
     if (err) {console.error(err); }
     res.send(out);
   });
