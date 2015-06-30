@@ -1,9 +1,9 @@
 //------------------------------------------------------------------------------
-// Main Sass file
+// Login form
 //------------------------------------------------------------------------------
 
-@import 'partials/global';
-@import 'partials/login';
-@import 'partials/controls';
-@import 'partials/canvas';
-@import 'partials/shapes';
+#form-login {
+  background: rgba(#fff, .5);
+  width: 40vw;
+  height: 50vh;
+}
