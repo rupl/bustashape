@@ -18,7 +18,7 @@ var reload = bs.reload;
 // -----------------------------------------------------------------------------
 gulp.task('sass', function() {
   bs.notify('<span style="color: grey">Running:</span> Sass task');
-  return gulp.src('sass/**/*')
+  return gulp.src('sass/**/*.scss')
     .pipe(sass({
         outputStyle: 'nested',
       })
@@ -34,6 +34,16 @@ gulp.task('sass', function() {
 });
 
 // -----------------------------------------------------------------------------
+// Browser Sync
+// -----------------------------------------------------------------------------
+gulp.task('bs', function() {
+  bs({
+    proxy: 'localhost:8080',
+    files: 'css/*.css'
+  });
+});
+
+// -----------------------------------------------------------------------------
 // Watch tasks
 // -----------------------------------------------------------------------------
 gulp.task('watch', function() {
@@ -43,7 +53,7 @@ gulp.task('watch', function() {
 // -----------------------------------------------------------------------------
 // Run the dev server
 // -----------------------------------------------------------------------------
-gulp.task('start', ['sass', 'watch'], function () {
+gulp.task('start', ['sass', 'watch', 'bs'], function () {
   nodemon({
     script: 'index.js',
     ext: 'js html',
