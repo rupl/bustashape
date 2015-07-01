@@ -18,6 +18,7 @@
   top: 50%;
   left: 50%;
   transform: translate3d(-50%, -50%, 0);
+  z-index: 15;
 
   input {
     font-size: 1.6em;
@@ -39,5 +40,11 @@
     border: 0;
     background-color: rgba(#000, .5);
     background-image: radial-gradient(ellipse, #fff, #aaa);
+  }
+
+  &.hidden {
+    opacity: 0;
+    transition: opacity .25s ease-in-out;
+    z-index: -1000;
   }
 }

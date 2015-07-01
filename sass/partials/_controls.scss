@@ -3,12 +3,14 @@
 //------------------------------------------------------------------------------
 
 .controls {
-  background: rgba(255, 255, 255, .5);
-  color: #000;
+  width: 100vw;
   padding: .25em;
   position: fixed;
   bottom: 0;
-  width: 100%;
+  z-index: 1100;
+
+  background: rgba(255, 255, 255, .5);
+  color: #000;
 
   input {
     border: 0;
