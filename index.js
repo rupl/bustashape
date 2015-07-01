@@ -41,7 +41,7 @@ io.on('connection', function(socket){
     // Sanitize input.
     var client = {};
     var nickname = (data.nick) ? data.nick.toLowerCase().replace(/[^\d\w- ]+/gi, '') : false;
-    var roomName = (data.room) ? data.room.toLowerCase().replace(/[^\d\w]+/gi, '') : false;
+    var roomName = (data.room) ? data.room.toLowerCase().replace(/[^\d\w-]+/gi, '') : false;
 
     // Force a nickname.
     if (!nickname) {
@@ -131,9 +131,34 @@ io.on('connection', function(socket){
   /**
    * Someone got bored.
    */
-  socket.on('disconnect', function(){
-    console.log('user: disconnected');
-    io.emit('status', 'someone left');
+  socket.on('disconnect', function() {
+    // Get current room
+    var room = socket.room;
+
+    if ( !room ) {
+      // No room was found. The server probably restarted so just bail.
+      return false;
+    }
+
+    /* Iterate over the bucket _backwards_ so we can cleanly remove the departing
+     * client having to recalculate the length (as you would in a for loop) */
+    var i = rooms[room].length;
+    while (i--) {
+      if (rooms[room][i].sid == socket.id) {
+        var client = rooms[room][i];
+        rooms[room].splice(i, 1);
+
+        // This data is safe to send out since it's coming from the stored
+        // rooms, not the incoming socket data.
+        socket.broadcast.emit('client-disconnect', {
+          'nick': client.nick,
+          'sid' : client.sid
+        });
+
+        // Log the event.
+        console.log("Shucks. %s disconnected..", client.nick);
+      }
+    }
   });
 });
 
