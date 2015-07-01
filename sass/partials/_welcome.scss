@@ -2,12 +2,8 @@
 // Welcome message
 //------------------------------------------------------------------------------
 
-#welcome {
+.welcome {
   padding: 1em;
-  opacity: 0;
-  transform: translate3d(0, 50%, 0);
-  animation: welcome .75s ease-out;
-  animation-fill-mode: forwards;
 
   @include mw($intro-width + 20px) {
     width: $intro-width;
@@ -26,11 +22,4 @@
 // never let the site name wrap
 .bustashape {
   white-space: nowrap;
-}
-
-@keyframes welcome {
-  100% {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
 }

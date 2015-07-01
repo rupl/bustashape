@@ -250,7 +250,8 @@ function join() {
     // Hide login form.
     $('#btn-login').value = '👍';
     setTimeout(function () {
-      $('#form-login').classList.add('hidden');
+      $('.welcome').classList.add('hide');
+      $('#form-login').classList.add('hide');
       $('#form-controls').classList.remove('hide');
     }, 1000);
   });

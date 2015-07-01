@@ -57,10 +57,4 @@
       height: 103px;
     }
   }
-
-  &.hidden {
-    opacity: 0;
-    transition: opacity .25s ease-in-out;
-    z-index: -1000;
-  }
 }

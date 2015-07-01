@@ -48,9 +48,4 @@
   #circle {
     border-radius: 50%;
   }
-
-  // Initial state is hidden until you join a room
-  &.hide {
-    opacity: 0;
-  }
 }

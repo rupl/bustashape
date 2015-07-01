@@ -10,7 +10,7 @@
   </head>
   <body>
 
-    <div id="welcome">
+    <div class="welcome">
       <h1>Welcome to <span class="bustashape">bust a shape</span>!</h1>
       <p>Pick a name and a room. Or leave the room blank and we'll pick one for you.</p>
     </div>
