@@ -251,6 +251,7 @@ function join() {
     $('#btn-login').value = '👍';
     setTimeout(function () {
       $('#form-login').classList.add('hidden');
+      $('#form-controls').classList.remove('hide');
     }, 1000);
   });
 }

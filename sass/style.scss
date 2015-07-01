@@ -2,7 +2,13 @@
 // Main Sass file
 //------------------------------------------------------------------------------
 
+// Sass utilities
+@import 'tools/variables';
+@import 'tools/breakpoint';
+
+// Styles
 @import 'partials/global';
+@import 'partials/welcome';
 @import 'partials/login';
 @import 'partials/controls';
 @import 'partials/canvas';

@@ -11,6 +11,7 @@
 
   background: rgba(#fff, .5);
   color: #000;
+  opacity: 1;
   transition: all .5s ease-in-out;
 
   input {
@@ -27,5 +28,29 @@
 
   .hidden {
     display: none;
+  }
+
+  //
+  // Touch controls
+  //
+
+  .proto {
+    display: inline-block;
+    width: 8vh;
+    height: 8vh;
+    background: #fff;
+  }
+
+  #square {
+
+  }
+
+  #circle {
+    border-radius: 50%;
+  }
+
+  // Initial state is hidden until you join a room
+  &.hide {
+    opacity: 0;
   }
 }
