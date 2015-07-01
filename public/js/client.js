@@ -226,7 +226,7 @@ socket.on('add', function(props) {
 /**
  * Log a user in
  */
-function signIn() {
+function join() {
   me.nick = $('#nick').value;
   me.room = $('#room').value || false;
 
@@ -251,11 +251,16 @@ function signIn() {
   });
 }
 
-// Listen for signIn.
+// Listen for form submission.
 $('#form-login').addEventListener('submit', function (ev) {
-  signIn();
+  join();
   ev.preventDefault();
 });
+
+// Auto-fill room name when hash is present
+if (window.location.hash !== '') {
+  $('#room').value = window.location.hash;
+}
 
 /**
  * The server reports that a new person has connected.

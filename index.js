@@ -54,7 +54,7 @@ io.on('connection', function(socket){
     if (!roomName) {
       // Generate strings until a room name is found.
       var attempts = 0;
-      while ( !roomName && (rooms[roomName] !== "undefined") ) {
+      while ( !roomName && (rooms[roomName] !== 'undefined') ) {
         if ( attempts < 5 ) {
           roomName = config.rooms[Math.floor(Math.random() * config.rooms.length)];
         } else {
@@ -66,7 +66,7 @@ io.on('connection', function(socket){
     }
 
     // Set up the room
-    if (typeof(rooms[roomName]) === "undefined") {
+    if (typeof(rooms[roomName]) === 'undefined') {
       // This room is new. Create the array in the room.
       rooms[roomName] = [];
     } else {
