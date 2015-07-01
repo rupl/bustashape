@@ -124,7 +124,7 @@ io.on('connection', function(socket){
    * A shape is being changed.
    */
   socket.on('change', function(props){
-    console.log('CHANGE', props);
+    console.log('CHANGE', socket.room, props);
     socket.broadcast.to(socket.room).emit('change', props);
   });
 
