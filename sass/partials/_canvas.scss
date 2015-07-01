@@ -1,9 +1,11 @@
 //------------------------------------------------------------------------------
-// Main Sass file
+// Canvas
 //------------------------------------------------------------------------------
 
-@import 'partials/global';
-@import 'partials/login';
-@import 'partials/controls';
-@import 'partials/canvas';
-@import 'partials/shapes';
+#canvas {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  z-index: 10;
+}

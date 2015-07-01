@@ -1,16 +1,23 @@
 var $ = function (selector) { return document.querySelector(selector); }
-var socket = io();
 var reqAnimationFrame = (function () {
   return window[Hammer.prefixed(window, 'requestAnimationFrame')] || function (callback) {
     window.setTimeout(callback, 1000 / 60);
   };
 })();
+var client = new client();
+var me = {};
 
 /**
- * Add a new shape on all clients. It doesn't immediately add a shape to your
- * DOM, the 'add' listener below handles that part.
+ * Socket listeners
  */
-$('#add').addEventListener('click', function(ev){
+document.addEventListener('user-joined', userJoined, true);
+
+/**
+ * Add a new shape.
+ */
+$('#add').addEventListener('click', function(ev) {
+  // Send to ALL clients including self. It doesn't immediately add a shape to
+  // your DOM, the 'add' listener below handles that part.
   socket.emit('add', {
     id: 'shape-' + Math.floor(Math.random() * 1000000000),
     opacity: $('#opacity').value,
@@ -215,3 +222,52 @@ socket.on('add', function(props) {
     }
   });
 });
+
+/**
+ * Log a user in
+ */
+function join() {
+  me.nick = $('#nick').value;
+  me.room = $('#room').value || false;
+
+  var data = {
+    'nick': me.nick,
+    'room': me.room
+  };
+
+  // Attempt to join the room.
+  client.send('join', data, function (res, data) {
+    // Something went wrong.
+    if (!res) { alert(data); return false; }
+
+    // Join the room.
+    window.location.hash = ('#' + data.room);
+
+    // Hide login form.
+    $('#btn-login').value = '👍';
+    setTimeout(function () {
+      $('#form-login').classList.add('hidden');
+    }, 1000);
+  });
+}
+
+// Listen for form submission.
+$('#form-login').addEventListener('submit', function (ev) {
+  join();
+  ev.preventDefault();
+});
+
+// Auto-fill room name when hash is present
+if (window.location.hash !== '') {
+  $('#room').value = window.location.hash;
+}
+
+/**
+ * The server reports that a new person has connected.
+ */
+function userJoined(data) {
+  // One day we'll have an indicator that someone joined. It would go here.
+
+  // Log to console.
+  console.info('Heads up, %s just joined!', data.nick);
+}

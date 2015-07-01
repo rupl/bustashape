@@ -23,8 +23,8 @@ gulp.task('sass', function() {
         outputStyle: 'nested',
       })
       .on('error', function(err, res) {
-        gutil.log(c.red('sass'), 'failed to compile');
-        gutil.log(c.red('> ') + err.message);
+        log(c.red('sass'), 'failed to compile');
+        log(c.red('> ') + err.message);
         bs.notify('<span style="color: red">Sass failed to compile</span>');
       })
     )
