@@ -9,10 +9,18 @@
   position: absolute;
 }
 
+.shape--square {
+  // default
+}
+
+.shape--circle {
+  border-radius: 50%;
+}
+
 .unchanged {
   // pop-in effect
   transform: scale(0);
-  animation: appear .33333s cubic-bezier(.17,.67,.19,1.92);
+  animation: appear .33333s cubic-bezier(.17, .67, .19, 1.92);
   animation-fill-mode: forwards;
 }
 
