@@ -116,7 +116,7 @@ io.on('connection', function(socket){
    * A new shape appears!
    */
   socket.on('add', function(props){
-    console.log('ADD', props);
+    console.log('ADD', socket.room, props);
     io.to(socket.room).emit('add', props);
   });
 
