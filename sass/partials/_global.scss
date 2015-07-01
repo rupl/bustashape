@@ -1,0 +1,17 @@
+//------------------------------------------------------------------------------
+// Global stuff
+//------------------------------------------------------------------------------
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #000;
+  color: #fff;
+  font-size: 18px;
+  font-family: Helvetica, Arial;
+  overflow: hidden;
+}

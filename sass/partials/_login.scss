@@ -1,0 +1,50 @@
+//------------------------------------------------------------------------------
+// Login form
+//------------------------------------------------------------------------------
+
+#form-login {
+  // Form visuals
+  width: 570px;
+  height: 180px;
+  padding: 2em;
+  margin: 0 auto;
+  border: 1px solid rgba(#333, .1);
+  box-shadow: inset 0 0 30px #000;
+  background-color: rgba(#fff, .5);
+  background-image: radial-gradient(ellipse, #444, #777);
+
+  // Position the form
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  z-index: 15;
+
+  input {
+    font-size: 1.6em;
+  }
+
+  input[type="text"] {
+    margin-right: 1em;
+    margin-bottom: 1em;
+  }
+
+  input[type="submit"] {
+    height: 103px;
+    padding: 0 2em;
+
+    position: absolute;
+    top: 1.3em;
+
+    color: #000;
+    border: 0;
+    background-color: rgba(#000, .5);
+    background-image: radial-gradient(ellipse, #fff, #aaa);
+  }
+
+  &.hidden {
+    opacity: 0;
+    transition: opacity .25s ease-in-out;
+    z-index: -1000;
+  }
+}
