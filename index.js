@@ -125,7 +125,7 @@ io.on('connection', function(socket){
    */
   socket.on('change', function(props){
     console.log('CHANGE', props);
-    io.to(socket.room).emit('change', props);
+    socket.broadcast.to(socket.room).emit('change', props);
   });
 
   /**

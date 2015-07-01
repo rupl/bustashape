@@ -75,7 +75,7 @@ socket.on('add', function(props) {
       ticking = true;
 
       if (broadcast !== false) {
-        socket.emit('change', {
+        client.send('change', {
           me: socket.id,
           id: props.id,
           transform: transform
@@ -241,6 +241,7 @@ function join() {
     if (!res) { alert(data); return false; }
 
     // Join the room.
+    client.room = data.room;
     window.location.hash = ('#' + data.room);
 
     // Hide login form.
