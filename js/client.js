@@ -4,12 +4,12 @@ var me = {};
 /**
  * Socket listeners
  */
-document.addEventListener('user-joined', userJoined, true);
+document.on('user-joined', userJoined, true);
 
 /**
  * Add a new shape.
  */
-$('#add').addEventListener('click', function(ev) {
+$('#add').on('click', function(ev) {
   // Send to ALL clients including self. It doesn't immediately add a shape to
   // your DOM, the 'add' listener below handles that part.
   socket.emit('add', {
@@ -247,7 +247,7 @@ function join() {
 }
 
 // Listen for form submission.
-$('#form-login').addEventListener('submit', function (ev) {
+$('#form-login').on('submit', function (ev) {
   join();
   ev.preventDefault();
 });
