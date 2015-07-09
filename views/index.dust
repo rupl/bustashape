@@ -50,6 +50,7 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/hammer.min.js"></script>
+    <script src="/js/utils.js"></script>
     <script src="/js/socket.js"></script>
     <script src="/js/client.js"></script>
     <script>
