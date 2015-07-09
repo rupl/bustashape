@@ -5,11 +5,12 @@
       io = require('socket.io')(server),
       debug = require('debug')('bustashape'),
       redis = require('redis'),
-      client = redis.createClient(),
+      redisClient = redis.createClient(),
       dust = require('dustjs-linkedin'),
       cons = require('consolidate'),
       config = require('./config.json'),
-      rooms = [];
+      rooms = [],
+      maxEvents = 9999;
 
   /**
    * Setup Express to serve the index
@@ -27,13 +28,7 @@
         });
     })
     .get('/playback', function (req, res) {
-      if (req.query.hasOwnProperty('room') && req.query.room !== ''){
-        client.lrange(req.query.room, 0, 999, function (err, replies) {
-          res.send(replies.map(function (e) {
-            return JSON.parse(e);
-          }));
-        })
-      }
+
     });
 
   /**
@@ -112,6 +107,22 @@
         'sid' : client.sid
       });
 
+      /**
+       * Playback!
+       */
+      redisClient.lrange(roomName, 0, maxEvents, function (err, replies) {
+        for (var index in replies) {
+          var shape = JSON.parse(replies[index]);
+          if (shape.hasOwnProperty('transform')) {
+            io.sockets.in(roomName).emit('change', shape);
+          }
+          else {
+            io.sockets.in(roomName).emit('add', shape);
+          }
+        }
+      });
+
+
       // Callback
       fn(true, {
         'sid': client.sid,
@@ -128,9 +139,9 @@
     socket.on('add', function (props) {
       debug('ADD', props);
       io.to(socket.room).emit('add', props);
-      client.multi([
+      redisClient.multi([
         ['rpush', socket.room, JSON.stringify(props)],
-        ['ltrim', socket.room, 0, 999]
+        ['ltrim', socket.room, 0, maxEvents]
       ]).exec(function (error, replies) {
         if (error) {
           debug('Unable to store this action in Redis.');
@@ -144,9 +155,9 @@
     socket.on('change', function (props) {
       debug('CHANGE', socket.room, props);
       socket.broadcast.to(socket.room).emit('change', props);
-      client.multi([
+      redisClient.multi([
         ['rpush', socket.room, JSON.stringify(props)],
-        ['ltrim', socket.room, 0, 999]
+        ['ltrim', socket.room, 0, maxEvents]
       ]).exec(function (error, replies) {
         if (error) {
           debug('Unable to store this action in Redis.');
