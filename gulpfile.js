@@ -8,6 +8,8 @@ var c = u.colors;
 var nodemon = require('gulp-nodemon');
 var sass = require('gulp-sass');
 var prefix = require('gulp-autoprefixer');
+var concat = require('gulp-concat');
+var uglify = require('gulp-uglify');
 var bs = require('browser-sync');
 var reload = bs.reload;
 
@@ -29,7 +31,7 @@ gulp.task('sass', function() {
       })
     )
     .pipe(prefix('last 2 versions', '> 1%'))
-    .pipe(gulp.dest('public/css'))
+    .pipe(gulp.dest('_public/css'))
     .pipe(reload({stream:true}));
 });
 
@@ -44,6 +46,21 @@ gulp.task('bs', function() {
 });
 
 // -----------------------------------------------------------------------------
+// JS task
+// -----------------------------------------------------------------------------
+gulp.task('js', function() {
+  return gulp.src([
+    'js/hammer.min.js',
+    'js/utils.js',
+    'js/socket.js',
+    'js/client.js',
+  ])
+  .pipe(concat('all.min.js'))
+  .pipe(uglify())
+  .pipe(gulp.dest('_public/js'));
+});
+
+// -----------------------------------------------------------------------------
 // Watch tasks
 // -----------------------------------------------------------------------------
 gulp.task('watch', function() {
@@ -53,10 +70,10 @@ gulp.task('watch', function() {
 // -----------------------------------------------------------------------------
 // Run the dev server
 // -----------------------------------------------------------------------------
-gulp.task('start', ['sass', 'watch', 'bs'], function () {
+gulp.task('start', ['sass', 'js', 'watch', 'bs'], function () {
   nodemon({
     script: 'index.js',
-    ext: 'js html',
+    ext: 'js html dust',
     env: { 'NODE_ENV': 'development' }
   });
 });

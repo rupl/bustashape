@@ -15,7 +15,7 @@ var io = require('socket.io')(http);
 
 
 // Expose static assets
-app.use(express.static(__dirname + '/public', {redirect: false}));
+app.use(express.static(__dirname + '/_public', {redirect: false}));
 
 
 // Main app URL
