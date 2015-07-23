@@ -10,9 +10,14 @@
   </head>
   <body>
 
+    <div class="welcome">
+      <h1>Welcome to <span class="bustashape">bust a shape</span>!</h1>
+      <p>Pick a name and a room. Or leave the room blank and we'll pick one for you.</p>
+    </div>
+
     <!-- initial action -->
     <form id="form-login" class="login">
-      <input id="nick" name="nick" type="text" placeholder="who are you?">
+      <input id="nick" name="nick" type="text" placeholder="who are you?" required title="Enter a nickname">
       <input id="room" name="room" type="text" placeholder="join a room">
       <input id="btn-login" type="submit" value="Go">
     </form>
@@ -21,11 +26,11 @@
     <div id="canvas"></div>
 
     <!-- Shape editor -->
-    <form id="form-controls" class="controls">
+    <form id="form-controls" class="controls hide">
       <button id="add">Add</button>
-      <label for="opacity">Opacity</label>
+      <label for="opacity" class="not-hidden">Opacity</label>
       <input id="opacity" type="range" name="opacity" min="0" max="1" step=".05" value=".5">
-      <label for="color">Color</label>
+      <label for="color" class="not-hidden">Color</label>
       <input id="color" type="color" name="color" value="#3366cc">
       <label for="blend">Blend mode</label>
       <select name="mix-blend" id="mix-blend">
@@ -45,6 +50,10 @@
         <option value="saturation">saturation</option>
         <option value="color">color</option>
         <option value="luminosity">luminosity</option>
+      </select>
+      <select name="shape" id="shape">
+        <option value="square">square</option>
+        <option value="circle">circle</option>
       </select>
     </form>
 

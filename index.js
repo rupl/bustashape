@@ -3,7 +3,7 @@ var express = require('express');
 var config = require('./config.json');
 var dust = require('dustjs-linkedin');
 var cons = require('consolidate');
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 8080;
 var env = process.env.NODE_ENV || 'development';
 var GA = process.env.GA || '';
 var rooms = [];
@@ -116,7 +116,7 @@ io.on('connection', function(socket){
    * A new shape appears!
    */
   socket.on('add', function(props){
-    console.log('ADD', props);
+    console.log('ADD', socket.room, props);
     io.to(socket.room).emit('add', props);
   });
 

@@ -19,7 +19,9 @@ Now use gulp to run the server:
 gulp start
 ```
 
-Open any number of browsers, point them at http://localhost:3000, and have fun!
+It will open up the site in your default browser automatically. To really see the magic, open other browser windows and point them at http://localhost:3000, or load it on other devices using the same LAN (the "External" URL will be listed in console with your current IP).
+
+Have fun!
 
 ## Multiplayer art
 

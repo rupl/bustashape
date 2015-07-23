@@ -2,7 +2,7 @@
 // Global stuff
 //------------------------------------------------------------------------------
 
-* {
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -13,4 +13,12 @@ body {
   color: #fff;
   font-size: 18px;
   font-family: Helvetica, Arial;
+  overflow: hidden;
+}
+
+.hide {
+  position: absolute;
+  opacity: 0 !important;
+  transition: opacity .25s ease-in-out;
+  z-index: -1000 !important;
 }

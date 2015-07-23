@@ -36,6 +36,17 @@ gulp.task('sass', function() {
 });
 
 // -----------------------------------------------------------------------------
+// Browser Sync
+// -----------------------------------------------------------------------------
+gulp.task('bs', function() {
+  bs({
+    proxy: 'localhost:8080',
+    files: 'css/*.css',
+    ghostMode: false // ghostMode is incompatible with bustashape's socket data.
+  });
+});
+
+// -----------------------------------------------------------------------------
 // JS task
 // -----------------------------------------------------------------------------
 gulp.task('js', function() {
@@ -60,7 +71,7 @@ gulp.task('watch', function() {
 // -----------------------------------------------------------------------------
 // Run the dev server
 // -----------------------------------------------------------------------------
-gulp.task('start', ['sass', 'js', 'watch'], function () {
+gulp.task('start', ['sass', 'js', 'watch', 'bs'], function () {
   nodemon({
     script: 'index.js',
     ext: 'js html dust',

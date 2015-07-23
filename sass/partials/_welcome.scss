@@ -1,0 +1,25 @@
+//------------------------------------------------------------------------------
+// Welcome message
+//------------------------------------------------------------------------------
+
+.welcome {
+  padding: 1em;
+
+  @include mw($intro-width + 20px) {
+    width: $intro-width;
+    margin: 2em auto;
+  }
+
+  h1 {
+    margin-bottom: .5em;
+  }
+
+  p {
+    margin-bottom: 1em;
+  }
+}
+
+// never let the site name wrap
+.bustashape {
+  white-space: nowrap;
+}

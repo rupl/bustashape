@@ -9,8 +9,10 @@
   bottom: 0;
   z-index: 1100;
 
-  background: rgba(255, 255, 255, .5);
+  background: rgba(#fff, .5);
   color: #000;
+  opacity: 1;
+  transition: all .5s ease-in-out;
 
   input {
     border: 0;
@@ -22,5 +24,28 @@
   button {
     padding: .5em;
     font-size: 16px;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  //
+  // Touch controls
+  //
+
+  .proto {
+    display: inline-block;
+    width: 8vh;
+    height: 8vh;
+    background: #fff;
+  }
+
+  #square {
+
+  }
+
+  #circle {
+    border-radius: 50%;
   }
 }

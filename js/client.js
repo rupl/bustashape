@@ -14,6 +14,7 @@ $('#add').on('click', function(ev) {
   // your DOM, the 'add' listener below handles that part.
   socket.emit('add', {
     id: 'shape-' + Math.floor(Math.random() * 1000000000),
+    class: $('#shape').value,
     opacity: $('#opacity').value,
     backgroundColor: $('#color').value,
     mixBlendMode: $('#mix-blend').value
@@ -28,7 +29,7 @@ socket.on('add', function(props) {
   // Create a new element
   var el = document.createElement('div');
   el.id = props.id;
-  el.classList.add('shape', 'unchanged');
+  el.classList.add('shape', 'unchanged', 'shape--' + props.class);
   el.style.opacity = props.opacity;
   el.style.backgroundColor = props.backgroundColor;
   el.style.mixBlendMode = props.mixBlendMode;
@@ -126,7 +127,7 @@ socket.on('add', function(props) {
    * Hammer: listen for pan
    */
   function onPan(ev) {
-    if (ev.type == 'panstart') {
+    if (ev.type === 'panstart') {
       // The first time any shape moves, it needs this class removed.
       el.classList.remove('unchanged');
 
@@ -136,7 +137,7 @@ socket.on('add', function(props) {
     }
 
     // We're already moving, use the values we stored during 'panstart'
-    if (ev.type == 'panmove') {
+    if (ev.type === 'panmove') {
       transform.x = parseInt(initX, 10) + parseInt(ev.deltaX, 10);
       transform.y = parseInt(initY, 10) + parseInt(ev.deltaY, 10);
     }
@@ -148,7 +149,7 @@ socket.on('add', function(props) {
    * Hammer: listen for pinch
    */
   function onPinch(ev) {
-    if (ev.type == 'pinchstart') {
+    if (ev.type === 'pinchstart') {
       initScale = transform.scale || 1;
     }
 
@@ -161,7 +162,7 @@ socket.on('add', function(props) {
    * Hammer: listen for rotate
    */
   function onRotate(ev) {
-    if (ev.type == 'rotatestart') {
+    if (ev.type === 'rotatestart') {
       initAngle = transform.angle || 0;
     }
 
@@ -241,7 +242,9 @@ function join() {
     // Hide login form.
     $('#btn-login').value = '👍';
     setTimeout(function () {
-      $('#form-login').classList.add('hidden');
+      $('.welcome').classList.add('hide');
+      $('#form-login').classList.add('hide');
+      $('#form-controls').classList.remove('hide');
     }, 1000);
   });
 }
