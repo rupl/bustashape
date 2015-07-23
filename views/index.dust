@@ -28,10 +28,10 @@
     <!-- Shape editor -->
     <form id="form-controls" class="controls hide">
       <button id="add">Add</button>
-      <label for="opacity" class="hidden">Opacity</label>
-      <input id="opacity" type="hidden" name="opacity" min="0" max="1" step=".05" value=".5">
-      <label for="color" class="hidden">Color</label>
-      <input id="color" type="hidden" name="color" value="#3366cc">
+      <label for="opacity" class="not-hidden">Opacity</label>
+      <input id="opacity" type="range" name="opacity" min="0" max="1" step=".05" value=".5">
+      <label for="color" class="not-hidden">Color</label>
+      <input id="color" type="color" name="color" value="#3366cc">
       <label for="blend">Blend mode</label>
       <select name="mix-blend" id="mix-blend">
         <option value="normal">normal</option>
