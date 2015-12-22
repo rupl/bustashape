@@ -120,6 +120,7 @@ socket.on('add', function(props) {
   mc.on("hammer.input", function(ev) {
     if(ev.isFinal) {
       requestElementUpdate();
+      el.classList.remove('grabbing');
     }
   });
 
@@ -130,6 +131,8 @@ socket.on('add', function(props) {
     if (ev.type === 'panstart') {
       // The first time any shape moves, it needs this class removed.
       el.classList.remove('unchanged');
+      // Change cursor on screens that have one.
+      el.classList.add('grabbing');
 
       // Get the starting position for this gesture
       initX = transform.x || 0;
@@ -151,6 +154,9 @@ socket.on('add', function(props) {
   function onPinch(ev) {
     if (ev.type === 'pinchstart') {
       initScale = transform.scale || 1;
+
+      // Change cursor on screens that have one.
+      el.classList.add('grabbing');
     }
 
     transform.scale = initScale * ev.scale;
@@ -164,6 +170,9 @@ socket.on('add', function(props) {
   function onRotate(ev) {
     if (ev.type === 'rotatestart') {
       initAngle = transform.angle || 0;
+
+      // Change cursor on screens that have one.
+      el.classList.add('grabbing');
     }
 
     transform.rz = 1;
