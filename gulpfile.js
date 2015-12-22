@@ -3,6 +3,7 @@ var gulp = require('gulp');
 var u = require('gulp-util');
 var log = u.log;
 var c = u.colors;
+var plumber = require('gulp-plumber');
 
 // Project deps
 var nodemon = require('gulp-nodemon');
@@ -21,6 +22,7 @@ var reload = bs.reload;
 gulp.task('sass', function() {
   bs.notify('<span style="color: grey">Running:</span> Sass task');
   return gulp.src('sass/**/*.scss')
+    .pipe(plumber())
     .pipe(sass({
         outputStyle: 'nested',
       })
@@ -57,6 +59,7 @@ gulp.task('js', function() {
     'js/socket.js',
     'js/client.js',
   ])
+  .pipe(plumber())
   .pipe(concat('all.min.js'))
   .pipe(uglify())
   .pipe(gulp.dest('_public/js'));
