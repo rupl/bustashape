@@ -23,3 +23,15 @@ var reqAnimationFrame = (function () {
     window.setTimeout(callback, 1000 / 60);
   };
 })();
+
+//
+// Blur all form fields
+//
+// @see http://stackoverflow.com/a/29237391/175551
+//
+function blurAll(){
+  var tmp = document.createElement("input");
+  document.body.appendChild(tmp);
+  tmp.focus();
+  document.body.removeChild(tmp);
+}

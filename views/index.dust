@@ -13,6 +13,7 @@
     <div class="welcome">
       <h1>Welcome to <span class="bustashape">bust a shape</span>!</h1>
       <p>Pick a name and a room. Or leave the room blank and we'll pick one for you.</p>
+      <p class="no-touch">Heads up, this <strong>labor of love</strong> was designed for touch screens. You can still use it with a mouse but it's not what we're focusing on.</p>
     </div>
 
     <!-- initial action -->
@@ -27,7 +28,7 @@
 
     <!-- Shape editor -->
     <form id="form-controls" class="controls hide">
-      <button id="add">Add</button>
+      <button id="add" aria-label="Add Shape">+</button>
       <label for="opacity" class="not-hidden">Opacity</label>
       <input id="opacity" type="range" name="opacity" min="0" max="1" step=".05" value=".5">
       <label for="color" class="not-hidden">Color</label>

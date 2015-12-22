@@ -51,6 +51,7 @@ gulp.task('bs', function() {
 // -----------------------------------------------------------------------------
 gulp.task('js', function() {
   return gulp.src([
+    'js/modernizr.min.js',
     'js/hammer.min.js',
     'js/utils.js',
     'js/socket.js',

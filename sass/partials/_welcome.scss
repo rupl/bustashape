@@ -3,11 +3,13 @@
 //------------------------------------------------------------------------------
 
 .welcome {
+  position: absolute;
   padding: 1em;
 
   @include mw($intro-width + 20px) {
     width: $intro-width;
-    margin: 2em auto;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   h1 {
@@ -16,6 +18,18 @@
 
   p {
     margin-bottom: 1em;
+  }
+
+  // Display a message to mouse users so I can ease my conscience about the
+  // various levels of support.
+  .no-touch {
+    display: none;
+
+    .no-touchevents & {
+      display: block;
+      font-size: 1.2em;
+      font-style: italic;
+    }
   }
 }
 
