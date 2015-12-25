@@ -4,6 +4,7 @@ var u = require('gulp-util');
 var log = u.log;
 var c = u.colors;
 var plumber = require('gulp-plumber');
+var merge = require('merge-stream');
 
 // Project deps
 var nodemon = require('gulp-nodemon');
@@ -21,6 +22,7 @@ var reload = bs.reload;
 // -----------------------------------------------------------------------------
 gulp.task('sass', function() {
   bs.notify('<span style="color: grey">Running:</span> Sass task');
+
   return gulp.src('sass/**/*.scss')
     .pipe(plumber())
     .pipe(sass({
@@ -52,19 +54,31 @@ gulp.task('bs', function() {
 // JS task
 // -----------------------------------------------------------------------------
 gulp.task('js', function() {
-  return gulp.src([
+  bs.notify('<span style="color: grey">Running:</span> JS tasks');
+
+  var bootstrap = gulp.src([
     'js/modernizr.min.js',
     'js/hammer.min.js',
     'js/utils.js',
     'js/socket.js',
     'js/login.js',
+  ])
+  .pipe(plumber())
+  .pipe(concat('bootstrap.min.js'))
+  .pipe(uglify())
+  .pipe(gulp.dest('_public/js'));
+
+  var ui = gulp.src([
+    'js/jsColorPicker.min.js',
     'js/client.js',
     'js/controls.js',
   ])
   .pipe(plumber())
-  .pipe(concat('all.min.js'))
+  .pipe(concat('ui.min.js'))
   .pipe(uglify())
   .pipe(gulp.dest('_public/js'));
+
+  return merge(bootstrap, ui);
 });
 
 // -----------------------------------------------------------------------------
@@ -77,7 +91,7 @@ gulp.task('build', ['sass', 'js']);
 // -----------------------------------------------------------------------------
 gulp.task('watch', function() {
   gulp.watch('sass/**/*', ['sass']);
-  gulp.watch('js/**/*', ['js']);
+  gulp.watch('js/*', ['js']);
 });
 
 // -----------------------------------------------------------------------------
@@ -86,7 +100,7 @@ gulp.task('watch', function() {
 gulp.task('start', ['sass', 'js', 'watch', 'bs'], function () {
   nodemon({
     script: 'index.js',
-    ext: 'js html dust',
+    ext: 'html dust',
     env: { 'NODE_ENV': 'development' }
   });
 });
