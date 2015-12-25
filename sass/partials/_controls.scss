@@ -82,6 +82,23 @@
     }
   }
 
+  // Color
+  label[for="color"] {
+    position: relative;
+
+    #color {
+      // display: none;
+      transform: translateX(10000px);
+    }
+
+    .cp-app {
+      position: absolute;
+      top: auto !important; // override inline styles from lib
+      bottom: 3em !important; // override inline styles from lib
+      left: -8em !important;
+    }
+  }
+
 
   //
   // Shape picker

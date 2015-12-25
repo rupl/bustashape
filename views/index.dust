@@ -35,7 +35,7 @@
       </label>
 
       <label for="color">Color
-        <input id="color" type="color" name="color" value="#3366cc" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        <input id="color" type="text" name="color" value="#3366cc" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly="true">
       </label>
 
       <label for="blend">Blend
