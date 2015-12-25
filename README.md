@@ -25,7 +25,7 @@ Have fun!
 
 ## Multiplayer art
 
-A hosted version is coming! But for now, local development will have to do.
+Visit [bustashape.com](http://www.bustashape.com) to try it out with others! Just like a video game, it works best when you have a fast connection with a low ping.
 
 ## Video
 
