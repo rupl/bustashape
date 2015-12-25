@@ -57,6 +57,7 @@ gulp.task('js', function() {
     'js/hammer.min.js',
     'js/utils.js',
     'js/socket.js',
+    'js/login.js',
     'js/client.js',
   ])
   .pipe(plumber())
