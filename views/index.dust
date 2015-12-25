@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>bust a shape</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="author" content="Chris Ruppel">
     <meta name="description" content="Collaborative real-time art powered by the web.">
     <link rel="stylesheet" media="all" href="/css/style.css">
@@ -29,33 +29,42 @@
     <!-- Shape editor -->
     <form id="form-controls" class="controls hide">
       <button id="add" aria-label="Add Shape">+</button>
-      <label for="opacity" class="not-hidden">Opacity</label>
-      <input id="opacity" type="range" name="opacity" min="0" max="1" step=".05" value=".5">
-      <label for="color" class="not-hidden">Color</label>
-      <input id="color" type="color" name="color" value="#3366cc">
-      <label for="blend">Blend mode</label>
-      <select name="mix-blend" id="mix-blend">
-        <option value="normal">normal</option>
-        <option value="multiply">multiply</option>
-        <option value="screen">screen</option>
-        <option value="overlay">overlay</option>
-        <option value="darken">darken</option>
-        <option value="lighten">lighten</option>
-        <option value="color-dodge">color-dodge</option>
-        <option value="color-burn">color-burn</option>
-        <option value="hard-light">hard-light</option>
-        <option value="soft-light">soft-light</option>
-        <option value="difference">difference</option>
-        <option value="exclusion">exclusion</option>
-        <option value="hue">hue</option>
-        <option value="saturation">saturation</option>
-        <option value="color">color</option>
-        <option value="luminosity">luminosity</option>
-      </select>
-      <select name="shape" id="shape">
-        <option value="square">square</option>
-        <option value="circle">circle</option>
-      </select>
+
+      <label for="opacity">Opacity
+        <input id="opacity" type="range" name="opacity" min="0" max="1" step=".05" value=".6" orient="vertical">
+      </label>
+
+      <label for="color">Color
+        <input id="color" type="color" name="color" value="#3366cc" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      </label>
+
+      <label for="blend">Blend
+        <select name="mix-blend" id="mix-blend">
+          <option value="normal">normal</option>
+          <option value="multiply">multiply</option>
+          <option value="screen">screen</option>
+          <option value="overlay">overlay</option>
+          <option value="darken">darken</option>
+          <option value="lighten">lighten</option>
+          <option value="color-dodge">color-dodge</option>
+          <option value="color-burn">color-burn</option>
+          <option value="hard-light">hard-light</option>
+          <option value="soft-light">soft-light</option>
+          <option value="difference">difference</option>
+          <option value="exclusion">exclusion</option>
+          <option value="hue">hue</option>
+          <option value="saturation">saturation</option>
+          <option value="color">color</option>
+          <option value="luminosity">luminosity</option>
+        </select>
+      </label>
+
+      <label for="shape">Shape
+        <select name="shape" id="shape">
+          <option value="square">square</option>
+          <option value="circle">circle</option>
+        </select>
+      </label>
     </form>
 
     <script src="/socket.io/socket.io.js"></script>

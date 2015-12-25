@@ -59,6 +59,7 @@ gulp.task('js', function() {
     'js/socket.js',
     'js/login.js',
     'js/client.js',
+    'js/controls.js',
   ])
   .pipe(plumber())
   .pipe(concat('all.min.js'))

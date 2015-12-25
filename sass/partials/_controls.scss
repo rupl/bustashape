@@ -9,10 +9,39 @@
   bottom: 0;
   z-index: 1100;
 
-  background: rgba(#fff, .5);
-  color: #000;
+  color: #fff;
   opacity: 1;
   transition: all .5s ease-in-out;
+
+  // Space the labels/buttons out a bit
+  label, button {
+    display: inline-block;
+    margin: 0 .6em;
+    user-select: none;
+    text-transform: lowercase;
+    cursor: pointer;
+    position: relative; // for child controls
+    z-index: 100;
+  }
+
+  // Hide controls by default. Holding finger on label toggles visibility.
+  input,
+  select {
+    position: absolute;
+    z-index: 50;
+    left: 0;
+    bottom: 2em;
+    opacity: 0; // unconditional bc if the person got this far, they have JS.
+    transform: translateY(50%); // slide down out of view
+    transition: all .1666s ease-in-out;
+  }
+
+  // Show controls when toggled
+  input.visible,
+  select.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
   input {
     border: 0;
@@ -31,7 +60,31 @@
   }
 
   //
-  // Touch controls
+  // Opacity
+  //
+  #opacity {
+    // Vertical slider
+    writing-mode: bt-lr; // IE
+    -webkit-appearance: slider-vertical; // WebKit / Blink
+    // Firefox uses the "orient" attr in HTML to be vertical
+
+    // Slider styles
+    width: 50%;
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      background-color: #ecf0f1;
+      border: 1px solid #bdc3c7;
+      width: 30px;
+      height: 24px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  }
+
+
+  //
+  // Shape picker
   //
 
   .proto {
