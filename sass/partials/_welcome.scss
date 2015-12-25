@@ -23,12 +23,13 @@
   // Display a message to mouse users so I can ease my conscience about the
   // various levels of support.
   .no-touch {
-    display: none;
+    opacity: 0;
+    font-size: 1.2em;
+    font-style: italic;
+    transition: opacity .25s ease-in-out;
 
     .no-touchevents & {
-      display: block;
-      font-size: 1.2em;
-      font-style: italic;
+      opacity: 1;
     }
   }
 }
