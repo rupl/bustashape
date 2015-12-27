@@ -22,6 +22,11 @@
     cursor: pointer;
     position: relative; // for child controls
     z-index: 100;
+
+    // Remove 300ms delay on focusable elements in a future version of Safari.
+    //
+    // @see https://adactio.com/journal/10019
+    touch-action: manipulation;
   }
 
   // Hide controls by default. Holding finger on label toggles visibility.
