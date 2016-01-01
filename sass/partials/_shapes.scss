@@ -11,6 +11,9 @@
   // Use text-color to control color. That way we can use the `currentColor` prop
   // to do a real-time "variable" that is shared across bgcolor, border-color etc.
   background-color: currentColor;
+
+  // Let our UI do its own work to these elements.
+  touch-action: manipulation;
 }
 
 .shape--square {
