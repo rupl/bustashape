@@ -7,6 +7,10 @@
   height: 200px;
   cursor: grab;
   position: absolute;
+
+  // Use text-color to control color. That way we can use the `currentColor` prop
+  // to do a real-time "variable" that is shared across bgcolor, border-color etc.
+  background-color: currentColor;
 }
 
 .shape--square {
@@ -17,6 +21,26 @@
   border-radius: 50%;
 }
 
+.shape--ellipse {
+  border-radius: 50%;
+  width: 150px;
+  height: 250px;
+}
+
+.shape--triangle {
+  width: 0;
+  height: 0;
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  border-bottom: 160px solid currentColor; // text-color set by JS
+  background-color: unset;
+}
+
+//
+// Unchanged
+//
+// When a new shape appears it is "unchanged"
+// until being touched for the first time.
 .unchanged {
   // pop-in effect
   transform: scale(0);
@@ -29,6 +53,11 @@
     transform: scale(1);
   }
 }
+
+
+//
+// Mouse users see a grabbing cursor.
+//
 
 .grabbing {
   cursor: grabbing;

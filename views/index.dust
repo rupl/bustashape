@@ -63,6 +63,8 @@
         <select name="shape" id="shape">
           <option value="square">square</option>
           <option value="circle">circle</option>
+          <option value="ellipse">ellipse</option>
+          <option value="triangle">triangle</option>
         </select>
       </label>
     </form>

@@ -11,7 +11,8 @@ $('#add').on('click', function(ev) {
     id: 'shape-' + Math.floor(Math.random() * 1000000000),
     class: $('#shape').value,
     opacity: $('#opacity').value,
-    backgroundColor: $('#color').value,
+    color: $('#color').value,
+    borderColor: $('#color').value,
     mixBlendMode: $('#mix-blend').value
   });
   ev.preventDefault();
@@ -25,8 +26,8 @@ socket.on('add', function(props) {
   var el = document.createElement('div');
   el.id = props.id;
   el.classList.add('shape', 'unchanged', 'shape--' + props.class);
+  el.style.color = props.color;
   el.style.opacity = props.opacity;
-  el.style.backgroundColor = props.backgroundColor;
   el.style.mixBlendMode = props.mixBlendMode;
 
   // Add the new element
