@@ -16,12 +16,23 @@
   // Space the labels/buttons out a bit
   label, button {
     display: inline-block;
-    margin: 0 .6em;
+    padding: .5em .4em;
     user-select: none;
     text-transform: lowercase;
     cursor: pointer;
     position: relative; // for child controls
     z-index: 100;
+    color: white;
+    text-shadow: 1px 1px 0 rgba(#000, .6);
+    background: rgba(#111, .1);
+
+    // Default "closed" state.
+    opacity: 0;
+    transform: translateX(-20px);
+
+    // Transition between states.
+    transition: .33333s $snap-1;
+    transition-property: transform, opacity;
 
     // Remove 300ms delay on focusable elements in a future version of Safari.
     //
@@ -35,7 +46,7 @@
     position: absolute;
     z-index: 50;
     left: 0;
-    bottom: 2em;
+    bottom: 3em;
     opacity: 0; // unconditional bc if the person got this far, they have JS.
     transform: translateY(50%); // slide down out of view
     transition: all .1666s ease-in-out;
@@ -53,11 +64,6 @@
     padding: 10px;
     width: auto;
     margin-right: .5%;
-  }
-
-  button {
-    padding: .5em;
-    font-size: 16px;
   }
 
   .hidden {
@@ -104,23 +110,117 @@
     }
   }
 
-
-  //
-  // Shape picker
-  //
-
-  .proto {
-    display: inline-block;
-    width: 8vh;
-    height: 8vh;
-    background: #fff;
+  // General button styles
+  button {
+    font-size: 1.2em;
+    width: 1.8em;
+    height: 2em;
+    margin: 0 .25em;
+    padding: .4em;
+    border: none;
+    border-radius: 3px;
+    background: unset;
+    overflow: hidden;
+    cursor: pointer;
+    vertical-align: middle;
   }
 
-  #square {
+  // Toggle button
+  #toggle {
+    opacity: 1;
 
+    // Spice up the button with effects.
+    white-space: nowrap;
+    text-indent: -1.5em;
+
+    // Transition effects.
+    transition: background-color .2s ease-in-out,
+                text-indent .25s ease-in-out;
+
+    // Override interaction indicators.
+    &:focus, &:hover {
+      outline: none;
+    }
+    &:focus {
+      background-color: rgba(255, 255, 255, .1);
+    }
+
+    .open, .cancel {
+      display: inline-block;
+      text-align: left;
+      width: 3em;
+    }
+
+    .open {
+      // Nudge the emoji into better-looking place.
+      transform: translateX(-1px);
+    }
   }
 
-  #circle {
-    border-radius: 50%;
+  #add {
+    padding: 0;
+    background-color: rgba(255, 255, 255, .16);
+    outline: none;
+
+    // Icon
+    .add {
+      font-size: 1.5em;
+      text-shadow: 1px 1px 0 rgba(#000, .6);
+
+      // Nudge the emoji into better-looking place.
+      display: inline-block;
+      transform: translateY(-4px);
+    }
+
+    // Override interaction indicators.
+    &:focus {
+      animation: button-pulse 2s ease-in-out alternate infinite;
+    }
+  }
+
+  //
+  // Toggle drawer
+  //
+
+  // Active styles
+  &.controls--open {
+    // Toggle state
+    #toggle {
+      text-indent: 0em;
+      background-color: rgba(255, 255, 255, .16);
+    }
+
+    // Set the default visible properties.
+    label, button {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  // Now, individually set the disabled states to create a pleasing transition
+  // from closed to open.
+  button#toggle {
+    transform: none;
+  }
+  label:nth-of-type(1) {
+    transition-delay: 0;
+  }
+  label:nth-of-type(2) {
+    transition-delay: .04s;
+  }
+  label:nth-of-type(3) {
+    transition-delay: .08s;
+  }
+  label:nth-of-type(4) {
+    transition-delay: .12s;
+  }
+  button#add {
+    transition-delay: .16s;
+  }
+}
+
+@keyframes button-pulse {
+  50% {
+    background-color: rgba(255, 255, 255, .2);
   }
 }

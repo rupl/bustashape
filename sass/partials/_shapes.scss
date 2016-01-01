@@ -36,7 +36,7 @@
   border-left: 100px solid transparent;
   border-right: 100px solid transparent;
   border-bottom: 160px solid currentColor; // text-color set by JS
-  background-color: unset;
+  background-color: transparent;
 }
 
 //
@@ -47,7 +47,7 @@
 .unchanged {
   // pop-in effect
   transform: scale(0);
-  animation: appear .33333s cubic-bezier(.17, .67, .19, 1.92);
+  animation: appear .33333s $snap-1;
   animation-fill-mode: forwards;
 }
 
