@@ -2,29 +2,39 @@
 // User Interface
 //
 
-var toggle = $('#toggle').on('click', function (e) {
-  $('#form-controls').classList.toggle('controls--open');
-  collapseControls();
-  e.preventDefault();
-});
+// Event listeners for drawer.
+var toggle = $('#toggle').on('click', toggleDrawer);
+var toggle = $('#toggle').on('touchend', toggleDrawer);
 
+// Gather control elements.
 var controls = $$('#form-controls label');
 
+// Set up each widget.
 controls.forEach(function(current, index, array) {
   current.on('touchend', function toggleLabel() {
-    // Collapse all controls.
-    collapseControls();
+    if ($('#form-controls').classList.contains('controls--open')) {
+      var widget = $('#' + current.htmlFor);
 
-    // Whitelist which widgets can pop up.
-    var toggle_widgets = ['opacity'];
+      // Collapse all controls.
+      collapseControls();
 
-    // Toggle the widget if needed.
-    if (toggle_widgets.indexOf(current.htmlFor) !== -1) {
-      $('#' + current.htmlFor).classList.toggle('visible');
+      // Enable the widget that was clicked.
+      widget.removeAttribute('disabled');
+      if (widget.id !== 'color') {
+        widget.removeAttribute('readonly');
+      }
 
-      // Remove focus from color input when closing.
-      if (current.htmlFor === 'color') {
-        blurAll();
+      // Whitelist which widgets can pop up.
+      var toggle_widgets = ['opacity'];
+
+      // Toggle the widget if needed.
+      if (toggle_widgets.indexOf(current.htmlFor) !== -1) {
+        widget.classList.toggle('visible');
+
+        // Remove focus from color input when closing.
+        if (current.htmlFor === 'color') {
+          blurAll();
+        }
       }
     }
   })
@@ -45,10 +55,38 @@ jsColorPicker('#color', {
   noRGBb: false,
 });
 
-// Helper function since I do this in more than one place.
+// Helper function to toggle Drawer
+function toggleDrawer(e) {
+  var drawer = $('#form-controls');
+
+  // Toggle drawer.
+  drawer.classList.toggle('controls--open');
+
+  // Additional processing based on open/close.
+  if (drawer.classList.contains('controls--open')) {
+    // Allow ADD button to listen for events.
+    $('#add').removeAttribute('readonly');
+    $('#add').removeAttribute('disabled');
+  } else {
+    // PRevent ADD button from listening for events.
+    $('#add').setAttribute('readonly', 'readonly');
+    $('#add').setAttribute('disabled', 'disabled');
+    // Disable/close the drawer's controls.
+    collapseControls();
+  }
+
+  // Don't submit form.
+  e.preventDefault();
+}
+
+// Helper function to unfocus all controls.
 function collapseControls() {
   // Shut the current visible widget if needed.
-  $$('#form-controls .visible').forEach(function (el, i) {
+  $$('#form-controls label').forEach(function (el, i) {
+    var child_element = $('#' + el.htmlFor);
+
     el.classList.remove('visible');
+    child_element.setAttribute('readonly', 'readonly');
+    child_element.setAttribute('disabled', 'disabled');
   });
 }

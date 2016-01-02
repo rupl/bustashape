@@ -8,6 +8,7 @@
   position: fixed;
   bottom: 0;
   z-index: 1100;
+  user-select: none;
 
   color: #fff;
   opacity: 1;
@@ -21,7 +22,7 @@
     text-transform: lowercase;
     cursor: pointer;
     position: relative; // for child controls
-    z-index: 100;
+    z-index: 5;
     color: white;
     text-shadow: 1px 1px 0 rgba(#000, .6);
     background: rgba(#111, .1);
@@ -40,15 +41,19 @@
     touch-action: manipulation;
   }
 
+  button {
+    z-index: 100;
+  }
+
   // Hide controls by default. Holding finger on label toggles visibility.
   input,
   select {
     position: absolute;
-    z-index: 50;
+    z-index: 5;
     left: 0;
     bottom: 3em;
     opacity: 0; // unconditional bc if the person got this far, they have JS.
-    transform: translateY(50%); // slide down out of view
+    transform: translateY(100%); // slide down out of view
     transition: all .1666s ease-in-out;
   }
 
@@ -57,6 +62,7 @@
   select.visible {
     opacity: 1;
     transform: translateY(0);
+    z-index: 50;
   }
 
   input {
@@ -95,8 +101,6 @@
 
   // Color
   label[for="color"] {
-    position: relative;
-
     #color {
       // display: none;
       transform: translateX(10000px);
@@ -116,7 +120,7 @@
     width: 1.8em;
     height: 2em;
     margin: 0 .25em;
-    padding: .4em;
+    padding: .4em .7em;
     border: none;
     border-radius: 3px;
     background: unset;
@@ -127,7 +131,11 @@
 
   // Toggle button
   #toggle {
+    width: 2.4em;
+    margin-left: 0;
     opacity: 1;
+    position: relative;
+    z-index: 100;
 
     // Spice up the button with effects.
     white-space: nowrap;
@@ -194,6 +202,7 @@
     label, button {
       opacity: 1;
       transform: none;
+      z-index: 5;
     }
   }
 
