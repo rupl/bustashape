@@ -43,13 +43,25 @@ if (window.location.hash !== '') {
 }
 
 // Someone joined the room.
-document.on('user-joined', userJoined, true);
+document.on('user-join', userJoin, true);
+
+// Someone left the room.
+document.on('user-quit', userQuit, true);
 
 /**
  * The server reports that a new person has connected.
  */
-function userJoined(data) {
+function userJoin(data) {
   // One day we'll have an indicator that someone joined. It would go here.
   // For now, log to console.
   console.info('Heads up, %s just joined!', data.nick);
+}
+
+/**
+ * The server reports that a person has disconnected.
+ */
+function userQuit(data) {
+  // One day we'll have an indicator that someone left. It would go here.
+  // For now, log to console.
+  console.info('Aw shucks, %s just left..', data.nick);
 }

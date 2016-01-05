@@ -98,7 +98,7 @@ io.on('connection', function(socket){
     socket.join(roomName);
 
     // Tell others that this person joined.
-    socket.broadcast.in(roomName).emit('user-joined', {
+    socket.broadcast.in(roomName).emit('user-join', {
       'nick': client.nick,
       'sid' : client.sid
     });
@@ -151,7 +151,7 @@ io.on('connection', function(socket){
 
         // This data is safe to send out since it's coming from the stored
         // rooms, not the incoming socket data.
-        socket.broadcast.emit('client-disconnect', {
+        socket.broadcast.emit('user-quit', {
           'nick': client.nick,
           'sid' : client.sid
         });

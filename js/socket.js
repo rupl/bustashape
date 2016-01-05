@@ -11,8 +11,16 @@ var client = function() {
   this.socket = io.connect(room);
 
   // Someone joined!
-  this.socket.on('user-joined', function(data) {
-    var evt = createEvent('user-joined');
+  this.socket.on('user-join', function(data) {
+    var evt = createEvent('user-join');
+    evt.nick = data.nick;
+    evt.sid = data.sid;
+    document.dispatchEvent(evt);
+  });
+
+  // Someone got bored..
+  this.socket.on('user-quit', function(data) {
+    var evt = createEvent('user-quit');
     evt.nick = data.nick;
     evt.sid = data.sid;
     document.dispatchEvent(evt);
