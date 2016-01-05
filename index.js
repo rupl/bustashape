@@ -8,6 +8,7 @@ var env = process.env.NODE_ENV || 'development';
 var GA = process.env.GA || '';
 var rooms = [];
 
+
 // Initialize app
 var app = express();
 var http = require('http').Server(app);
@@ -70,7 +71,7 @@ io.on('connection', function(socket){
       // This room is new. Create the array in the room.
       rooms[roomName] = [];
     } else {
-      // This game exists, check for duplicate names
+      // This room exists, check for duplicate names
       for ( client in rooms[roomName] ) {
         if (nickname == rooms[roomName][client].nick ) {
           fn( false, 'Nickname already in use.' );
@@ -140,11 +141,11 @@ io.on('connection', function(socket){
       return false;
     }
 
-    /* Iterate over the bucket _backwards_ so we can cleanly remove the departing
-     * client having to recalculate the length (as you would in a for loop) */
+    // Iterate over the bucket backwards so we can cleanly remove the departing
+    // client without having to recalculate the length (like a for loop).
     var i = rooms[room].length;
     while (i--) {
-      if (rooms[room][i].sid == socket.id) {
+      if (rooms[room][i].sid === socket.id) {
         var client = rooms[room][i];
         rooms[room].splice(i, 1);
 

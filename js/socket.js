@@ -10,6 +10,7 @@ var client = function() {
   var room = window.location.origin;
   this.socket = io.connect(room);
 
+  // Someone joined!
   this.socket.on('user-joined', function(data) {
     var evt = createEvent('user-joined');
     evt.nick = data.nick;
@@ -17,6 +18,7 @@ var client = function() {
     document.dispatchEvent(evt);
   });
 
+  // Helper function to create events.
   function createEvent(name) {
     var ev = document.createEvent('Event');
     ev.initEvent(name, true, true);

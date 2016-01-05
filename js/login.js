@@ -50,7 +50,6 @@ document.on('user-joined', userJoined, true);
  */
 function userJoined(data) {
   // One day we'll have an indicator that someone joined. It would go here.
-
-  // Log to console.
+  // For now, log to console.
   console.info('Heads up, %s just joined!', data.nick);
 }
