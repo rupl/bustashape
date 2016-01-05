@@ -98,7 +98,7 @@ io.on('connection', function(socket){
     socket.join(roomName);
 
     // Tell others that this person joined.
-    socket.broadcast.in(roomName).emit('user-join', {
+    socket.broadcast.to(socket.room).emit('user-join', {
       'nick': client.nick,
       'sid' : client.sid
     });
@@ -118,7 +118,7 @@ io.on('connection', function(socket){
    */
   socket.on('add', function(props){
     console.log('ADD', socket.room, props);
-    io.to(socket.room).emit('add', props);
+    socket.broadcast.to(socket.room).emit('add', props);
   });
 
   /**
