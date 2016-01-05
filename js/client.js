@@ -12,7 +12,6 @@ $('#add').on('click', function(ev) {
     class: $('#shape').value,
     opacity: $('#opacity').value,
     color: $('#color').value,
-    borderColor: $('#color').value,
     mixBlendMode: $('#mix-blend').value
   });
   ev.preventDefault();
