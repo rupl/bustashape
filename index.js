@@ -118,7 +118,9 @@ io.on('connection', function(socket){
    */
   socket.on('add', function(props){
     console.log('ADD', socket.room, props);
-    socket.broadcast.to(socket.room).emit('add', props);
+    // Don't use socket.broadcast because the user who initiated the event needs
+    // to receive it in the same fashion as the others in the room.
+    io.to(socket.room).emit('add', props);
   });
 
   /**
