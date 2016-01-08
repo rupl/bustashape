@@ -100,7 +100,7 @@ gulp.task('watch', function() {
 gulp.task('start', ['sass', 'js', 'watch', 'bs'], function () {
   nodemon({
     script: 'index.js',
-    ext: 'html dust',
+    ext: 'js html dust',
     env: { 'NODE_ENV': 'development' }
   });
 });

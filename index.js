@@ -3,11 +3,11 @@ var express = require('express');
 var config = require('./config.json');
 var dust = require('dustjs-linkedin');
 var cons = require('consolidate');
+var busta = require('./js/server/bustashape');
 var port = process.env.PORT || 8080;
 var env = process.env.NODE_ENV || 'development';
 var GA = process.env.GA || '';
 var rooms = [];
-
 
 // Initialize app
 var app = express();
@@ -128,7 +128,16 @@ io.on('connection', function(socket){
    */
   socket.on('change', function(props){
     console.log('CHANGE', socket.room, props);
-    socket.broadcast.to(socket.room).emit('change', props);
+
+    busta.checkForChanges(props, function nopeCB() {
+      console.log('no collision right now');
+      socket.broadcast.to(socket.room).emit('change', props);
+    }, function yepCB() {
+      console.log('💥 💥 💥  collision!!! 💥 💥 💥 ');
+
+      // ...now do something to clone the shape and assign it to the last person
+      // who touched it.
+    });
   });
 
   /**
