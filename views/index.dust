@@ -18,8 +18,8 @@
 
     <!-- initial action -->
     <form id="form-login" class="login">
-      <input id="nick" name="nick" type="text" placeholder="who are you?" required title="Enter a nickname">
-      <input id="room" name="room" type="text" placeholder="join a room">
+      <input id="nick" name="nick" type="text" placeholder="who are you?" title="Enter a nickname" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required>
+      <input id="room" name="room" type="text" placeholder="join a room" title="Enter a room name" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
       <input id="btn-login" type="submit" value="Go">
     </form>
 
