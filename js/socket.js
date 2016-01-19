@@ -26,6 +26,13 @@ var client = function() {
     document.dispatchEvent(evt);
   });
 
+  // A shape got ripped
+  this.socket.on('shape-rip', function (data) {
+    var evt = createEvent('shape-rip');
+    evt.props = data;
+    document.dispatchEvent(evt);
+  });
+
   // Helper function to create events.
   function createEvent(name) {
     var ev = document.createEvent('Event');

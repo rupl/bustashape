@@ -137,6 +137,7 @@ io.on('connection', function(socket){
 
       // ...now do something to clone the shape and assign it to the last person
       // who touched it.
+      socket.broadcast.to(socket.room).emit('shape-rip', props);
     });
   });
 

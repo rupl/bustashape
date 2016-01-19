@@ -4,7 +4,7 @@ var me = {};
 /**
  * Add a new shape.
  */
-$('#add').on('click', function(ev) {
+$('#add').on('click', function(evt) {
   // Send to ALL clients including self. It doesn't immediately add a shape to
   // your DOM, the 'add' listener below handles that part.
   socket.emit('add', {
@@ -14,7 +14,7 @@ $('#add').on('click', function(ev) {
     color: $('#color').value,
     mixBlendMode: $('#mix-blend').value
   });
-  ev.preventDefault();
+  evt.preventDefault();
 });
 
 /**
@@ -219,5 +219,23 @@ socket.on('add', function(props) {
       transform = props.transform;
       requestElementUpdate(false);
     }
+  });
+});
+
+// Rip a shape. Results in an original and cloned shape.
+document.on('shape-rip', function (evt) {
+  console.info('💥 riiiiip!', evt.props);
+
+  var old = $('#' + evt.props.id);
+  old.parentNode.removeChild(old);
+
+  // Send to ALL clients including self. It doesn't immediately add a shape to
+  // your DOM, the 'add' listener below handles that part.
+  socket.emit('add', {
+    id: 'shape-' + Math.floor(Math.random() * 1000000000),
+    class: $('#shape').value,
+    opacity: $('#opacity').value,
+    color: $('#color').value,
+    mixBlendMode: $('#mix-blend').value
   });
 });
