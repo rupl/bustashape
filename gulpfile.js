@@ -70,13 +70,15 @@ gulp.task('js', function() {
 
   var ui = gulp.src([
     'js/jsColorPicker.min.js',
+    'node_modules/two.js/build/two.js',
     'js/client.js',
     'js/controls.js',
   ])
   .pipe(plumber())
   .pipe(concat('ui.min.js'))
   .pipe(uglify())
-  .pipe(gulp.dest('_public/js'));
+  .pipe(gulp.dest('_public/js'))
+  .pipe(reload({stream: true}));
 
   return merge(bootstrap, ui);
 });

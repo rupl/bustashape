@@ -1,6 +1,23 @@
 var client = new client();
 var me = {};
 
+// Initialize two.js
+var canvas = document.getElementById('canvas');
+var params = { width: '100%', height: '100%' };
+var two = new Two(params).appendTo(canvas);
+
+// // debug
+// console.info('💥 two.js initialized using ' + two.type + ' renderer.')
+
+// Define some constants for two.js
+var START_WIDTH = 200; // start width
+var START_HEIGHT = 200; // start height
+var START_RADIUS = 100; // start size radius
+var START_X = 100; // start position X
+var START_Y = 100; // start position Y
+var START_SCALE = 1;
+var START_ANGLE = 0;
+
 /**
  * Add a new shape.
  */
@@ -22,75 +39,47 @@ $('#add').on('click', function(ev) {
  * Listen for new shapes and add them to DOM.
  */
 socket.on('add', function(props) {
-  // Create a new element
-  var el = document.createElement('div');
-  el.id = props.id;
-  el.classList.add('shape', 'unchanged', 'shape--' + props.class);
-  el.style.color = props.color;
-  el.style.opacity = props.opacity;
+  // console.info(props);
+
+  // Create new shape
+  if (props.class === 'circle') {
+    var shape = two.makeCircle(START_X, START_Y, START_RADIUS);
+  } else if (props.class === 'ellipse') {
+    var shape = two.makeEllipse(START_X, START_Y, START_WIDTH/1.5, START_HEIGHT);
+  } else if (props.class === 'triangle') {
+    var shape = two.makePolygon(START_X, START_Y, START_WIDTH/1.5, 3);
+  } else {
+    var shape = two.makeRectangle(START_X, START_Y, START_WIDTH, START_HEIGHT);
+  }
+
+  // Fill out common props
+  shape.id = props.id;
+  shape.fill = props.color;
+  shape.opacity = props.opacity;
+  shape.noStroke();
+
+  // Draw shape for first time.
+  two.update();
+
+  // Reference DOM element to allow direct manipulation for a few things.
+  var el = document.getElementById(shape.id);
   el.style.mixBlendMode = props.mixBlendMode;
 
-  // Add the new element
-  $('#canvas').appendChild(el);
-
-  // Set up Hammer
-  var el = document.getElementById(props.id);
+  // Set up Hammer. Also uses direct DOM node.
   var mc = new Hammer.Manager(el);
   var initX;
   var initY;
-  var initAngle = 0;
-  var initScale = 1;
+  var initAngle = START_ANGLE;
+  var initScale = START_SCALE;
   var timer;
   var ticking = false;
   var transform = {
     x: 0,
     y: 0,
-    z: 0,
     scale: initScale,
     angle: initAngle,
-    rx: 0,
-    ry: 0,
-    rz: 0
   };
 
-  //----------------------------------------------------------------------------
-  // Rendering functions
-  //----------------------------------------------------------------------------
-
-  /**
-   * Ask for a render and broadcast the shape's current properties.
-   */
-  function requestElementUpdate(broadcast) {
-    if(!ticking) {
-      reqAnimationFrame(updateElementTransform);
-      ticking = true;
-
-      if (broadcast !== false) {
-        client.send('change', {
-          me: socket.id,
-          id: props.id,
-          transform: transform
-        });
-      }
-    }
-  }
-
-  /**
-   * rAF callback which paints to the screen and emits the movement to others.
-   */
-  function updateElementTransform() {
-    var value = [
-      'translate3d(' + transform.x + 'px, ' + transform.y + 'px, ' + transform.z + 'px)',
-      'scale(' + transform.scale + ', ' + transform.scale + ')',
-      'rotate3d('+ transform.rx +','+ transform.ry +','+ transform.rz +','+  transform.angle + 'deg)'
-    ];
-
-    value = value.join(' ');
-    el.style.webkitTransform = value;
-    el.style.mozTransform = value;
-    el.style.transform = value;
-    ticking = false;
-  }
 
   //----------------------------------------------------------------------------
   // Touch gestures
@@ -120,6 +109,7 @@ socket.on('add', function(props) {
     }
   });
 
+
   /**
    * Hammer: listen for pan
    */
@@ -131,8 +121,8 @@ socket.on('add', function(props) {
       el.classList.add('grabbing');
 
       // Get the starting position for this gesture
-      initX = transform.x || 0;
-      initY = transform.y || 0;
+      initX = transform.x || START_X;
+      initY = transform.y || START_Y;
     }
 
     // We're already moving, use the values we stored during 'panstart'
@@ -165,7 +155,7 @@ socket.on('add', function(props) {
    */
   function onRotate(ev) {
     if (ev.type === 'rotatestart') {
-      initAngle = transform.angle || 0;
+      initAngle = transform.angle || START_T_RZ;
 
       // Change cursor on screens that have one.
       el.classList.add('grabbing');
@@ -205,6 +195,42 @@ socket.on('add', function(props) {
   // }
 
   //----------------------------------------------------------------------------
+  // Rendering functions
+  //----------------------------------------------------------------------------
+
+  /**
+   * Ask for a render and broadcast the shape's current properties.
+   */
+  function requestElementUpdate(broadcast) {
+    if (!ticking) {
+      reqAnimationFrame(redrawElement);
+      ticking = true;
+
+      if (broadcast !== false) {
+        client.send('change', {
+          me: socket.id,
+          id: props.id,
+          transform: transform
+        });
+      }
+    }
+  }
+
+  /**
+   * Talks to two.js and redraws elements.
+   */
+  function redrawElement() {
+    // Tell two.js to update shape
+    shape.translation.set(transform.x, transform.y);
+    shape.scale = transform.scale;
+    shape.rotation = Math.radians(transform.angle);
+
+    // Redraw
+    two.update();
+    ticking = false;
+  }
+
+  //----------------------------------------------------------------------------
   // Socket listeners
   //----------------------------------------------------------------------------
 
@@ -222,3 +248,13 @@ socket.on('add', function(props) {
     }
   });
 });
+
+// Converts from degrees to radians.
+Math.radians = function(degrees) {
+  return degrees * Math.PI / 180;
+};
+
+// Converts from radians to degrees.
+Math.degrees = function(radians) {
+  return radians * 180 / Math.PI;
+};
