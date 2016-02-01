@@ -72,6 +72,7 @@ gulp.task('js', function() {
     'js/jsColorPicker.min.js',
     'node_modules/two.js/build/two.js',
     'js/client.js',
+    'js/canvas.js',
     'js/controls.js',
   ])
   .pipe(plumber())
