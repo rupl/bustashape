@@ -6,11 +6,12 @@ if (Modernizr.touchevents) {
 
   var scene_transform = {
     ticking: false,
-    x: 0,
-    y: 0,
     initX: 0,
     initY: 0,
-    initScale: 1
+    initScale: 1,
+    x: 0,
+    y: 0,
+    scale: 1
   };
 
   // Set up zoom/pan for the whole scene.
@@ -28,14 +29,14 @@ if (Modernizr.touchevents) {
     console.debug(ev);
     if (ev.type === 'panstart' && ev.target === svg) {
       // Get the starting position for this gesture
-      scene_transform.initX = scene_transform.x || 0;
-      scene_transform.initY = scene_transform.y || 0;
+      scene_transform.initX = n(scene_transform.x) || 0;
+      scene_transform.initY = n(scene_transform.y) || 0;
     }
 
     // We're already moving, use the values we stored during 'panstart'
     if (ev.type === 'panmove' && ev.target === svg) {
-      scene_transform.x = parseInt(scene_transform.initX, 10) + parseInt(ev.deltaX, 10);
-      scene_transform.y = parseInt(scene_transform.initY, 10) + parseInt(ev.deltaY, 10);
+      scene_transform.x = n(scene_transform.initX) + n(ev.deltaX);
+      scene_transform.y = n(scene_transform.initY) + n(ev.deltaY);
 
       if (!scene_transform.ticking) {
         requestAnimationFrame(redrawCanvas);

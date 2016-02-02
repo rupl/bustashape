@@ -36,3 +36,10 @@ function blurAll(){
   tmp.focus();
   document.body.removeChild(tmp);
 }
+
+//
+// Return base10 number.
+//
+function n(x) {
+  return parseInt(x, 10);
+}

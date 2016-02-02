@@ -13,8 +13,8 @@ console.debug('💥 two.js initialized using ' + two.type + ' renderer.')
 var START_WIDTH = 200; // start width
 var START_HEIGHT = 200; // start height
 var START_RADIUS = 100; // start size radius
-var START_X = 100; // start position X
-var START_Y = 100; // start position Y
+var START_X = START_WIDTH / 2;
+var START_Y = START_HEIGHT / 2;
 var START_SCALE = 1;
 var START_ANGLE = 0;
 
@@ -127,12 +127,12 @@ socket.on('add', function(props) {
 
     // We're already moving, use the values we stored during 'panstart'
     //
-    // We have to factor in the position and zoom level of the canvas in this
-    // delta as well. If we didn't, the shape would not follow the movement of
-    // a person's finger in a natural way.
+    // We have to factor in the zoom level of the canvas in this delta as well.
+    // If we didn't, the shape would not follow the movement of a person's
+    // finger in a natural way.
     if (ev.type === 'panmove') {
-      transform.x = (parseInt(initX, 10) - two.scene.translation._x) + (parseInt(ev.deltaX, 10) / two.scene.scale);
-      transform.y = (parseInt(initY, 10) - two.scene.translation._y) + (parseInt(ev.deltaY, 10) / two.scene.scale);
+      transform.x = n(initX) + (n(ev.deltaX) / two.scene.scale);
+      transform.y = n(initY) + (n(ev.deltaY) / two.scene.scale);
     }
 
     requestElementUpdate();
@@ -168,7 +168,7 @@ socket.on('add', function(props) {
       el.classList.add('grabbing');
     }
 
-    transform.angle = parseInt(initAngle, 10) + parseInt(ev.rotation, 10);
+    transform.angle = n(initAngle) + n(ev.rotation);
 
     requestElementUpdate();
   }
