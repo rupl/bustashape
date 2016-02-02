@@ -26,7 +26,6 @@ if (Modernizr.touchevents) {
    * Callback for changing position of canvas.
    */
   function onScenePan(ev) {
-    console.debug(ev);
     if (ev.type === 'panstart' && ev.target === svg) {
       // Get the starting position for this gesture
       scene_transform.initX = n(scene_transform.x) || 0;
@@ -49,7 +48,6 @@ if (Modernizr.touchevents) {
    * Callback for changing zoom level of canvas.
    */
   function onScenePinch(ev) {
-    console.debug(ev);
     if (ev.type === 'pinchstart' && ev.target === svg) {
       initScale = scene_transform.scale || 1;
     }
