@@ -2,7 +2,9 @@
 
 // If touch events are detected, use a different UI.
 if (Modernizr.touchevents) {
-  console.debug('👆 Touch events detected. Setting up mobile canvas...');
+  if (debug_busta === true) {
+    console.debug('👆 Touch events detected. Setting up mobile canvas...');
+  }
 
   var scene_transform = {
     ticking: false,
@@ -75,6 +77,10 @@ function redrawCanvas() {
   // Update canvas zoom & position.
   two.scene.translation.set(scene_transform.x, scene_transform.y);
   two.scene.scale = scene_transform.scale;
+
+  if (debug_busta === true) {
+    debugCanvas(scene_transform);
+  }
 
   // Redraw and release next frame.
   two.update();

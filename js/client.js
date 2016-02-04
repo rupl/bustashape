@@ -7,7 +7,9 @@ var params = { width: '100%', height: '100%' };
 var two = new Two(params).appendTo(canvas);
 
 // debug
-console.debug('💥 two.js initialized using ' + two.type + ' renderer.')
+if (debug_busta === true) {
+  console.debug('💥 two.js initialized using ' + two.type + ' renderer.')
+}
 
 // Define some constants for two.js
 var START_WIDTH = 200; // start width
@@ -60,6 +62,10 @@ socket.on('add', function(props) {
 
   // Draw shape for first time.
   two.update();
+
+  if (debug_busta === true) {
+    debugShape(shape);
+  }
 
   // Reference DOM element to allow direct manipulation for a few things.
   var el = document.getElementById(shape.id);
@@ -230,6 +236,10 @@ socket.on('add', function(props) {
     shape.translation.set(transform.x, transform.y);
     shape.scale = transform.scale;
     shape.rotation = Math.radians(transform.angle);
+
+    if (debug_busta === true) {
+      debugShape(shape);
+    }
 
     // Redraw
     two.update();

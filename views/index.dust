@@ -24,7 +24,12 @@
     </form>
 
     <!-- shapes will go here -->
-    <div id="canvas"></div>
+    <div id="canvas">
+      {@eq key=env value="local"}
+        <section class="debug debug--shape"></section>
+        <section class="debug debug--canvas"></section>
+      {/eq}
+    </div>
 
     <!-- Shape editor -->
     <form id="form-controls" class="controls hide">
@@ -71,6 +76,11 @@
       <button id="add" aria-label="Add Shape" title="Add Shape!" readonly disabled><span class="add">+</span></button>
     </form>
 
+    {@eq key=env value="local"}
+      <script>var debug_busta = true;</script>
+    {:else}
+      <script>var debug_busta = false;</script>
+    {/eq}
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/ui.min.js"></script>

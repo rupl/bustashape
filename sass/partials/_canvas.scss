@@ -10,4 +10,19 @@
   z-index: 10;
   user-select: none;
   touch-action: none;
+
+  .debug {
+    position: absolute;
+    bottom: 7em;
+    left: 0;
+    right: 0;
+
+    &--shape {
+      color: #ddd;
+      bottom: 9em;
+    }
+    &--canvas {
+      color: #0c0;
+    }
+  }
 }

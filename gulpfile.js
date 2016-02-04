@@ -1,3 +1,6 @@
+// Node
+var env = process.env.NODE_ENV || 'local';
+
 // Gulp tools
 var gulp = require('gulp');
 var u = require('gulp-util');
@@ -14,6 +17,9 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var bs = require('browser-sync');
 var reload = bs.reload;
+
+// Deployment debugging
+log(c.yellow('Detected environment: ' + env));
 
 // -----------------------------------------------------------------------------
 // Sass Task
@@ -103,8 +109,8 @@ gulp.task('watch', function() {
 gulp.task('start', ['sass', 'js', 'watch', 'bs'], function () {
   nodemon({
     script: 'index.js',
-    ext: 'html dust',
-    env: { 'NODE_ENV': 'development' }
+    ext: 'html dust js',
+    env: { 'NODE_ENV': env }
   });
 });
 
