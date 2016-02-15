@@ -38,10 +38,10 @@ function blurAll(){
 }
 
 //
-// Return base10 number.
+// Coerce things (mostly strings) to numbers.
 //
 function n(x) {
-  return parseInt(x, 10);
+  return Number(x);
 }
 
 //
