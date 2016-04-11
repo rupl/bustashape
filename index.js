@@ -80,6 +80,7 @@ io.on('connection', function(socket){
     }
 
     // Store the room name.
+    // TODO: figure out how this is really supposed to work.
     socket.room = roomName;
 
     // Log the event.
@@ -116,6 +117,8 @@ io.on('connection', function(socket){
    * A new shape appears!
    */
   socket.on('add', function(props){
+    // TODO: figure out how to properly grab the roomName from the join event.
+    // console.log(socket);
     console.log('ADD', socket.room, props);
     io.to(socket.room).emit('add', props);
   });
