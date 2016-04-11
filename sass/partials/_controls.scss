@@ -41,10 +41,6 @@
     touch-action: manipulation;
   }
 
-  button {
-    z-index: 100;
-  }
-
   // Hide controls by default. Holding finger on label toggles visibility.
   input,
   select {
@@ -127,6 +123,7 @@
     overflow: hidden;
     cursor: pointer;
     vertical-align: middle;
+    z-index: 100;
   }
 
   // Toggle button
@@ -184,6 +181,15 @@
     &:focus {
       animation: button-pulse 2s ease-in-out alternate infinite;
     }
+  }
+
+  #save {
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    position: absolute;
+    bottom: .5em;
+    right: .5em;
   }
 
   //
