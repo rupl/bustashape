@@ -25,11 +25,12 @@
 
     <!-- shapes will go here -->
     <div id="canvas">
-      {@eq key=env value="local"}
-        <section class="debug debug--shape"></section>
-        <section class="debug debug--canvas"></section>
-      {/eq}
     </div>
+
+    {@eq key=env value="local"}
+      <section class="debug debug--shape"></section>
+      <section class="debug debug--canvas"></section>
+    {/eq}
 
     <!-- Shape editor -->
     <form id="form-controls" class="controls hide">
