@@ -1,0 +1,17 @@
+{
+  "name": "bustashape",
+  "description": "Collaborative artwork powered by the web.",
+  "keywords": [
+    "art",
+    "websockets",
+    "real-time"
+  ],
+  "website": "http://www.bustashape.com",
+  "repository": "https://github.com/rupl/bustashape",
+  "success_url": "/",
+  "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-nodejs"
+    }
+  ]
+}

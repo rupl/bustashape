@@ -9,12 +9,18 @@
   user-select: none; // @TODO: this might cause problems, watch out for it.
 }
 
+body,
+html {
+  position: fixed;
+}
+
 body {
   background: #000;
   color: #fff;
   font-size: 18px;
   font-family: Helvetica, Arial;
   overflow: hidden;
+  touch-action: none;
 }
 
 .hide {

@@ -2,19 +2,21 @@ var client = new client();
 var me = {};
 
 // Initialize two.js
-var canvas = document.getElementById('canvas');
+var canvas = $('#canvas');
 var params = { width: '100%', height: '100%' };
 var two = new Two(params).appendTo(canvas);
 
-// // debug
-// console.info('💥 two.js initialized using ' + two.type + ' renderer.')
+// debug
+if (debug_busta === true) {
+  console.debug('💥 two.js initialized using ' + two.type + ' renderer.')
+}
 
 // Define some constants for two.js
 var START_WIDTH = 200; // start width
 var START_HEIGHT = 200; // start height
 var START_RADIUS = 100; // start size radius
-var START_X = 100; // start position X
-var START_Y = 100; // start position Y
+var START_X = START_WIDTH / 2;
+var START_Y = START_HEIGHT / 2;
 var START_SCALE = 1;
 var START_ANGLE = 0;
 
@@ -60,6 +62,10 @@ socket.on('add', function(props) {
 
   // Draw shape for first time.
   two.update();
+
+  if (debug_busta === true) {
+    debugShape(shape);
+  }
 
   // Reference DOM element to allow direct manipulation for a few things.
   var el = document.getElementById(shape.id);
@@ -126,9 +132,13 @@ socket.on('add', function(props) {
     }
 
     // We're already moving, use the values we stored during 'panstart'
+    //
+    // We have to factor in the zoom level of the canvas in this delta as well.
+    // If we didn't, the shape would not follow the movement of a person's
+    // finger in a natural way.
     if (ev.type === 'panmove') {
-      transform.x = parseInt(initX, 10) + parseInt(ev.deltaX, 10);
-      transform.y = parseInt(initY, 10) + parseInt(ev.deltaY, 10);
+      transform.x = n(initX) + (n(ev.deltaX) / two.scene.scale);
+      transform.y = n(initY) + (n(ev.deltaY) / two.scene.scale);
     }
 
     requestElementUpdate();
@@ -145,7 +155,10 @@ socket.on('add', function(props) {
       el.classList.add('grabbing');
     }
 
-    transform.scale = initScale * ev.scale;
+    if (ev.type === 'pinchmove') {
+      // Store new size based on initial scale times the delta
+      transform.scale = initScale * ev.scale;
+    }
 
     requestElementUpdate();
   }
@@ -155,14 +168,13 @@ socket.on('add', function(props) {
    */
   function onRotate(ev) {
     if (ev.type === 'rotatestart') {
-      initAngle = transform.angle || START_T_RZ;
+      initAngle = transform.angle || START_ANGLE;
 
       // Change cursor on screens that have one.
       el.classList.add('grabbing');
     }
 
-    transform.rz = 1;
-    transform.angle = parseInt(initAngle, 10) + parseInt(ev.rotation, 10);
+    transform.angle = n(initAngle) + n(ev.rotation);
 
     requestElementUpdate();
   }
@@ -224,6 +236,10 @@ socket.on('add', function(props) {
     shape.translation.set(transform.x, transform.y);
     shape.scale = transform.scale;
     shape.rotation = Math.radians(transform.angle);
+
+    if (debug_busta === true) {
+      debugShape(shape);
+    }
 
     // Redraw
     two.update();

@@ -36,3 +36,23 @@ function blurAll(){
   tmp.focus();
   document.body.removeChild(tmp);
 }
+
+//
+// Coerce things (mostly strings) to numbers.
+//
+function n(x) {
+  return Number(x);
+}
+
+//
+// Debug functions
+//
+function debugCanvas(scene_transform) {
+  var debug = 't:' + scene_transform.x +','+ scene_transform.y +' s:'+ scene_transform.scale;
+  $('.debug--canvas').innerText = debug;
+}
+
+function debugShape(shape) {
+  var debug = 't:' + shape.translation +' s:'+ shape.scale +' r:'+ shape.rotation;
+  $('.debug--shape').innerText = debug;
+}

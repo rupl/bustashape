@@ -4,7 +4,7 @@ var config = require('./config.json');
 var dust = require('dustjs-linkedin');
 var cons = require('consolidate');
 var port = process.env.PORT || 8080;
-var env = process.env.NODE_ENV || 'development';
+var env = process.env.NODE_ENV || 'local';
 var GA = process.env.GA || '';
 var rooms = [];
 
@@ -17,11 +17,11 @@ var io = require('socket.io')(http);
 // Expose static assets
 app.use(express.static(__dirname + '/_public', {redirect: false}));
 
-
 // Main app URL
 app.get('/', function(req, res){
   cons.dust('views/index.dust', {
-    GA: GA
+    GA: GA,
+    env: env
   }, function (err, out) {
     if (err) {console.error(err); }
     res.send(out);
@@ -80,6 +80,7 @@ io.on('connection', function(socket){
     }
 
     // Store the room name.
+    // TODO: figure out how this is really supposed to work.
     socket.room = roomName;
 
     // Log the event.
@@ -116,6 +117,8 @@ io.on('connection', function(socket){
    * A new shape appears!
    */
   socket.on('add', function(props){
+    // TODO: figure out how to properly grab the roomName from the join event.
+    // console.log(socket);
     console.log('ADD', socket.room, props);
     io.to(socket.room).emit('add', props);
   });
@@ -166,5 +169,5 @@ io.on('connection', function(socket){
  * Listen for users to connect
  */
 http.listen(port, function(){
-  console.log('Listening on port ' + port);
+  console.log('Listening on port ' + port + ' in ' + env + ' mode.');
 });
