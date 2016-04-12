@@ -21,6 +21,19 @@ var reload = bs.reload;
 // Deployment debugging
 log(c.yellow('Detected environment: ' + env));
 
+
+// -----------------------------------------------------------------------------
+// Browser Sync
+// -----------------------------------------------------------------------------
+gulp.task('bs', function() {
+  bs({
+    proxy: 'localhost:8080',
+    files: 'css/*.css',
+    ghostMode: false // ghostMode is incompatible with bustashape's socket data.
+  });
+});
+
+
 // -----------------------------------------------------------------------------
 // Sass Task
 //
@@ -45,16 +58,6 @@ gulp.task('sass', function() {
     .pipe(reload({stream:true}));
 });
 
-// -----------------------------------------------------------------------------
-// Browser Sync
-// -----------------------------------------------------------------------------
-gulp.task('bs', function() {
-  bs({
-    proxy: 'localhost:8080',
-    files: 'css/*.css',
-    ghostMode: false // ghostMode is incompatible with bustashape's socket data.
-  });
-});
 
 // -----------------------------------------------------------------------------
 // JS task
@@ -90,10 +93,12 @@ gulp.task('js', function() {
   return merge(bootstrap, ui);
 });
 
+
 // -----------------------------------------------------------------------------
 // Build all the assets
 // -----------------------------------------------------------------------------
 gulp.task('build', ['sass', 'js']);
+
 
 // -----------------------------------------------------------------------------
 // Watch tasks
@@ -102,6 +107,7 @@ gulp.task('watch', function() {
   gulp.watch('sass/**/*', ['sass']);
   gulp.watch('js/*', ['js']);
 });
+
 
 // -----------------------------------------------------------------------------
 // Run the dev server
@@ -113,6 +119,7 @@ gulp.task('start', ['sass', 'js', 'watch', 'bs'], function () {
     env: { 'NODE_ENV': env }
   });
 });
+
 
 // -----------------------------------------------------------------------------
 // Default should just start the server
