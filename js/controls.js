@@ -56,7 +56,10 @@ jsColorPicker('#color', {
 });
 
 // If save button is possible, create it now.
-if (Modernizr.atobbtoa && Modernizr.adownload) {
+//
+// @TODO: During room creation, create config to either show or hide button
+//        instead of always hiding when touch events are detected.
+if (Modernizr.atobbtoa && Modernizr.adownload && !Modernizr.touchevents) {
   // Find control panel.
   var controls = $('#form-controls');
 
