@@ -14,6 +14,7 @@
       <h1><img src="/img/bustashape-logo.svg" alt="bustashape"></h1>
       <p>Welcome! Pick a name and a room.<br class="r"> Leave the room blank and we'll surprise you!</p>
       <p class="no-touch">This <strong>labor of love</strong> was designed for touch. You can still use it with a mouse but it's not what we're focusing on.</p>
+      <p class="colophon">made with 💞 by <a href="https://twitter.com/rupl">rupl</a> and <a href="https://twitter.com/afragon">afragon</a></p>
     </div>
 
     <!-- initial action -->
