@@ -23,9 +23,8 @@
     cursor: pointer;
     position: relative; // for child controls
     z-index: 5;
-    color: white;
-    text-shadow: 1px 1px 0 rgba(#000, .6);
-    background: rgba(#111, .1);
+    color: #000;
+    // text-shadow: 1px 1px 0 rgba(#000, .6);
 
     // Default "closed" state.
     opacity: 0;
