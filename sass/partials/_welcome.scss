@@ -5,6 +5,7 @@
 .welcome {
   position: absolute;
   padding: 1em;
+  z-index: 15;
 
   @include mw($intro-width + 20px) {
     width: $intro-width;
@@ -13,24 +14,47 @@
   }
 
   h1 {
-    margin-bottom: .5em;
+    margin-bottom: 1rem;
+    margin-left: -2%;
+
+    img {
+      max-width: 100%;
+    }
   }
 
   p {
     margin-bottom: 1em;
   }
 
+  a {
+    color: inherit;
+  }
+
+  a:visited {
+    opacity: .75;
+  }
+
   // Display a message to mouse users so I can ease my conscience about the
   // various levels of support.
   .no-touch {
     opacity: 0;
+    overflow: hidden;
+    margin-bottom: 0;
+    height: 70px;
+    max-height: 0;
     font-size: 1.2em;
     font-style: italic;
-    transition: opacity .25s ease-in-out;
+    transition: .5s ease-in-out;
+    transition-property: max-height, opacity;
 
     .no-touchevents & {
       opacity: 1;
+      max-height: 200px;
     }
+  }
+
+  .colophon {
+    opacity: .9;
   }
 }
 

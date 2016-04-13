@@ -29,3 +29,11 @@ body {
   transition: opacity .25s ease-in-out;
   z-index: -1000 !important;
 }
+
+br.r {
+  display: none;
+
+  @media (min-width: 420px) {
+    display: initial;
+  }
+}

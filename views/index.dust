@@ -2,7 +2,7 @@
 <html lang="en-US">
   <head>
     <meta charset="utf-8">
-    <title>bust a shape</title>
+    <title>bustashape</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="author" content="Chris Ruppel">
     <meta name="description" content="Collaborative real-time art powered by the web.">
@@ -11,9 +11,10 @@
   <body>
 
     <div class="welcome">
-      <h1>Welcome to <span class="bustashape">bust a shape</span>!</h1>
-      <p>Pick a name and a room. Or leave the room blank and we'll pick one for you.</p>
-      <p class="no-touch">Heads up, this <strong>labor of love</strong> was designed for touch screens. You can still use it with a mouse but it's not what we're focusing on.</p>
+      <h1><img src="/img/bustashape-logo.svg" alt="bustashape"></h1>
+      <p>Welcome! Pick a name and a room.<br class="r"> Leave the room blank and we'll surprise you!</p>
+      <p class="no-touch">This <strong>labor of love</strong> was designed for touch. You can still use it with a mouse but it's not what we're focusing on.</p>
+      <p class="colophon">made with 💞 by <a href="https://twitter.com/rupl">rupl</a> and <a href="https://twitter.com/afragon">afragon</a></p>
     </div>
 
     <!-- initial action -->

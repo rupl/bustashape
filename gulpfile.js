@@ -21,6 +21,19 @@ var reload = bs.reload;
 // Deployment debugging
 log(c.yellow('Detected environment: ' + env));
 
+
+// -----------------------------------------------------------------------------
+// Browser Sync
+// -----------------------------------------------------------------------------
+gulp.task('bs', function() {
+  bs({
+    proxy: 'localhost:8080',
+    files: 'css/*.css',
+    ghostMode: false // ghostMode is incompatible with bustashape's socket data.
+  });
+});
+
+
 // -----------------------------------------------------------------------------
 // Sass Task
 //
@@ -45,16 +58,6 @@ gulp.task('sass', function() {
     .pipe(reload({stream:true}));
 });
 
-// -----------------------------------------------------------------------------
-// Browser Sync
-// -----------------------------------------------------------------------------
-gulp.task('bs', function() {
-  bs({
-    proxy: 'localhost:8080',
-    files: 'css/*.css',
-    ghostMode: false // ghostMode is incompatible with bustashape's socket data.
-  });
-});
 
 // -----------------------------------------------------------------------------
 // JS task
@@ -90,10 +93,21 @@ gulp.task('js', function() {
   return merge(bootstrap, ui);
 });
 
+
+// -----------------------------------------------------------------------------
+// Prep images
+// -----------------------------------------------------------------------------
+gulp.task('img', function() {
+  return gulp.src('img/*')
+    .pipe(gulp.dest('_public/img'));
+});
+
+
 // -----------------------------------------------------------------------------
 // Build all the assets
 // -----------------------------------------------------------------------------
-gulp.task('build', ['sass', 'js']);
+gulp.task('build', ['sass', 'js', 'img']);
+
 
 // -----------------------------------------------------------------------------
 // Watch tasks
@@ -103,16 +117,18 @@ gulp.task('watch', function() {
   gulp.watch('js/*', ['js']);
 });
 
+
 // -----------------------------------------------------------------------------
 // Run the dev server
 // -----------------------------------------------------------------------------
-gulp.task('start', ['sass', 'js', 'watch', 'bs'], function () {
+gulp.task('start', ['sass', 'js', 'img', 'watch', 'bs'], function () {
   nodemon({
     script: 'index.js',
     ext: 'html dust js',
     env: { 'NODE_ENV': env }
   });
 });
+
 
 // -----------------------------------------------------------------------------
 // Default should just start the server
