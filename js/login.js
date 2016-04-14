@@ -2,11 +2,11 @@
  * Log a user in
  */
 function join() {
-  me.nick = $('#nick').value;
+  // me.nick = $('#nick').value;
   me.room = $('#room').value || false;
 
   var data = {
-    'nick': me.nick,
+    // 'nick': me.nick,
     'room': me.room
   };
 
