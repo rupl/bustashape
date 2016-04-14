@@ -43,11 +43,9 @@ io.on('connection', function(socket){
     var nickname = (data.nick) ? data.nick.toLowerCase().replace(/[^\d\w- ]+/gi, '') : false;
     var roomName = (data.room) ? data.room.toLowerCase().replace(/[^\d\w-]+/gi, '') : false;
 
-    // Force a nickname.
+    // Pick a nickname when none was entered.
     if (!nickname) {
-      // The client will see `false` and alert this message.
-      fn( false, 'Please pick a nickname.' );
-      return;
+      nickname = Math.random().toString(16).slice(2)
     }
 
     // Join the requested room or create it.
