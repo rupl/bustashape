@@ -76,10 +76,10 @@
 
       <button id="add" aria-label="Add Shape" title="Add Shape!" readonly disabled><span class="add">+</span></button> !}
 
-      <div class="preset"><span class="proto proto-1" data-shape="square" data-color="#EA5959" data-opacity="1" data-blend="normal"></span></div>
-      <div class="preset"><span class="proto proto-2" data-shape="rectangle" data-color="#F98B60" data-opacity="1" data-blend="normal"></span></div>
-      <div class="preset"><span class="proto proto-3" data-shape="circle" data-color="#FFC057" data-opacity="1" data-blend="normal"></span></div>
-      <div class="preset"><span class="proto proto-4" data-shape="triangle" data-color="#FFE084" data-opacity="1" data-blend="normal"></span></div>
+      <div class="preset"><span class="proto proto-1" data-shape="square" data-color="#ea5455" data-opacity=".9" data-blend="normal"></span></div>
+      <div class="preset"><span class="proto proto-2" data-shape="rectangle" data-color="#d33a97" data-opacity=".9" data-blend="normal"></span></div>
+      <div class="preset"><span class="proto proto-3" data-shape="circle" data-color="#ffd460" data-opacity=".9" data-blend="normal"></span></div>
+      <div class="preset"><span class="proto proto-4" data-shape="triangle" data-color="#2d4059" data-opacity=".9" data-blend="normal"></span></div>
     </form>
 
     {@eq key=env value="local"}
