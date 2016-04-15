@@ -78,7 +78,6 @@ gulp.task('js', function() {
   .pipe(gulp.dest('_public/js'));
 
   var ui = gulp.src([
-    'js/jsColorPicker.min.js',
     'node_modules/two.js/build/two.js',
     'js/client.js',
     'js/canvas.js',

@@ -1,6 +1,7 @@
 //------------------------------------------------------------------------------
 // Global stuff
 //------------------------------------------------------------------------------
+$delay: .25s;
 
 *, *::before, *::after {
   margin: 0;
@@ -26,7 +27,7 @@ body {
 .hide {
   position: absolute;
   opacity: 0 !important;
-  transition: opacity .25s ease-in-out;
+  transition: opacity $delay ease-in-out;
   z-index: -1000 !important;
 }
 

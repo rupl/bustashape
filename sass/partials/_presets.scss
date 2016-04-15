@@ -1,0 +1,59 @@
+//
+// Presets
+//
+// These rules are used depending on a global body class.
+//
+$color: #000;
+$color-1: #ea5455;
+$color-2: #d33a97;
+$color-3: #ffd460;
+$color-4: #2d4059;
+
+$size: 36px;
+
+.proto {
+  display: inline-block;
+  background: rgba($color, 1);
+  transform: translateY(0%);
+  transition: transform ($delay * 1.5) $snap-1;
+}
+
+.preset-1 {
+  //
+  // Prototype shapes
+  .proto-1 {
+    width: $size;
+    height: $size;
+    background: $color-1;
+    transition-delay: 0;
+  }
+  .proto-2 {
+    width: ($size * 2);
+    height: $size;
+    background: $color-2;
+    transition-delay: ($delay / 4);
+  }
+  .proto-3 {
+    width: $size;
+    height: $size;
+    border-radius: 50%;
+    background: $color-3;
+    transition-delay: ($delay / 3);
+  }
+  .proto-4 {
+    width: $size;
+    height: $size;
+    border-top: 0;
+    border-left: ($size / 2) solid transparent;
+    border-right: ($size / 2) solid transparent;
+    border-bottom: $size solid rgba($color-4, 1);
+    background-color: transparent;
+    transition-delay: ($delay / 2);
+  }
+}
+
+.hide {
+  .proto {
+    transform: translateY(100%);
+  }
+}

@@ -23,31 +23,33 @@ var START_ANGLE = 0;
 /**
  * Add a new shape.
  */
-$('#add').on('click', function(ev) {
-  // Send to ALL clients including self. It doesn't immediately add a shape to
-  // your DOM, the 'add' listener below handles that part.
-  socket.emit('add', {
-    id: 'shape-' + Math.floor(Math.random() * 1000000000),
-    class: $('#shape').value,
-    opacity: $('#opacity').value,
-    color: $('#color').value,
-    borderColor: $('#color').value,
-    mixBlendMode: $('#mix-blend').value
+$$('.proto').forEach(function (el) {
+  el.on('click', function(ev) {
+    // Send to ALL clients including self. It doesn't immediately add a shape to
+    // your DOM, the 'add' listener below handles that part.
+    socket.emit('add', {
+      id: 'shape-' + Math.floor(Math.random() * 1000000000),
+      class: this.dataset.shape,
+      opacity: this.dataset.opacity,
+      color: this.dataset.color,
+      borderColor: this.dataset.color,
+      mixBlendMode: this.dataset.blend
+    });
+    ev.preventDefault();
   });
-  ev.preventDefault();
 });
 
 /**
  * Listen for new shapes and add them to DOM.
  */
 socket.on('add', function(props) {
-  // console.info(props);
+  // console.debug(props);
 
   // Create new shape
   if (props.class === 'circle') {
     var shape = two.makeCircle(START_X, START_Y, START_RADIUS);
-  } else if (props.class === 'ellipse') {
-    var shape = two.makeEllipse(START_X, START_Y, START_WIDTH/1.5, START_HEIGHT);
+  } else if (props.class === 'rectangle') {
+    var shape = two.makeRectangle(START_X, START_Y, START_WIDTH*2, START_HEIGHT);
   } else if (props.class === 'triangle') {
     var shape = two.makePolygon(START_X, START_Y, START_WIDTH/1.5, 3);
   } else {
