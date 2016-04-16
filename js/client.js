@@ -20,24 +20,6 @@ var START_Y = START_HEIGHT / 2;
 var START_SCALE = 1;
 var START_ANGLE = 0;
 
-/**
- * Add a new shape.
- */
-$$('.proto').forEach(function (el) {
-  el.on('click', function(ev) {
-    // Send to ALL clients including self. It doesn't immediately add a shape to
-    // your DOM, the 'add' listener below handles that part.
-    socket.emit('add', {
-      id: 'shape-' + Math.floor(Math.random() * 1000000000),
-      class: this.dataset.shape,
-      opacity: this.dataset.opacity,
-      color: this.dataset.color,
-      borderColor: this.dataset.color,
-      mixBlendMode: this.dataset.blend
-    });
-    ev.preventDefault();
-  });
-});
 
 /**
  * Listen for new shapes and add them to DOM.

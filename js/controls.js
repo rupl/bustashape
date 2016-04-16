@@ -2,6 +2,27 @@
 // User Interface
 //
 
+// Adding shapes
+//
+// Each shape is an add button of its own, with data-attrs controlling
+// the properties of the new shape.
+$$('.proto').forEach(function (el) {
+  el.on('click', function(ev) {
+    // Send to ALL clients including self. It doesn't immediately add a shape to
+    // your DOM, the 'add' listener below handles that part.
+    socket.emit('add', {
+      id: 'shape-' + Math.floor(Math.random() * 1000000000),
+      class: this.dataset.shape,
+      opacity: this.dataset.opacity,
+      color: this.dataset.color,
+      borderColor: this.dataset.color,
+      mixBlendMode: this.dataset.blend
+    });
+    ev.preventDefault();
+  });
+});
+
+
 // If save button is possible, create it now.
 //
 // @TODO: During room creation, create config to either show or hide button
