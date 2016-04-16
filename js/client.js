@@ -1,5 +1,6 @@
 var client = new client();
 var me = {};
+var logged_in = false;
 
 // Initialize two.js
 var canvas = $('#canvas');
