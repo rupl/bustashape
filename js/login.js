@@ -1,6 +1,7 @@
 /**
  * Log a user in
  */
+
 function join() {
   // me.nick = $('#nick').value;
   me.room = $('#room').value || false;
@@ -27,6 +28,9 @@ function join() {
       $('#form-login').classList.add('hide');
       $('#form-controls').classList.remove('hide');
       blurAll();
+
+      // Set this global to true so saving can be triggered by keyCode
+      window.logged_in = true;
     }, 1000);
   });
 }
