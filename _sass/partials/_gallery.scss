@@ -1,40 +1,76 @@
 //
 // Gallery styles
 //
-$delay: 5s;
+$length: 60s;
+$total: 5;
 
 main.gallery-page {
-  width: 90%;
+  font-size: 1.5em;
+  width: 90vw;
   margin: 0 auto;
+  padding-bottom: 2em;
 
   .intro {
-    width: 600px;
+    width: 680px;
 
     h1 {
+      margin-top: 1em;
       margin-bottom: .75em;
     }
 
     p {
-      font-size: 1.4em;
-      margin-bottom: 1em;
+      margin-bottom: 1.5em;
     }
   }
 
   .gallery {
-    border: 1px red solid;
     position: relative;
+    width: 90vw;
 
     .piece {
-      opacity: 0;
+      // Layout stuff
+      display: block;
       position: absolute;
       top: 0;
       left: 0;
+      width: 90vw;
+      height: 95vh;
 
-      transition: opacity 1s ease-in-out;
+      // Gallery stuff
+      opacity: 0;
+      transition: opacity .5s ease-in-out;
+      animation: reveal $length ease-in-out infinite;
+
+      img {
+        max-width: 100%;
+        max-height: 100%;
+      }
     }
 
-    .piece--revealed {
-      opacity: 1;
+    @for $count from 1 to $total {
+      .piece:nth-child(#{$count}) {
+        animation-delay: ($length / ($total - 1)) * ($count - 1);
+        z-index: 100 - $count;
+      }
     }
+
+  }
+}
+
+@keyframes reveal {
+  0% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 1;
+  }
+  26% {
+    opacity: 0;
+  }
+  99% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
