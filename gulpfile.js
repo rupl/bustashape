@@ -27,9 +27,8 @@ log(c.yellow('Detected environment: ' + env));
 // -----------------------------------------------------------------------------
 gulp.task('bs', function() {
   bs({
-    proxy: 'localhost:8080',
-    files: 'css/*.css',
-    ghostMode: false // ghostMode is incompatible with bustashape's socket data.
+    server: './',
+    files: 'css/*.css'
   });
 });
 
@@ -54,7 +53,7 @@ gulp.task('sass', function() {
       })
     )
     .pipe(prefix('last 2 versions', '> 1%'))
-    .pipe(gulp.dest('_public/css'))
+    .pipe(gulp.dest('css'))
     .pipe(reload({stream:true}));
 });
 
