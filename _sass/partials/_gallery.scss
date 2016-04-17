@@ -1,0 +1,40 @@
+//
+// Gallery styles
+//
+$delay: 5s;
+
+main.gallery-page {
+  width: 90%;
+  margin: 0 auto;
+
+  .intro {
+    width: 600px;
+
+    h1 {
+      margin-bottom: .75em;
+    }
+
+    p {
+      font-size: 1.4em;
+      margin-bottom: 1em;
+    }
+  }
+
+  .gallery {
+    border: 1px red solid;
+    position: relative;
+
+    .piece {
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      transition: opacity 1s ease-in-out;
+    }
+
+    .piece--revealed {
+      opacity: 1;
+    }
+  }
+}

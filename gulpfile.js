@@ -41,7 +41,7 @@ gulp.task('bs', function() {
 gulp.task('sass', function() {
   bs.notify('<span style="color: grey">Running:</span> Sass task');
 
-  return gulp.src('sass/**/*.scss')
+  return gulp.src('_sass/**/*.scss')
     .pipe(plumber())
     .pipe(sass({
         outputStyle: 'nested',
@@ -64,40 +64,16 @@ gulp.task('sass', function() {
 gulp.task('js', function() {
   bs.notify('<span style="color: grey">Running:</span> JS tasks');
 
-  var bootstrap = gulp.src([
-    'js/modernizr.min.js',
-    'js/hammer.min.js',
-    'js/utils.js',
-    'js/socket.js',
-    'js/login.js',
+  return gulp.src([
+    '_js/modernizr.modernizr.min.js',
+    '_js/utils.js',
+    '_js/main.js',
   ])
   .pipe(plumber())
-  .pipe(concat('bootstrap.min.js'))
+  .pipe(concat('main.min.js'))
   .pipe(uglify())
-  .pipe(gulp.dest('_public/js'));
-
-  var ui = gulp.src([
-    'node_modules/two.js/build/two.js',
-    'js/client.js',
-    'js/canvas.js',
-    'js/controls.js',
-  ])
-  .pipe(plumber())
-  .pipe(concat('ui.min.js'))
-  .pipe(uglify())
-  .pipe(gulp.dest('_public/js'))
+  .pipe(gulp.dest('js'))
   .pipe(reload({stream: true}));
-
-  return merge(bootstrap, ui);
-});
-
-
-// -----------------------------------------------------------------------------
-// Prep images
-// -----------------------------------------------------------------------------
-gulp.task('img', function() {
-  return gulp.src('img/*')
-    .pipe(gulp.dest('_public/img'));
 });
 
 
@@ -111,21 +87,15 @@ gulp.task('build', ['sass', 'js', 'img']);
 // Watch tasks
 // -----------------------------------------------------------------------------
 gulp.task('watch', function() {
-  gulp.watch('sass/**/*', ['sass']);
-  gulp.watch('js/*', ['js']);
+  gulp.watch('_sass/**/*', ['sass']);
+  gulp.watch('_js/*', ['js']);
 });
 
 
 // -----------------------------------------------------------------------------
 // Run the dev server
 // -----------------------------------------------------------------------------
-gulp.task('start', ['sass', 'js', 'img', 'watch', 'bs'], function () {
-  nodemon({
-    script: 'index.js',
-    ext: 'html dust js',
-    env: { 'NODE_ENV': env }
-  });
-});
+gulp.task('start', ['sass', 'js', 'watch', 'bs']);
 
 
 // -----------------------------------------------------------------------------
