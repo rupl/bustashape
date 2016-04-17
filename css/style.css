@@ -78,14 +78,18 @@ main.gallery-page {
   margin: 0 auto;
   padding-bottom: 2em; }
   main.gallery-page .intro {
-    width: 680px; }
+    position: absolute;
+    right: 5vw;
+    top: 0;
+    width: 48vw; }
     main.gallery-page .intro h1 {
-      margin-top: 1em;
+      margin-top: .5em;
       margin-bottom: .75em; }
     main.gallery-page .intro p {
       margin-bottom: 1.5em; }
   main.gallery-page .gallery {
-    position: relative;
+    position: absolute;
+    top: 2.5vh;
     width: 90vw; }
     main.gallery-page .gallery .piece {
       display: block;
