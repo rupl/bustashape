@@ -87,6 +87,10 @@ main.gallery-page {
       margin-bottom: .75em; }
     main.gallery-page .intro p {
       margin-bottom: 1.5em; }
+    main.gallery-page .intro .inline-logo {
+      width: 50%;
+      position: relative;
+      top: .9em; }
   main.gallery-page .gallery {
     position: absolute;
     top: 2.5vh;
