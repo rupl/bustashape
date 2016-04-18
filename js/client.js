@@ -27,6 +27,7 @@ var START_ANGLE = 0;
  */
 socket.on('add', function(props) {
   // console.debug(props);
+  unFocus();
 
   // Create new shape
   if (props.class === 'circle') {

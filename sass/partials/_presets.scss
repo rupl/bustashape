@@ -15,7 +15,18 @@ $size: 36px;
   display: inline-block;
   background: rgba($color, 1);
   transform: translateY(0%);
-  transition: transform ($delay * 1.5) $snap-1;
+  transition: transform ($delay * 1.5) $snap-1,
+              opacity ($delay / 2) ease-in-out;
+
+  &.active {
+    transition-delay: 0;
+    transform: translateZ(-80px) rotateY(40deg) rotateX(40deg);
+    opacity: .5;
+  }
+
+  .hide & {
+    transform: translateY(100%) scale(.5);
+  }
 }
 
 .preset-1 {
@@ -49,11 +60,5 @@ $size: 36px;
     border-bottom: $size solid rgba($color-4, 1);
     background-color: transparent;
     transition-delay: ($delay / 2);
-  }
-}
-
-.hide {
-  .proto {
-    transform: translateY(100%);
   }
 }

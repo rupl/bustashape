@@ -38,6 +38,18 @@ function blurAll(){
 }
 
 //
+// unFocus
+//
+// In the new UI, the add buttons are no longer form elements. "blurring" is not
+// a matter of focusing on an invisible form item. It is done stylistically.
+//
+function unFocus() {
+  $$('.proto').forEach(function unFocusProto(el) {
+    el.classList.remove('active');
+  });
+}
+
+//
 // Coerce things (mostly strings) to numbers.
 //
 function n(x) {
