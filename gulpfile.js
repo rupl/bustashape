@@ -29,6 +29,7 @@ gulp.task('bs', function() {
   bs({
     proxy: 'localhost:8080',
     files: 'css/*.css',
+    open: false,
     ghostMode: false // ghostMode is incompatible with bustashape's socket data.
   });
 });
