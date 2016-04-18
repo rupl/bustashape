@@ -252,6 +252,8 @@
 
   .preset {
     flex: 1 0 25%;
+    transform-style: preserve-3d; // for advanced button effects
+    perspective: 100px;
   }
 }
 

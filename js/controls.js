@@ -7,21 +7,35 @@
 // Each shape is an add button of its own, with data-attrs controlling
 // the properties of the new shape.
 $$('.proto').forEach(function (el) {
-  el.on('click', function(ev) {
-    // Send to ALL clients including self. It doesn't immediately add a shape to
-    // your DOM, the 'add' listener below handles that part.
-    socket.emit('add', {
-      id: 'shape-' + Math.floor(Math.random() * 1000000000),
-      class: this.dataset.shape,
-      opacity: this.dataset.opacity,
-      color: this.dataset.color,
-      borderColor: this.dataset.color,
-      mixBlendMode: this.dataset.blend
-    });
-    ev.preventDefault();
-  });
+  if (Modernizr.touchevents) {
+    el.on('touchend', createShape);
+  }
+  else {
+    el.on('click', createShape);
+  }
 });
 
+//
+// Callback for the simple Add action. When a user drags up the menu to reveal
+// shape options, there is a different set of actions executed.
+//
+function createShape(ev) {
+  // Set button to active so it's obvious that it was pressed. The incoming
+  // socket event will unset this class.
+  this.classList.add('active');
+
+  // Send to ALL clients including self. It doesn't immediately add a shape to
+  // your DOM, the 'add' socket listener that part.
+  socket.emit('add', {
+    id: 'shape-' + Math.floor(Math.random() * 1000000000),
+    class: this.dataset.shape,
+    opacity: this.dataset.opacity,
+    color: this.dataset.color,
+    borderColor: this.dataset.color,
+    mixBlendMode: this.dataset.blend
+  });
+  ev.preventDefault();
+}
 
 // If save button is possible, create it now.
 //
@@ -59,6 +73,8 @@ if (Modernizr.atobbtoa && Modernizr.adownload && !Modernizr.touchevents) {
   };
 }
 
+// Take contents of canvas and encode them into save button so they can be
+// downloaded. The click or keypress event handles the button triggering.
 function saveCanvas() {
   // Generate SVG
   var save_button = $('#save');
