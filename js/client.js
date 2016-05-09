@@ -106,6 +106,8 @@ socket.on('add', function(props) {
    * Hammer: listen for pan
    */
   function onPan(ev) {
+    ev.preventDefault();
+
     if (ev.type === 'panstart') {
       // The first time any shape moves, it needs this class removed.
       el.classList.remove('unchanged');
@@ -134,6 +136,8 @@ socket.on('add', function(props) {
    * Hammer: listen for pinch
    */
   function onPinch(ev) {
+    ev.preventDefault();
+
     if (ev.type === 'pinchstart') {
       initScale = transform.scale || 1;
 
@@ -153,6 +157,8 @@ socket.on('add', function(props) {
    * Hammer: listen for rotate
    */
   function onRotate(ev) {
+    ev.preventDefault();
+
     if (ev.type === 'rotatestart') {
       initAngle = transform.angle || START_ANGLE;
 
