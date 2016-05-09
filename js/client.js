@@ -33,7 +33,7 @@ socket.on('add', function(props) {
   if (props.class === 'circle') {
     var shape = two.makeCircle(START_X, START_Y, START_RADIUS);
   } else if (props.class === 'rectangle') {
-    var shape = two.makeRectangle(START_X*2, START_Y, START_WIDTH*2, START_HEIGHT);
+    var shape = two.makeRectangle(START_X, START_Y, START_WIDTH*2, START_HEIGHT);
   } else if (props.class === 'triangle') {
     var shape = two.makePolygon(START_X, START_Y, START_WIDTH/1.5, 3);
   } else {
@@ -67,8 +67,8 @@ socket.on('add', function(props) {
   var timer;
   var ticking = false;
   var transform = {
-    x: 0,
-    y: 0,
+    x: START_X,
+    y: START_Y,
     scale: initScale,
     angle: initAngle,
   };
@@ -116,8 +116,8 @@ socket.on('add', function(props) {
       el.classList.add('grabbing');
 
       // Get the starting position for this gesture
-      initX = transform.x || START_X;
-      initY = transform.y || START_Y;
+      initX = transform.x;
+      initY = transform.y;
     }
 
     // We're already moving, use the values we stored during 'panstart'
