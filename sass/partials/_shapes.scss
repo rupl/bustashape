@@ -1,6 +1,14 @@
 //------------------------------------------------------------------------------
 // Shapes
 //------------------------------------------------------------------------------
+$start-WIDTH: 200;
+$start-HEIGHT: 200;
+$start-RADIUS: 100;
+$start-X: $start-WIDTH / 2;
+$start-Y: $start-HEIGHT / 2;
+$start-SCALE: 1;
+$start-ANGLE: 0;
+
 
 //
 // Unchanged
@@ -9,14 +17,14 @@
 // until being touched for the first time.
 .unchanged {
   // pop-in effect
-  transform: scale(0);
+  transform: translate($start-X, $start-Y) scale(0);
   animation: appear .33333s $snap-1;
   animation-fill-mode: forwards;
 }
 
 @keyframes appear {
   100% {
-    transform: scale(1);
+    transform: translate($start-X, $start-Y) scale(1);
   }
 }
 

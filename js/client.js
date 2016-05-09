@@ -48,6 +48,7 @@ socket.on('add', function(props) {
 
   // Draw shape for first time.
   two.update();
+  shape._renderer.elem.classList.add('unchanged');
 
   if (debug_busta === true) {
     debugShape(shape);
