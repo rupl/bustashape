@@ -100,6 +100,9 @@ if (Modernizr.touchevents) {
         scene_transform.ticking = true;
       }
     }
+
+    // negate default gestures (e.g. pinch-to-select tabs in iPad Safari)
+    ev.preventDefault();
   }
 }
 
