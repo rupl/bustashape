@@ -49,6 +49,9 @@ if (Modernizr.touchevents) {
   // calculation that only pans the canvas instead of zooming it as well.
   //
   function changeCanvas(ev) {
+    // Negate default gestures (e.g. pinch-to-select tabs in iPad Safari)
+    ev.preventDefault();
+
     if (ev.type === 'pinchstart' && ev.target === svg) {
       scene_transform.initScale = n(scene_transform.scale) || 1;
       scene_transform.initCenter.x = n(scene_transform.center.x) || ev.center.x;
@@ -100,9 +103,6 @@ if (Modernizr.touchevents) {
         scene_transform.ticking = true;
       }
     }
-
-    // negate default gestures (e.g. pinch-to-select tabs in iPad Safari)
-    ev.preventDefault();
   }
 }
 
