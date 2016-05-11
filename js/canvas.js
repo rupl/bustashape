@@ -1,5 +1,6 @@
 'use strict';
 
+var ZOOM_LIMIT = 1000;
 var scene_transform = {
   ticking: false,
   initX: 0,
@@ -72,6 +73,14 @@ if (Modernizr.touchevents) {
       // First, capture the new scale. This is a basic operation that comes
       // directly from the event data.
       scene_transform.scale = scene_transform.initScale * ev.scale;
+
+      // Limit scaling to avoid getting lost.
+      if (scene_transform.scale < 1 / ZOOM_LIMIT) {
+        scene_transform.scale = 1 / ZOOM_LIMIT;
+      }
+      if (scene_transform.scale > ZOOM_LIMIT) {
+        scene_transform.scale = ZOOM_LIMIT;
+      }
 
       // Next, calculate the origin for this scale transform.
       scene_transform.center.x = /*scene_transform.initCenter.x -*/ ev.center.x;
