@@ -4,8 +4,15 @@ var logged_in = false;
 
 // Initialize two.js
 var canvas = $('#canvas');
-var params = { width: '100%', height: '100%' };
-var two = new Two(params).appendTo(canvas);
+var two = new Two({
+  fullscreen: true,
+  autostart: true
+}).appendTo(canvas);
+
+// Allow tweening to run continuously.
+two.bind('update', function twoUpdateListener() {
+  TWEEN.update();
+});
 
 // debug
 if (debug_busta === true) {
@@ -26,7 +33,7 @@ var START_ANGLE = 0;
  * Listen for new shapes and add them to DOM.
  */
 socket.on('add', function(props) {
-  // console.debug(props);
+  // Close all form controls that might be open.
   unFocus();
 
   // Create new shape
@@ -46,16 +53,28 @@ socket.on('add', function(props) {
   shape.opacity = props.opacity;
   shape.noStroke();
 
-  // Draw shape for first time.
+  // Set pre-popping size. This will be animated to the "default" settings.
+  shape.scale = 1 / 4;
+
+  // Popping animation
+  // @see https://jsfiddle.net/jonobr1/72bytkhm/
+  var pop = new TWEEN.Tween(shape)
+    .to({
+      scale: 1
+    }, 400)
+    .easing(TWEEN.Easing.Elastic.Out)
+    .start();
+
+  // Draw shape for first time at scale(0) so we can run the popping animation
+  // and apply the advanced CSS props (e.g. blend mode).
   two.update();
-  shape._renderer.elem.classList.add('unchanged');
 
   if (debug_busta === true) {
     debugShape(shape);
   }
 
   // Reference DOM element to allow direct manipulation for a few things.
-  var el = document.getElementById(shape.id);
+  var el = shape._renderer.elem;
   el.style.mixBlendMode = props.mixBlendMode;
 
   // Set up Hammer. Also uses direct DOM node.

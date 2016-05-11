@@ -1,14 +1,6 @@
 //------------------------------------------------------------------------------
 // Shapes
 //------------------------------------------------------------------------------
-$start-WIDTH: 200;
-$start-HEIGHT: 200;
-$start-RADIUS: 100;
-$start-X: $start-WIDTH / 2;
-$start-Y: $start-HEIGHT / 2;
-$start-SCALE: 1;
-$start-ANGLE: 0;
-
 
 //
 // Unchanged
@@ -16,18 +8,7 @@ $start-ANGLE: 0;
 // When a new shape appears it is "unchanged"
 // until being touched for the first time.
 .unchanged {
-  // pop-in effect
-  transform: translate($start-X, $start-Y) scale(0);
-  animation: appear .33333s $snap-1;
-  animation-fill-mode: forwards;
 }
-
-@keyframes appear {
-  100% {
-    transform: translate($start-X, $start-Y) scale(1);
-  }
-}
-
 
 //
 // Mouse users see a grabbing cursor.
