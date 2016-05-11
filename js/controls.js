@@ -20,6 +20,16 @@ $$('.proto').forEach(function (el) {
 // shape options, there is a different set of actions executed.
 //
 function createShape(ev) {
+  // New shape position
+  //
+  // Shapes get lost when the user doesn't see them immediately. New shapes
+  // should appear in the center of the user's viewport so it's noticeable when
+  // it appears. The numbers generated here are relative to scene_transform, so
+  // they will appear in the correct place on all other screens as well.
+  var REL_SCALE = 1 / scene_transform.scale;
+  var REL_X = Math.floor((-scene_transform.x + (two.width / 2)) / scene_transform.scale);
+  var REL_Y = Math.floor((-scene_transform.y + (two.height / 2)) / scene_transform.scale);
+
   // Set button to active so it's obvious that it was pressed. The incoming
   // socket event will unset this class.
   this.classList.add('active');
@@ -32,7 +42,10 @@ function createShape(ev) {
     opacity: this.dataset.opacity,
     color: this.dataset.color,
     borderColor: this.dataset.color,
-    mixBlendMode: this.dataset.blend
+    mixBlendMode: this.dataset.blend,
+    x: REL_X,
+    y: REL_Y,
+    scale: REL_SCALE,
   });
   ev.preventDefault();
 }

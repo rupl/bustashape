@@ -20,12 +20,8 @@ if (debug_busta === true) {
 }
 
 // Define some constants for two.js
-var START_WIDTH = 200; // start width
-var START_HEIGHT = 200; // start height
-var START_RADIUS = 100; // start size radius
-var START_X = START_WIDTH / 2;
-var START_Y = START_HEIGHT / 2;
-var START_SCALE = 1;
+var START_WIDTH = 200;
+var START_HEIGHT = 200;
 var START_ANGLE = 0;
 
 
@@ -36,13 +32,16 @@ socket.on('add', function(props) {
   // Close all form controls that might be open.
   unFocus();
 
+  var START_X = n(props.x);
+  var START_Y = n(props.y);
+
   // Create new shape
   if (props.class === 'circle') {
-    var shape = two.makeCircle(START_X, START_Y, START_RADIUS);
+    var shape = two.makeCircle(START_X, START_Y, START_WIDTH / 2);
   } else if (props.class === 'rectangle') {
-    var shape = two.makeRectangle(START_X, START_Y, START_WIDTH*2, START_HEIGHT);
+    var shape = two.makeRectangle(START_X, START_Y, START_WIDTH * 2, START_HEIGHT);
   } else if (props.class === 'triangle') {
-    var shape = two.makePolygon(START_X, START_Y, START_WIDTH/1.5, 3);
+    var shape = two.makePolygon(START_X, START_Y, START_WIDTH / 1.5, 3);
   } else {
     var shape = two.makeRectangle(START_X, START_Y, START_WIDTH, START_HEIGHT);
   }
@@ -54,13 +53,13 @@ socket.on('add', function(props) {
   shape.noStroke();
 
   // Set pre-popping size. This will be animated to the "default" settings.
-  shape.scale = 1 / 4;
+  shape.scale = props.scale / 4;
 
   // Popping animation
   // @see https://jsfiddle.net/jonobr1/72bytkhm/
   var pop = new TWEEN.Tween(shape)
     .to({
-      scale: 1
+      scale: props.scale
     }, 400)
     .easing(TWEEN.Easing.Elastic.Out)
     .start();
@@ -81,15 +80,13 @@ socket.on('add', function(props) {
   var mc = new Hammer.Manager(el);
   var initX;
   var initY;
-  var initAngle = START_ANGLE;
-  var initScale = START_SCALE;
   var timer;
   var ticking = false;
   var transform = {
-    x: START_X,
-    y: START_Y,
-    scale: initScale,
-    angle: initAngle,
+    x: props.x,
+    y: props.y,
+    angle: START_ANGLE,
+    scale: props.scale,
   };
 
 
