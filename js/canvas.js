@@ -1,6 +1,12 @@
 'use strict';
 
+// Zoom limit of 1000 is due to internals of two.js — it rounds to three
+// sig-figs when setting matrix transforms of Groups and Paths so if we
+// exceed the resolution of the numbers, weird stuff happens.
 var ZOOM_LIMIT = 1000;
+
+// This is a global so that any piece of the app can be aware of the user's
+// position in space.
 var scene_transform = {
   ticking: false,
   initX: 0,
@@ -10,8 +16,20 @@ var scene_transform = {
   x: 0,
   y: 0,
   scale: 1,
-  center: {}
+  center: {
+    x: two.width / 2,
+    y: two.height / 2
+  },
+  origin: {},
 };
+
+// Helps event listeners avoid trampling each other
+var lastEventTime = 0;
+
+// Blends previous event center with current event center over a specified
+// number of events. Bigger numbers mean a smoother transition at the cost of
+// some precision during the current gesture.
+var ORIGIN_STEPS = 30;
 
 // If touch events are detected, use a different UI.
 if (Modernizr.touchevents) {
@@ -19,25 +37,15 @@ if (Modernizr.touchevents) {
     console.debug('👆 Touch events detected. Setting up mobile canvas...');
   }
 
-  // Set the Scene to use a manual matrix transformation so the canvas can be
-  // controlled directly by hammer.js input data.
-  // two.scene._matrix.manual = true;
-
   // Set up zoom/pan for the whole scene.
-  //
-  // @TODO: lookup the DOM element for the scene once and only once, but it has
-  // to be after it was created due to the first shape appearing. Currently the
-  // lookup is done every time a touch gesture is handled, an expensive and
-  // repetitive process. (Maybe force its creation before a user hits the
-  // 'create shape' button?)
   var svg = $('#canvas svg');
   var scene = new Hammer.Manager(svg);
-  scene.add(new Hammer.Pan({ threshold: 0, pointers: 0 }));
-  scene.add(new Hammer.Pinch({ threshold: 0 })).recognizeWith([scene.get('pan')]);
-  scene.on("panstart panmove pinchstart pinchmove", changeCanvas);
+  scene.add(new Hammer.Pinch({ threshold: 0 }));
+  scene.add(new Hammer.Pan({ threshold: 0, pointers: 0 })).recognizeWith([scene.get('pinch')]);
+  scene.on("pinchstart pinchmove panstart panmove", changeCanvas);
 
   //
-  // Callback for changing position/zoom of canvas.
+  // Event listener for changing position/zoom of canvas.
   //
   // There is one callback for all touch gestures in order to minimize
   // calculations needed to generate the proper response to a multi-touch
@@ -50,65 +58,99 @@ if (Modernizr.touchevents) {
   // calculation that only pans the canvas instead of zooming it as well.
   //
   function changeCanvas(ev) {
-    // Negate default gestures (e.g. pinch-to-select tabs in iPad Safari)
-    ev.preventDefault();
+    if (ev.target === svg) {
+      // Negate default gestures (e.g. pinch-to-select tabs in iPad Safari)
+      ev.preventDefault();
 
-    if (ev.type === 'pinchstart' && ev.target === svg) {
-      scene_transform.initScale = n(scene_transform.scale) || 1;
-      scene_transform.initCenter.x = n(scene_transform.center.x) || ev.center.x;
-      scene_transform.initCenter.y = n(scene_transform.center.y) || ev.center.y;
-      // scene_transform.initX = n(scene_transform.x) || 0;
-      // scene_transform.initY = n(scene_transform.y) || 0;
-    }
-
-    if (ev.type === 'pinchmove' && ev.target === svg) {
-      // debug
-      if (debug_busta === true) {
-        // console.debug('ev', ev);
-        // console.debug('ev', ev.center.x, ev.center.y);
-        // console.debug('scene', scene_transform.center.x, scene_transform.center.y);
-        // console.debug('newScale', scene_transform.scale);
+      // Hammer fires this function twice every time an event is generated
+      // because we're using the "recognizeWith" option to collect both at once.
+      //
+      // However, if pinchmove already did its work, the panmove will destroy
+      // the data that pinchmove generated and the zoom will look funky. So,
+      // bail out of this listener if it was already handled by `pinchmove`
+      if (lastEventTime === ev.timeStamp) {
+        lastEventTime = ev.timeStamp;
+        return;
+      } else {
+        lastEventTime = ev.timeStamp;
       }
 
-      // First, capture the new scale. This is a basic operation that comes
-      // directly from the event data.
-      scene_transform.scale = scene_transform.initScale * ev.scale;
-
-      // Limit scaling to avoid getting lost.
-      if (scene_transform.scale < 1 / ZOOM_LIMIT) {
-        scene_transform.scale = 1 / ZOOM_LIMIT;
+      // Begin pinch gesture.
+      if (ev.type === 'pinchstart') {
+        scene_transform.initX = n(scene_transform.x);
+        scene_transform.initY = n(scene_transform.y);
+        scene_transform.initScale = n(scene_transform.scale);
+        scene_transform.initCenter.x = n(scene_transform.center.x);
+        scene_transform.initCenter.y = n(scene_transform.center.y);
+        scene_transform.origin.x = scene_transform.initCenter.x;
+        scene_transform.origin.y = scene_transform.initCenter.y;
+        scene_transform.origin.steps = 1;
       }
-      if (scene_transform.scale > ZOOM_LIMIT) {
-        scene_transform.scale = ZOOM_LIMIT;
+
+      // Handle pinch gesture.
+      if (ev.type === 'pinchmove' && ev.target === svg) {
+        // First, capture the new scale. This is a basic operation that comes
+        // directly from the event data.
+        scene_transform.scale = scene_transform.initScale * ev.scale;
+
+        // Limit scaling to avoid getting lost.
+        if (scene_transform.scale < 1 / ZOOM_LIMIT) {
+          scene_transform.scale = 1 / ZOOM_LIMIT;
+        }
+        if (scene_transform.scale > ZOOM_LIMIT) {
+          scene_transform.scale = ZOOM_LIMIT;
+        }
+
+        // Ease toward the current event center. If we use ev.center directly,
+        // each new gesture results in a jumping from the old origin to the new.
+        if (scene_transform.origin.steps <= ORIGIN_STEPS) {
+          // Linear interpolation
+          //
+          // origin = initCenter + (ev.center - initCenter) * (steps / total)
+          //
+          // @see http://gamedev.stackexchange.com/a/23433/83365
+          scene_transform.origin.x = scene_transform.initCenter.x + (ev.center.x - scene_transform.initCenter.x) * (scene_transform.origin.steps / ORIGIN_STEPS);
+          scene_transform.origin.y = scene_transform.initCenter.y + (ev.center.y - scene_transform.initCenter.y) * (scene_transform.origin.steps / ORIGIN_STEPS);
+          scene_transform.origin.steps++;
+        } else {
+          // We finished interpolating, just use the raw event center.
+          scene_transform.origin.x = ev.center.x;
+          scene_transform.origin.y = ev.center.y;
+        }
+
+        //
+        // Formula for scaling at custom transform-origin:
+        // matrix(sx, 0, 0, sy, cx-sx*cx, cy-sy*cy)
+        //
+        // To simulate proper zoom origin, we set the X and Y translation based on
+        // the event center and amount of scaling done within the gesture so far.
+        //
+        // @see http://stackoverflow.com/a/6714140/175551
+        scene_transform.x = (scene_transform.origin.x - scene_transform.scale * scene_transform.origin.x);
+        scene_transform.y = (scene_transform.origin.y - scene_transform.scale * scene_transform.origin.y);
+
+        // Store for later
+        scene_transform.center.x = ev.center.x;
+        scene_transform.center.y = ev.center.y;
       }
 
-      // Next, calculate the origin for this scale transform.
-      scene_transform.center.x = /*scene_transform.initCenter.x -*/ ev.center.x;
-      scene_transform.center.y = /*scene_transform.initCenter.y -*/ ev.center.y;
+      // Begin pan gesture.
+      if (ev.type === 'panstart' && ev.target === svg) {
+        // Get the starting position for this gesture
+        scene_transform.initX = n(scene_transform.x);
+        scene_transform.initY = n(scene_transform.y);
+        scene_transform.origin.steps = 1;
+      }
 
+      // Handle pan gesture.
+      if (ev.type === 'panmove' && ev.target === svg) {
+        scene_transform.x = n(scene_transform.initX) + n(ev.deltaX);
+        scene_transform.y = n(scene_transform.initY) + n(ev.deltaY);
+      }
+
+      // Re-draw canvas.
       if (!scene_transform.ticking) {
-        requestAnimationFrame(redrawCanvasScale);
-        scene_transform.ticking = true;
-      }
-    }
-
-    //
-    // If no pinch gestures were detected, move on to the pan gestures.
-    //
-
-    if (ev.type === 'panstart' && ev.target === svg) {
-      // Get the starting position for this gesture
-      scene_transform.initX = n(scene_transform.x) || 0;
-      scene_transform.initY = n(scene_transform.y) || 0;
-    }
-
-    // We're already moving, use the values we stored during 'panstart'
-    if (ev.type === 'panmove' && ev.target === svg) {
-      scene_transform.x = n(scene_transform.initX) + n(ev.deltaX);
-      scene_transform.y = n(scene_transform.initY) + n(ev.deltaY);
-
-      if (!scene_transform.ticking) {
-        requestAnimationFrame(redrawCanvasPan);
+        requestAnimationFrame(redrawCanvas);
         scene_transform.ticking = true;
       }
     }
@@ -117,79 +159,23 @@ if (Modernizr.touchevents) {
 
 // Touch events are not detected.
 else {
-
+  // @TODO: add key-based panning/zooming
 }
 
-/*
- * rAF callback which redraws the entire scene. Primarily for zoom/pan.
- */
-function redrawCanvasScale() {
-  //
-  // formula for scaling at custom transform-origin:
-  // matrix(sx, 0, 0, sy, cx-sx*cx, cy-sy*cy)
-  //
-  // @see http://stackoverflow.com/a/6714140/175551
-  //
-  // @TODO: this still needs to be modified to factor in where the <g> was when
-  // the pinch started. currently when we use the raw pinch center, the scene
-  // jumps to the center then the scaling happens intuitively for the duration
-  // of the gesture, but each new gesture causes a jump since it has a new center.
-  //
-  // We basically just need an `initCenter` similar to all the other variables
-  // so store the delta for the duration of each gesture, then update the final
-  // value with the new "initial" value.
-  //
-  // Finally, this direct DOM manipulation has to go. The code as it stands is
-  // only working by side-stepping two.js, which means single-finger panning is
-  // broken until two.update() is uncommented once again. I have also commented
-  // out the setters for two.scene to make it clear that they temporarily have
-  // no effect on the UI.
-  //
-  // To remove my workaround, I need to dig deeper into Two.Vector and learn how
-  // to either directly alter the `two.scene._matrix` object, or learn how to
-  // feed the numbers into the Vector properly.
-  //
-  // As a last resort, I could add a flag to this function which either uses the
-  // simple translation setter for panning, but does custom matrix transforms
-  // for pinching then updates the `two.scene` object at the end.
-  //
-  var matrix = [
-    scene_transform.scale,
-    0,
-    0,
-    scene_transform.scale,
-    (scene_transform.center.x - scene_transform.scale * scene_transform.center.x),
-    (scene_transform.center.y - scene_transform.scale * scene_transform.center.y)
-  ];
-
-  // Update canvas zoom & position using two.js
-  // two.scene._matrix
-  //   .translate(scene_transform.x, scene_transform.y)
-  //   .scale(scene_transform.scale, scene_transform.scale);
-
-  // direct DOM-manip
-  var sceneEl = two.scene._renderer.elem;
-  sceneEl.setAttribute('transform', 'matrix('+ matrix.join(' ') + ')');
-
-  if (debug_busta === true) {
-    debugCanvas(scene_transform);
-  }
-
-  // Redraw and release next frame.
-  two.update();
-  scene_transform.ticking = false;
-}
-
-function redrawCanvasPan() {
-  // Simple setter: update canvas zoom & position.
+//
+// Redraw the entire scene using two.js
+//
+function redrawCanvas() {
+  // Update scene.
   two.scene.translation.set(scene_transform.x, scene_transform.y);
   two.scene.scale = scene_transform.scale;
+  two.update();
 
+  // debug
   if (debug_busta === true) {
     debugCanvas(scene_transform);
   }
 
   // Redraw and release next frame.
-  two.update();
   scene_transform.ticking = false;
 }

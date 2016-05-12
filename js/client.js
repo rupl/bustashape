@@ -163,7 +163,7 @@ client.socket.on('add', function(props) {
     ev.preventDefault();
 
     if (ev.type === 'pinchstart') {
-      initScale = transform.scale || 1;
+      initScale = transform.scale;
 
       // Change cursor on screens that have one.
       el.classList.add('grabbing');
@@ -184,7 +184,7 @@ client.socket.on('add', function(props) {
     ev.preventDefault();
 
     if (ev.type === 'rotatestart') {
-      initAngle = transform.angle || START_ANGLE;
+      initAngle = transform.angle;
 
       // Change cursor on screens that have one.
       el.classList.add('grabbing');
