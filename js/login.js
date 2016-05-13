@@ -52,6 +52,7 @@ function join() {
 
 // Announce when people join the room.
 document.on('user-joined', userJoined, true);
+document.on('user-left', userLeft, true);
 
 /**
  * The server reports that a new person has connected.
@@ -60,5 +61,15 @@ function userJoined(data) {
   // One day we'll have an indicator that someone joined. It would go here.
 
   // Log to console.
-  console.info('Heads up, %s just joined!', data.nick);
+  console.info('👥➡ %s just joined!', data.nick);
+}
+
+/**
+ * The server reports that a person disconnected.
+ */
+function userLeft(data) {
+  // One day we'll have an indicator that someone left. It would go here.
+
+  // Log to console.
+  console.info('👥⬅ %s just left :(', data.nick);
 }

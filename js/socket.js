@@ -16,6 +16,13 @@ var client = function() {
     document.dispatchEvent(evt);
   });
 
+  this.socket.on('user-left', function(data) {
+    var evt = createEvent('user-left');
+    evt.nick = data.nick;
+    evt.sid = data.sid;
+    document.dispatchEvent(evt);
+  });
+
   function createEvent(name) {
     var ev = document.createEvent('Event');
     ev.initEvent(name, true, true);

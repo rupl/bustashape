@@ -153,7 +153,7 @@ io.on('connection', function(socket){
 
         // This data is safe to broadcast since it's coming from the stored
         // rooms, not the incoming socket data.
-        socket.broadcast.emit('client-disconnect', {
+        socket.broadcast.emit('user-left', {
           'nick': client.nick,
           'sid' : client.sid
         });
