@@ -28,7 +28,7 @@ var START_ANGLE = 0;
 /**
  * Listen for new shapes and add them to DOM.
  */
-socket.on('add', function(props) {
+client.socket.on('add', function(props) {
   // Close all form controls that might be open.
   unFocus();
 
@@ -228,8 +228,9 @@ socket.on('add', function(props) {
       ticking = true;
 
       if (broadcast !== false) {
-        client.send('change', {
-          me: socket.id,
+        client.socket.emit('change', {
+          room: client.room,
+          me: client.socket.id,
           id: props.id,
           transform: transform
         });
@@ -262,7 +263,7 @@ socket.on('add', function(props) {
   /**
    * Listen for this shape to change.
    */
-  socket.on('change', function(props) {
+  client.socket.on('change', function(props) {
     if (props.id === el.id) {
       // In case this is the first time the shape has moved, remove this class.
       el.classList.remove('unchanged');
