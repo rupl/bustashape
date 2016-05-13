@@ -32,16 +32,17 @@ app.get('/', function(req, res){
  * Someone connected.
  */
 io.on('connection', function(socket){
-  console.log('👥➡  user connected');
+  console.log('👥➡  somebody connected');
+  var client;
   var roomName;
+  var nickname;
 
   /**
    * A user is joining a room.
    */
   socket.on('join', function(data, fn) {
     // Sanitize input.
-    var client = {};
-    var nickname = (data.nick) ? data.nick.toLowerCase().replace(/[^\d\w- ]+/gi, '') : false;
+    nickname = (data.nick) ? data.nick.toLowerCase().replace(/[^\d\w- ]+/gi, '') : false;
     roomName = (data.room) ? data.room.toLowerCase().replace(/[^\d\w-]+/gi, '') : false;
 
     // Pick a nickname when none was entered.
@@ -115,8 +116,8 @@ io.on('connection', function(socket){
     // We use io.to() instead of socket.broadcast() because when a shape is
     // added, all clients (including the person who initiated the ADD command)
     // need to receive the ADD event in order to create the shape onscreen.
-    io.to(props.room).emit('add', props);
-    console.log('🔷💥  ADD', props.room, props);
+    io.to(roomName).emit('add', props);
+    console.log('🔷💥 ', roomName, JSON.stringify(props).replace('\n',''));
   });
 
   /**
@@ -127,14 +128,16 @@ io.on('connection', function(socket){
     // changed, the client who is making the changes should NOT receive the
     // socket data. it happens locally only, and then the changes are then
     // broadcast to all other clients.
-    socket.to(props.room).emit('change', props);
-    console.log('🔷💨  CHANGE', props.room, props);
+    socket.to(roomName).emit('change', props);
+    console.log('🔷💨 ', roomName, JSON.stringify(props).replace('\n',''));
   });
 
   /**
    * Someone got bored.
    */
   socket.on('disconnect', function() {
+    console.log('👥⬅  %s left %s', nickname || 'somebody', roomName || '');
+
     if ( !roomName ) {
       // No room was found. The server probably restarted so just bail.
       return false;
@@ -154,9 +157,6 @@ io.on('connection', function(socket){
           'nick': client.nick,
           'sid' : client.sid
         });
-
-        // Log the event.
-        console.log('👥⬅  %s left room %s', client.nick, roomName);
       }
     }
 
