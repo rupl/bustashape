@@ -32,7 +32,7 @@ app.get('/', function(req, res){
  * Someone connected.
  */
 io.on('connection', function(socket){
-  console.log('user: connected');
+  console.log('👥➡  user connected');
 
   /**
    * A user is joining a room.
@@ -82,7 +82,7 @@ io.on('connection', function(socket){
     socket.room = roomName;
 
     // Log the event.
-    console.log('user: %s is joining %s', nickname, roomName);
+    console.log('👥  %s is joining %s', nickname, roomName);
 
     // List user as a member of the room.
     client = {
@@ -101,7 +101,8 @@ io.on('connection', function(socket){
       'sid' : client.sid
     });
 
-    // Callback
+    // Format data for client-side consumption and return it to client.
+    // This is received as callback data on the computer who just joined.
     fn(true, {
       'sid': client.sid,
       'nick': nickname,
@@ -157,7 +158,7 @@ io.on('connection', function(socket){
         });
 
         // Log the event.
-        console.log("Shucks. %s disconnected..", client.nick);
+        console.log('👥⬅  %s left room %s', client.nick, roomName);
       }
     }
   });
@@ -167,5 +168,5 @@ io.on('connection', function(socket){
  * Listen for users to connect
  */
 http.listen(port, function(){
-  console.log('Listening on port ' + port + ' in ' + env + ' mode.');
+  console.log('⚡  Listening on port ' + port + ' in ' + env + ' mode.');
 });
