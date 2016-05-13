@@ -1,14 +1,13 @@
 //------------------------------------------------------------------------------
 // Hook socket events to document events
 //------------------------------------------------------------------------------
-var socket = io();
 
 /**
  * Set up socket listeners
  */
 var client = function() {
   var room = window.location.origin;
-  this.socket = io.connect(room);
+  this.socket = io().connect(room);
 
   this.socket.on('user-joined', function(data) {
     var evt = createEvent('user-joined');

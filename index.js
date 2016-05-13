@@ -32,7 +32,8 @@ app.get('/', function(req, res){
  * Someone connected.
  */
 io.on('connection', function(socket){
-  console.log('user: connected');
+  console.log('👥➡  user connected');
+  var roomName;
 
   /**
    * A user is joining a room.
@@ -41,7 +42,7 @@ io.on('connection', function(socket){
     // Sanitize input.
     var client = {};
     var nickname = (data.nick) ? data.nick.toLowerCase().replace(/[^\d\w- ]+/gi, '') : false;
-    var roomName = (data.room) ? data.room.toLowerCase().replace(/[^\d\w-]+/gi, '') : false;
+    roomName = (data.room) ? data.room.toLowerCase().replace(/[^\d\w-]+/gi, '') : false;
 
     // Pick a nickname when none was entered.
     if (!nickname) {
@@ -77,18 +78,13 @@ io.on('connection', function(socket){
       }
     }
 
-    // Store the room name.
-    // TODO: figure out how this is really supposed to work.
-    socket.room = roomName;
-
     // Log the event.
-    console.log('user: %s is joining %s', nickname, roomName);
+    console.log('👥  %s is joining %s', nickname, roomName);
 
     // List user as a member of the room.
     client = {
       sid: socket.id,
-      nick: nickname,
-      room: roomName
+      nick: nickname
     };
     rooms[roomName].push(client);
 
@@ -101,7 +97,8 @@ io.on('connection', function(socket){
       'sid' : client.sid
     });
 
-    // Callback
+    // Format data for client-side consumption and return it to client.
+    // This is received as callback data on the computer who just joined.
     fn(true, {
       'sid': client.sid,
       'nick': nickname,
@@ -115,41 +112,43 @@ io.on('connection', function(socket){
    * A new shape appears!
    */
   socket.on('add', function(props){
-    // TODO: figure out how to properly grab the roomName from the join event.
-    // console.log(socket);
-    console.log('ADD', socket.room, props);
-    io.to(socket.room).emit('add', props);
+    // We use io.to() instead of socket.broadcast() because when a shape is
+    // added, all clients (including the person who initiated the ADD command)
+    // need to receive the ADD event in order to create the shape onscreen.
+    io.to(props.room).emit('add', props);
+    console.log('🔷💥  ADD', props.room, props);
   });
 
   /**
    * A shape is being changed.
    */
   socket.on('change', function(props){
-    console.log('CHANGE', socket.room, props);
-    socket.broadcast.to(socket.room).emit('change', props);
+    // We use socket.broadcast() instead of io.to() because when shapes are
+    // changed, the client who is making the changes should NOT receive the
+    // socket data. it happens locally only, and then the changes are then
+    // broadcast to all other clients.
+    socket.to(props.room).emit('change', props);
+    console.log('🔷💨  CHANGE', props.room, props);
   });
 
   /**
    * Someone got bored.
    */
   socket.on('disconnect', function() {
-    // Get current room
-    var room = socket.room;
-
-    if ( !room ) {
+    if ( !roomName ) {
       // No room was found. The server probably restarted so just bail.
       return false;
     }
 
     /* Iterate over the bucket _backwards_ so we can cleanly remove the departing
      * client having to recalculate the length (as you would in a for loop) */
-    var i = rooms[room].length;
+    var i = rooms[roomName].length;
     while (i--) {
-      if (rooms[room][i].sid == socket.id) {
-        var client = rooms[room][i];
-        rooms[room].splice(i, 1);
+      if (rooms[roomName][i].sid === socket.id) {
+        var client = rooms[roomName][i];
+        rooms[roomName].splice(i, 1);
 
-        // This data is safe to send out since it's coming from the stored
+        // This data is safe to broadcast since it's coming from the stored
         // rooms, not the incoming socket data.
         socket.broadcast.emit('client-disconnect', {
           'nick': client.nick,
@@ -157,9 +156,16 @@ io.on('connection', function(socket){
         });
 
         // Log the event.
-        console.log("Shucks. %s disconnected..", client.nick);
+        console.log('👥⬅  %s left room %s', client.nick, roomName);
       }
     }
+
+    // Forget room name
+    //
+    // If we add a logout button, the UI would reset to the login page and it
+    // would be more important for this variable to be reset. But for the time
+    // being it's just a formality to unset the room name.
+    roomName = null;
   });
 });
 
@@ -167,5 +173,5 @@ io.on('connection', function(socket){
  * Listen for users to connect
  */
 http.listen(port, function(){
-  console.log('Listening on port ' + port + ' in ' + env + ' mode.');
+  console.log('⚡  Listening on port ' + port + ' in ' + env + ' mode.');
 });
