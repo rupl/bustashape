@@ -46,7 +46,7 @@ client.socket.on('add', function(props) {
     var shape = two.makeRectangle(START_X, START_Y, START_WIDTH, START_HEIGHT);
   }
 
-  // Fill out common props
+  // Fill out common props.
   shape.id = props.id;
   shape.fill = props.color;
   shape.opacity = props.opacity;
@@ -194,12 +194,6 @@ client.socket.on('add', function(props) {
    * Hammer: listen for tap
    */
   // function onTap(ev) {
-  //   clearTimeout(timer);
-
-  //   timer = setTimeout(function () {
-  //     requestElementUpdate();
-  //   }, 200);
-
   //   requestElementUpdate();
   // }
 
@@ -207,13 +201,6 @@ client.socket.on('add', function(props) {
    * Hammer: listen for double tap
    */
   // function onDoubleTap(ev) {
-  //   transform.rx = 1;
-  //   transform.angle = 80;
-
-  //   clearTimeout(timer);
-  //   timer = setTimeout(function () {
-  //     requestElementUpdate();
-  //   }, 500);
   //   requestElementUpdate();
   // }
 
