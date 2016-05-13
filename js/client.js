@@ -75,6 +75,8 @@ client.socket.on('add', function(props) {
   // Reference DOM element to allow direct manipulation for a few things.
   var el = shape._renderer.elem;
   el.style.mixBlendMode = props.mixBlendMode;
+  el.classList.add('shape');
+  el.classList.add('shape--' + props.class);
 
   // Set up Hammer. Also uses direct DOM node.
   var mc = new Hammer.Manager(el);
