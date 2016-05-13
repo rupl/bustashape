@@ -14,6 +14,10 @@ two.bind('update', function twoUpdateListener() {
   TWEEN.update();
 });
 
+// Allow for physics distortions.
+// Capital Two (prototype) used on purpose.
+Two.Resolution = 16;
+
 // debug
 if (debug_busta === true) {
   console.debug('💥 two.js initialized using ' + two.type + ' renderer.')
@@ -32,8 +36,13 @@ client.socket.on('add', function(props) {
   // Close all form controls that might be open.
   unFocus();
 
+  // Placement vars
   var START_X = n(props.x);
   var START_Y = n(props.y);
+
+  // Motion effects vars
+  var delta = new Two.Vector();
+  var drag = 0.33;
 
   // Create new shape
   if (props.class === 'circle') {
@@ -46,11 +55,16 @@ client.socket.on('add', function(props) {
     var shape = two.makeRectangle(START_X, START_Y, START_WIDTH, START_HEIGHT);
   }
 
-  // Fill out common props
+  // Fill out common props.
   shape.id = props.id;
   shape.fill = props.color;
   shape.opacity = props.opacity;
   shape.noStroke();
+
+  // Vertices for motion effects.
+  _.each(shape.vertices, function(v) {
+    v.origin = new Two.Vector().copy(v);
+  });
 
   // Set pre-popping size. This will be animated to the "default" settings.
   shape.scale = props.scale / 4;
@@ -80,9 +94,8 @@ client.socket.on('add', function(props) {
 
   // Set up Hammer. Also uses direct DOM node.
   var mc = new Hammer.Manager(el);
-  var initX;
-  var initY;
-  var timer;
+  var initX = props.x;
+  var initY = props.y;
   var ticking = false;
   var transform = {
     x: props.x,
@@ -90,6 +103,30 @@ client.socket.on('add', function(props) {
     angle: START_ANGLE,
     scale: props.scale,
   };
+
+  //
+  // Set up motion effects during drags.
+  //
+  two.bind('update', function() {
+
+    delta.copy(transform).subSelf(shape.translation);
+
+    _.each(shape.vertices, function(v, i) {
+      var dist = v.origin.distanceTo(delta);
+      var pct = dist / transform.scale * scene_transform.scale / 50;
+
+      var x = delta.x * pct;
+      var y = delta.y * pct;
+
+      var destx = v.origin.x - x;
+      var desty = v.origin.y - y;
+
+      v.x += (destx - v.x) * drag;
+      v.y += (desty - v.y) * drag;
+    });
+
+    shape.translation.addSelf(delta);
+  });
 
 
   //----------------------------------------------------------------------------
@@ -144,8 +181,8 @@ client.socket.on('add', function(props) {
     // If we didn't, the shape would not follow the movement of a person's
     // finger in a natural way.
     if (ev.type === 'panmove') {
-      transform.x = n(initX) + (n(ev.deltaX) / two.scene.scale);
-      transform.y = n(initY) + (n(ev.deltaY) / two.scene.scale);
+      transform.x = n(initX) + (n(ev.deltaX) / scene_transform.scale);
+      transform.y = n(initY) + (n(ev.deltaY) / scene_transform.scale);
     }
 
     requestElementUpdate();
@@ -194,12 +231,6 @@ client.socket.on('add', function(props) {
    * Hammer: listen for tap
    */
   // function onTap(ev) {
-  //   clearTimeout(timer);
-
-  //   timer = setTimeout(function () {
-  //     requestElementUpdate();
-  //   }, 200);
-
   //   requestElementUpdate();
   // }
 
@@ -207,13 +238,6 @@ client.socket.on('add', function(props) {
    * Hammer: listen for double tap
    */
   // function onDoubleTap(ev) {
-  //   transform.rx = 1;
-  //   transform.angle = 80;
-
-  //   clearTimeout(timer);
-  //   timer = setTimeout(function () {
-  //     requestElementUpdate();
-  //   }, 500);
   //   requestElementUpdate();
   // }
 
