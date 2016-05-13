@@ -2,6 +2,21 @@
  * Log a user in
  */
 
+// Listen for form submission.
+$('#form-login').on('submit', function (ev) {
+  join();
+  ev.preventDefault();
+});
+
+// Auto-fill room name when hash is present
+if (window.location.hash !== '') {
+  $('#room').value = window.location.hash;
+}
+
+
+//
+// Connects to a specific room.
+//
 function join() {
   // me.nick = $('#nick').value;
   me.room = $('#room').value || false;
@@ -35,18 +50,7 @@ function join() {
   });
 }
 
-// Listen for form submission.
-$('#form-login').on('submit', function (ev) {
-  join();
-  ev.preventDefault();
-});
-
-// Auto-fill room name when hash is present
-if (window.location.hash !== '') {
-  $('#room').value = window.location.hash;
-}
-
-// Someone joined the room.
+// Announce when people join the room.
 document.on('user-joined', userJoined, true);
 
 /**
