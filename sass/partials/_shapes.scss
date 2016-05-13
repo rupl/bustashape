@@ -8,18 +8,7 @@
 // When a new shape appears it is "unchanged"
 // until being touched for the first time.
 .unchanged {
-  // pop-in effect
-  transform: scale(0);
-  animation: appear .33333s $snap-1;
-  animation-fill-mode: forwards;
 }
-
-@keyframes appear {
-  100% {
-    transform: scale(1);
-  }
-}
-
 
 //
 // Mouse users see a grabbing cursor.
