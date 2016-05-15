@@ -26,11 +26,6 @@ var scene_transform = {
 // Helps event listeners avoid trampling each other
 var lastEventTime = 0;
 
-// Blends previous event center with current event center over a specified
-// number of events. Bigger numbers mean a smoother transition at the cost of
-// some precision during the current gesture.
-var ORIGIN_STEPS = 30;
-
 // If touch events are detected, use a different UI.
 if (Modernizr.touchevents) {
   if (debug_busta === true) {
@@ -101,22 +96,9 @@ if (Modernizr.touchevents) {
           scene_transform.scale = ZOOM_LIMIT;
         }
 
-        // Ease toward the current event center. If we use ev.center directly,
-        // each new gesture results in a jumping from the old origin to the new.
-        if (scene_transform.origin.steps <= ORIGIN_STEPS) {
-          // Linear interpolation
-          //
-          // origin = initCenter + (ev.center - initCenter) * (steps / total)
-          //
-          // @see http://gamedev.stackexchange.com/a/23433/83365
-          scene_transform.origin.x = scene_transform.initCenter.x + (ev.center.x - scene_transform.initCenter.x) * (scene_transform.origin.steps / ORIGIN_STEPS);
-          scene_transform.origin.y = scene_transform.initCenter.y + (ev.center.y - scene_transform.initCenter.y) * (scene_transform.origin.steps / ORIGIN_STEPS);
-          scene_transform.origin.steps++;
-        } else {
-          // We finished interpolating, just use the raw event center.
-          scene_transform.origin.x = ev.center.x;
-          scene_transform.origin.y = ev.center.y;
-        }
+        // Calculate origin
+        scene_transform.origin.x = ev.center.x;
+        scene_transform.origin.y = ev.center.y;
 
         //
         // Formula for scaling at custom transform-origin:
