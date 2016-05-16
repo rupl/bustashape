@@ -37,7 +37,6 @@ function createShape(ev) {
   // Send to ALL clients including self. It doesn't immediately add a shape to
   // your DOM, the 'add' socket listener that part.
   client.socket.emit('add', {
-    id: 'shape-' + Math.floor(Math.random() * 1000000000),
     class: this.dataset.shape,
     opacity: this.dataset.opacity,
     color: this.dataset.color,
