@@ -2,51 +2,98 @@
 // User Interface
 //
 
-// Adding shapes
+// The value in pixels before the controls will visually respond to a drag.
+var CONTROLS_STICKINESS = 9;
+
+// The controls themselves.
+var controls = $('#form-controls');
+
+// The datastore for gestures involving the controls. We store animation data
+// in here instead of directly touching the controls for better performance.
+var controls_transform = {
+  ticking: false,
+  height: controls.getClientRects()[0].height,
+  init: {y: 0},
+  y: 0
+};
+
+// Initialize preset buttons
 //
 // Each shape is an add button of its own, with data-attrs controlling
-// the properties of the new shape.
+// the properties of the new shape. The properties of a preset can be changed
+// by dragging the drawer open and manipulating the form elements that are
+// exposed. All changes are instant and tapping the shape again will create a
+// shape with the new properties.
 $$('.proto').forEach(function (el) {
-  if (Modernizr.touchevents) {
-    el.on('touchend', createShape);
-  }
-  else {
-    el.on('click', createShape);
-  }
+  // Set up Hammer for controls.
+  var mc = new Hammer.Manager(el);
+
+  mc.add(new Hammer.Pan({ threshold: 0, pointers: 0 }));
+  mc.add(new Hammer.Tap());
+  mc.on("panstart panmove", dragControls);
+  mc.on("tap", createShape);
 });
 
 //
-// Callback for the simple Add action. When a user drags up the menu to reveal
-// shape options, there is a different set of actions executed.
+// Callback for controls gestures.
 //
-function createShape(ev) {
-  // New shape position
-  //
-  // Shapes get lost when the user doesn't see them immediately. New shapes
-  // should appear in the center of the user's viewport so it's noticeable when
-  // it appears. The numbers generated here are relative to scene_transform, so
-  // they will appear in the correct place on all other screens as well.
-  var REL_SCALE = 1 / scene_transform.scale;
-  var REL_X = Math.floor((-scene_transform.x + (two.width / 2)) / scene_transform.scale);
-  var REL_Y = Math.floor((-scene_transform.y + (two.height / 2)) / scene_transform.scale);
-
-  // Set button to active so it's obvious that it was pressed. The incoming
-  // socket event will unset this class.
-  this.classList.add('active');
-
-  // Send to ALL clients including self. It doesn't immediately add a shape to
-  // your DOM, the 'add' socket listener that part.
-  client.socket.emit('add', {
-    class: this.dataset.shape,
-    opacity: this.dataset.opacity,
-    color: this.dataset.color,
-    borderColor: this.dataset.color,
-    mixBlendMode: this.dataset.blend,
-    x: REL_X,
-    y: REL_Y,
-    scale: REL_SCALE,
-  });
+function dragControls(ev) {
   ev.preventDefault();
+
+  if (ev.type === 'panstart') {
+    // Get the starting position for this gesture
+    controls_transform.init.y = controls_transform.y;
+  }
+
+  // We're already moving, update form controls.
+  if (ev.type === 'panmove') {
+    controls_transform.y = n(controls_transform.init.y) + n(ev.deltaY);
+
+    // Don't let controls drop below screen. This is done by ensuring that our
+    // translateY is always a NEGATIVE number. Negative means UP in CSS transform.
+    if (controls_transform.y > 0) {
+      controls_transform.y = 0;
+    }
+
+    // Make the controls "sticky" — the first 5 pixels of movement should not
+    // be displayed. This will avoid UI responses to very small or accidental
+    // drag movements.
+    if (controls_transform.y > CONTROLS_STICKINESS) {
+      controls_transform.y = 0;
+    }
+
+    // Don't open too far, always stop at the height of the controls.
+    if (controls_transform.y < -controls_transform.height) {
+      controls_transform.y = -controls_transform.height;
+    }
+
+    if (ev.isFinal) {
+      // Instead of tracking the gesture, we need to calculate whether the
+      // drawer is more open or closed, then transition to that state.
+      //
+      // Detection
+      // * First check ev.direction to see which way was being swiped.
+      // * If that is somehow inconclusive, check actual position.
+      //
+      // Reaction
+      // * Add two CSS animations each behind a class.
+      // * Append class to the controls.
+    }
+
+    // Redraw.
+    if (!ev.isFinal && !controls_transform.ticking) {
+      reqAnimationFrame(function () {
+        var final_value = 'translateY(' + controls_transform.y + 'px)';
+
+        controls.style.webkitTransform = final_value;
+        controls.style.transform = final_value;
+
+        // console.debug('xf', controls_transform);
+        controls_transform.ticking = false;
+      });
+      controls_transform.ticking = true;
+    }
+  }
 }
 
 // If save button is possible, create it now.
@@ -54,9 +101,6 @@ function createShape(ev) {
 // @TODO: During room creation, create config to either show or hide button
 //        instead of always hiding when touch events are detected.
 if (Modernizr.atobbtoa && Modernizr.adownload && !Modernizr.touchevents) {
-  // Find control panel.
-  var controls = $('#form-controls');
-
   // Create save button.
   var save_button = document.createElement('a');
   save_button.setAttribute('id', 'save');

@@ -80,7 +80,7 @@ io.on('connection', function(socket){
     }
 
     // Log the event.
-    console.log('👥  %s is joining %s', nickname, roomName);
+    console.log('👥   %s is joining %s', nickname, roomName);
 
     // List user as a member of the room.
     client = {

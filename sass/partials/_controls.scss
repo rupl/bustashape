@@ -4,18 +4,24 @@
 
 .controls {
   width: 100vw;
-  height: 64px;
+  height: 200px;
   padding: .5em;
   position: fixed;
-  bottom: 0;
+  top: calc(100% - 64px);
   z-index: 1100;
   user-select: none;
 
   color: #fff;
   opacity: 1;
-  transition: all .5s ease-in-out;
+  transition: .5s ease-in-out;
+  transition-property: width, top;
   background: rgba(#000, .15);
   border-top: 4px solid rgba(#000, .1);
+
+  // Setting this by default means we don't have to handle special cases when
+  // reading the transform in JS. Hammer will transform this element based on
+  // drag event handlers for the controls.
+  transform: translateY(0);
 
   //
   // Flexbox props
@@ -45,8 +51,8 @@
     color: white;
     text-decoration: none;
     position: absolute;
-    bottom: .5em;
-    right: .5em;
+    top: 16px;
+    right: 16px;
   }
 
   // Each visible shape is a preset.

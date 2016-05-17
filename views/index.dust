@@ -36,57 +36,76 @@
     <!-- Shape editor -->
     <form id="form-controls" class="controls hide preset-1">
       <div class="preset">
-        <span class="proto proto-1" data-shape="square" data-color="#FF5722" data-opacity=".9" data-blend="normal"></span>
-        {! <button id="toggle" aria-label="Open Controls" title="Open the controls"><span class="cancel">❌</span><span class="open">🔷</span></button>
-
-        <label for="shape">Shape
-          <select name="shape" id="shape" readonly disabled>
-            <option value="square">square</option>
-            <option value="circle">circle</option>
-            <option value="triangle">triangle</option>
-          </select>
-        </label>
-
-        <label for="color">Color
-          <input id="color" type="text" name="color" value="#3366cc" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly disabled>
-        </label>
-
-        <label for="opacity">Opacity
-          <input id="opacity" type="range" name="opacity" min="0" max="1" step=".05" value=".6" orient="vertical" readonly disabled>
-        </label>
-
-        <label for="mix-blend">Blend
-          <select name="mix-blend" id="mix-blend" readonly disabled>
-            <option value="normal">normal</option>
-            <option value="multiply">multiply</option>
-            <option value="screen">screen</option>
-            <option value="overlay">overlay</option>
-            <option value="darken">darken</option>
-            <option value="lighten">lighten</option>
-            <option value="color-dodge">color-dodge</option>
-            <option value="color-burn">color-burn</option>
-            <option value="hard-light">hard-light</option>
-            <option value="soft-light">soft-light</option>
-            <option value="difference">difference</option>
-            <option value="exclusion">exclusion</option>
-            <option value="hue">hue</option>
-            <option value="saturation">saturation</option>
-            <option value="color">color</option>
-            <option value="luminosity">luminosity</option>
-          </select>
-        </label>
-
-        <button id="add" aria-label="Add Shape" title="Add Shape!" readonly disabled><span class="add">+</span></button> !}
+        <span class="proto proto-1"
+              data-shape="square"
+              data-color="#FF5722"
+              data-opacity=".9"
+              data-blend="normal"></span>
       </div>
       <div class="preset">
-        <span class="proto proto-2" data-shape="rectangle" data-color="#482D57" data-opacity=".9" data-blend="normal"></span>
+        <span class="proto proto-2"
+              data-shape="rectangle"
+              data-color="#482D57"
+              data-opacity=".9"
+              data-blend="normal"></span>
       </div>
       <div class="preset">
-        <span class="proto proto-3" data-shape="circle" data-color="#03C1EB" data-opacity=".9" data-blend="normal"></span>
+        <span class="proto proto-3"
+              data-shape="circle"
+              data-color="#03C1EB"
+              data-opacity=".9"
+              data-blend="normal"></span>
       </div>
       <div class="preset">
-        <span class="proto proto-4" data-shape="triangle" data-color="#86F3B8" data-opacity=".9" data-blend="normal"></span>
+        <span class="proto proto-4"
+              data-shape="triangle"
+              data-color="#86F3B8"
+              data-opacity=".9"
+              data-blend="normal"></span>
       </div>
+
+      {! <button id="toggle" aria-label="Open Controls" title="Open the controls"><span class="cancel">❌</span><span class="open">🔷</span></button> !}
+      {! <button id="add" aria-label="Add Shape" title="Add Shape!" readonly disabled><span class="add">+</span></button> !}
+
+      <fieldset id="shape">
+        <legend>Shape</legend>
+        <input type="radio" name="shape" value="square" /> <label for="shape--square">square</label>
+        <input type="radio" name="shape" value="circle" /> <label for="shape--circle">circle</label>
+        <input type="radio" name="shape" value="triangle" /> <label for="shape--triangle">triangle</label>
+        <input type="radio" name="shape" value="rectangle" /> <label for="shape--rectangle">rectangle</label>
+      </label>
+
+      <fieldset for="color">
+        <legend>Color</legend>
+        <input id="color" type="text" name="color" value="#3366cc" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly disabled>
+      </fieldset>
+
+      <fieldset for="opacity">
+        <legend>Opacity</legend>
+        <input id="opacity" type="range" name="opacity" min="0" max="1" step=".05" value=".6" orient="vertical" readonly disabled>
+      </fieldset>
+
+      <fieldset for="mix-blend">
+        <legend>Blend</legend>
+        <select name="mix-blend" id="mix-blend" readonly disabled>
+          <option value="normal">normal</option>
+          <option value="multiply">multiply</option>
+          <option value="screen">screen</option>
+          <option value="overlay">overlay</option>
+          <option value="darken">darken</option>
+          <option value="lighten">lighten</option>
+          <option value="color-dodge">color-dodge</option>
+          <option value="color-burn">color-burn</option>
+          <option value="hard-light">hard-light</option>
+          <option value="soft-light">soft-light</option>
+          <option value="difference">difference</option>
+          <option value="exclusion">exclusion</option>
+          <option value="hue">hue</option>
+          <option value="saturation">saturation</option>
+          <option value="color">color</option>
+          <option value="luminosity">luminosity</option>
+        </select>
+      </fieldset>
     </form>
 
     {@eq key=env value="local"}
