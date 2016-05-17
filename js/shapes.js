@@ -31,5 +31,7 @@ function createShape(ev) {
     y: REL_Y,
     scale: REL_SCALE,
   });
+
+  // Stop default behavior.
   ev.preventDefault();
 }

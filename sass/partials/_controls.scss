@@ -4,7 +4,8 @@
 
 .controls {
   width: 100vw;
-  height: 200px;
+  height: 300px;
+  overflow: hidden;
   padding: .5em;
   position: fixed;
   top: calc(100% - 64px);
@@ -15,7 +16,7 @@
   opacity: 1;
   transition: .5s ease-in-out;
   transition-property: width, top;
-  background: rgba(#000, .15);
+  background: rgba(#ccc, .4);
   border-top: 4px solid rgba(#000, .1);
 
   // Setting this by default means we don't have to handle special cases when
@@ -23,12 +24,112 @@
   // drag event handlers for the controls.
   transform: translateY(0);
 
+  // Fancy iOS 9 blurring. Not too wide of support but it's darn purty and
+  // definitely makes the controls easier to comprehend.
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
+
   //
   // Flexbox props
   //
   display: flex;
   flex-flow: row wrap;
   text-align: center;
+
+  .divider {
+    width: 100vw;
+    height: 0;
+    margin: 0 -.5em; // counter the form padding
+    padding: 0;
+    border: 0;
+    border-top: 4px solid rgba(#000, .1);
+  }
+
+  // Each visible shape is a preset.
+  .preset {
+    flex: 1 0 25%;
+    height: 24px;
+    transform-style: preserve-3d; // for advanced button effects
+    perspective: 100px;
+  }
+
+  // Fieldsets
+  //
+  // Each property is now in a fieldset so we can style the groups of inputs
+  // more easily.
+  fieldset {
+    width: 100vw;
+    border: 0;
+    margin-top: 1em;
+
+    legend {
+      display: none;
+      color: #555;
+      font-size: .75em;
+      padding-bottom: 1em;
+      text-align: center;
+      text-transform: uppercase;
+      text-shadow: 1px 1px 0 rgba(#fff, .6);
+    }
+  }
+
+  //
+  // Preset shapes
+  //
+  .fieldset--shape {
+    $size: 36px;
+
+    input[type="radio"] {
+      display: none;
+    }
+
+    label {
+      &::after {
+        display: inline-block;
+        content: ' ';
+        background: #000;
+        opacity: .8;
+        margin: 0 4%;
+      }
+    }
+
+    label[for="shape--square"] {
+      &::after {
+        width: $size;
+        height: $size;
+      }
+    }
+    label[for="shape--circle"] {
+      &::after {
+        width: $size;
+        height: $size;
+        border-radius: 50%;
+      }
+    }
+    label[for="shape--triangle"] {
+      &::after {
+        width: $size;
+        height: $size;
+        border-left: ($size / 2) solid transparent;
+        border-right: ($size / 2) solid transparent;
+        border-bottom: $size solid #000;
+        background-color: transparent;
+      }
+    }
+    label[for="shape--rectangle"] {
+      &::after {
+        width: $size * 2;
+        height: $size;
+      }
+    }
+  }
+
+  .fieldset--opacity {
+    input {
+      width: 100%;
+      max-width: 320px;
+    }
+  }
 
   // General button styles
   button {
@@ -53,13 +154,6 @@
     position: absolute;
     top: 16px;
     right: 16px;
-  }
-
-  // Each visible shape is a preset.
-  .preset {
-    flex: 1 0 25%;
-    transform-style: preserve-3d; // for advanced button effects
-    perspective: 100px;
   }
 }
 

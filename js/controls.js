@@ -2,8 +2,8 @@
 // User Interface
 //
 
-// The value in pixels before the controls will visually respond to a drag.
-var CONTROLS_STICKINESS = 9;
+// The height of the drawer when closed. Defined in CSS.
+var CONTROLS_HEIGHT = 64;
 
 // The controls themselves.
 var controls = $('#form-controls');
@@ -12,7 +12,7 @@ var controls = $('#form-controls');
 // in here instead of directly touching the controls for better performance.
 var controls_transform = {
   ticking: false,
-  height: controls.getClientRects()[0].height,
+  height: controls.getClientRects()[0].height - CONTROLS_HEIGHT,
   init: {y: 0},
   y: 0
 };
@@ -24,8 +24,15 @@ var controls_transform = {
 // by dragging the drawer open and manipulating the form elements that are
 // exposed. All changes are instant and tapping the shape again will create a
 // shape with the new properties.
+//
+// TODO: attach touch listeners to `.preset` and change callback code to grab
+//       child of the target element. This will make all of the screen real
+//       estate in the presets area be touchable.
+//
+// TODO: Perhaps make an invisible element which takes up about 15-20px of
+//       space directly above the drawer, so that sloppy grabs still open or
+//       close the drawer.
 $$('.proto').forEach(function (el) {
-  // Set up Hammer for controls.
   var mc = new Hammer.Manager(el);
 
   mc.add(new Hammer.Pan({ threshold: 0, pointers: 0 }));
@@ -40,6 +47,7 @@ $$('.proto').forEach(function (el) {
 function dragControls(ev) {
   ev.preventDefault();
 
+  // Grab initial position so we know where to move.
   if (ev.type === 'panstart') {
     // Get the starting position for this gesture
     controls_transform.init.y = controls_transform.y;
@@ -47,18 +55,12 @@ function dragControls(ev) {
 
   // We're already moving, update form controls.
   if (ev.type === 'panmove') {
+    // Store the raw delta.
     controls_transform.y = n(controls_transform.init.y) + n(ev.deltaY);
 
     // Don't let controls drop below screen. This is done by ensuring that our
     // translateY is always a NEGATIVE number. Negative means UP in CSS transform.
     if (controls_transform.y > 0) {
-      controls_transform.y = 0;
-    }
-
-    // Make the controls "sticky" — the first 5 pixels of movement should not
-    // be displayed. This will avoid UI responses to very small or accidental
-    // drag movements.
-    if (controls_transform.y > CONTROLS_STICKINESS) {
       controls_transform.y = 0;
     }
 
@@ -72,11 +74,14 @@ function dragControls(ev) {
       // drawer is more open or closed, then transition to that state.
       //
       // Detection
-      // * First check ev.direction to see which way was being swiped.
+      // * First check event velocity/direction to see if it was a swiping motion.
       // * If that is somehow inconclusive, check actual position.
       //
       // Reaction
-      // * Add two CSS animations each behind a class.
+      // * If position is within STICKINESS range, just set Y to 0.
+      // * Add 2x2 CSS animations each behind a class. (up-fast, up-slow, down-fast, down-slow)
+      // * If swipe is conclusive, use fast animation
+      // * If gesture was slower, use slow animation.
       // * Append class to the controls.
     }
 
@@ -85,12 +90,18 @@ function dragControls(ev) {
       reqAnimationFrame(function () {
         var final_value = 'translateY(' + controls_transform.y + 'px)';
 
+        // Set position.
         controls.style.webkitTransform = final_value;
         controls.style.transform = final_value;
 
-        // console.debug('xf', controls_transform);
+        // Set opacity.
+        controls.style.opacity = controls_transform.opacity;
+
+        // Release frame.
         controls_transform.ticking = false;
       });
+
+      // Wait for frame to finish drawing before starting another.
       controls_transform.ticking = true;
     }
   }
