@@ -1,0 +1,22 @@
+version: v1.5.0
+ignore:
+  'npm:connect:20130701':
+    - browser-sync > browser-sync-ui > weinre > express > connect:
+        reason: snyk
+        expires: '2016-07-02T15:03:00.291Z'
+  'npm:express:20140912':
+    - browser-sync > browser-sync-ui > weinre > express:
+        reason: snyk
+        expires: '2016-07-02T15:03:00.291Z'
+  'npm:qs:20140806':
+    - browser-sync > browser-sync-ui > weinre > express > qs:
+        reason: snyk
+        expires: '2016-07-02T15:03:00.292Z'
+  'npm:qs:20140806-1':
+    - browser-sync > browser-sync-ui > weinre > express > qs:
+        reason: snyk
+        expires: '2016-07-02T15:03:00.293Z'
+patch:
+  'npm:request:20160119':
+    - browser-sync > localtunnel > request:
+        patched: '2016-06-02T15:01:48.269Z'
