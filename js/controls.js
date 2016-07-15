@@ -17,6 +17,7 @@ var controls_transform = {
   y: 0
 };
 
+//
 // Initialize preset buttons
 //
 // Each shape is an add button of its own, with data-attrs controlling
@@ -25,14 +26,16 @@ var controls_transform = {
 // exposed. All changes are instant and tapping the shape again will create a
 // shape with the new properties.
 //
-// TODO: attach touch listeners to `.preset` and change callback code to grab
-//       child of the target element. This will make all of the screen real
-//       estate in the presets area be touchable.
+// TODO: create a dummy event listener for the drawer itself which prevents
+//       default and avoids triggering any OS gestures (like pull to refresh),
+//       avoiding unintentional triggering if the person misses any of the
+//       targets in the drawer.
 //
 // TODO: Perhaps make an invisible element which takes up about 15-20px of
 //       space directly above the drawer, so that sloppy grabs still open or
 //       close the drawer.
-$$('.proto').forEach(function (el) {
+//
+$$('.preset').forEach(function (el) {
   var mc = new Hammer.Manager(el);
 
   mc.add(new Hammer.Pan({ threshold: 0, pointers: 0 }));
