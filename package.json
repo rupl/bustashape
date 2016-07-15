@@ -10,18 +10,18 @@
     "dustjs-helpers": "^1.7.3",
     "dustjs-linkedin": "^2.7.2",
     "express": "^4.13.3",
-    "gulp": "^3.9.0",
+    "gulp": "^3.9.1",
     "gulp-autoprefixer": "^2.3.1",
     "gulp-concat": "^2.6.0",
-    "gulp-nodemon": "^2.0.6",
+    "gulp-nodemon": "^2.0.7",
     "gulp-plumber": "^1.0.1",
-    "gulp-sass": "^2.1.1",
+    "gulp-sass": "^2.3.1",
     "gulp-uglify": "^1.5.1",
     "gulp-util": "^3.0.7",
     "merge-stream": "^1.0.0",
+    "snyk": "^1.14.3",
     "socket.io": "^1.4.5",
-    "two.js": "^0.5.0",
-    "snyk": "^1.14.3"
+    "two.js": "^0.5.0"
   },
   "engines": {
     "node": "4.4.7"
