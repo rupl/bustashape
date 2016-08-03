@@ -27,6 +27,19 @@ Have fun!
 
 These steps assume you have docker engine installed and setup.
 
+For docker compose:
+
+```
+# to build:
+docker-compose build
+
+# to run:
+docker-compose up
+
+# to run in non-interactive mode:
+docker-compose up -d
+```
+
 ```
 # with ports only exposed locally
 docker run -d --name bustamove -p 3000:3000 -p 3001:3001 -p 8080:8080 emdem/bustamove
