@@ -61,7 +61,7 @@ io.on('connection', function(socket){
     // Join the requested room and retry 5 times if we can't join.
     var attempts = 0;
     var roomz = db.collection('rooms');
-    roomz.findOne({'roomname':roomname}, function(err, item) {
+    roomz.findOne({'roomname':roomName}, function(err, item) {
       assert.equal(null, err);
     });
     while ( !roomName && (rooms[roomName] !== 'undefined') && attempts < 5) {
