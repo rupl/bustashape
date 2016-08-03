@@ -13,7 +13,7 @@ services:
     restart: always
     mem_limit: 512m
   mongoexpress:
-    image: yeasy/mongo-express
+    image: mongo-express
     ports:
       - "8081:8081"
     links:
@@ -22,6 +22,5 @@ services:
     depends_on:
       - mongo
     environment:
-      - WEB_USER='user'
-      - WEB_PASS='pass'
-    command: sh -c 'sleep 10 && tini -- node app'
+      - ME_CONFIG_BASICAUTH_USERNAME='user'
+      - ME_CONFIG_BASICAUTH_PASSWORD='pass'
