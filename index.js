@@ -50,20 +50,17 @@ io.on('connection', function(socket){
       nickname = Math.random().toString(16).slice(2)
     }
 
-    // Join the requested room or create it.
-    if (!roomName) {
-      // Generate strings until a room name is found.
-      var attempts = 0;
-      while ( !roomName && (rooms[roomName] !== 'undefined') ) {
-        if ( attempts < 5 ) {
+    // Join the requested room and retry 5 times if we can't join.
+    var attempts = 0;
+    while ( !roomName && (rooms[roomName] !== 'undefined') && attempts < 5) {
           roomName = config.rooms[Math.floor(Math.random() * config.rooms.length)];
-        } else {
-          // We've failed to get a friendly room name. Just make a random string.
-          roomName = Math.floor(Math.random() * 100000);
-        }
-        attempts++;
-      }
+	  attempts++;
     }
+    // If still unable to join, create a random name.
+    if (!roomName) {
+          roomName = Math.floor(Math.random() * 100000);
+    }
+
 
     // Set up the room
     if (typeof(rooms[roomName]) === 'undefined') {
