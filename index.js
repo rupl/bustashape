@@ -8,6 +8,12 @@ var env = process.env.NODE_ENV || 'local';
 var GA = process.env.GA || '';
 var rooms = [];
 
+// Setup persistence in mongo (ITS WEBSCALE)
+var mongodb = require('mongodb')
+var monk = require('monk')
+var url = 'mongo:27017/bustashape';
+var db = monk(url);
+
 // Initialize app
 var app = express();
 var http = require('http').Server(app);
@@ -36,7 +42,6 @@ io.on('connection', function(socket){
   var client;
   var roomName;
   var nickname;
-
   /**
    * A user is joining a room.
    */
@@ -49,9 +54,16 @@ io.on('connection', function(socket){
     if (!nickname) {
       nickname = Math.random().toString(16).slice(2)
     }
+    
+    var nicknames = db.collection('nicknames');
+    nicknames.insert({'nickname':nickname});
 
     // Join the requested room and retry 5 times if we can't join.
     var attempts = 0;
+    var roomz = db.collection('rooms');
+    roomz.findOne({'roomname':roomname}, function(err, item) {
+      assert.equal(null, err);
+    });
     while ( !roomName && (rooms[roomName] !== 'undefined') && attempts < 5) {
           roomName = config.rooms[Math.floor(Math.random() * config.rooms.length)];
 	  attempts++;
