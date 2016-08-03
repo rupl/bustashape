@@ -56,11 +56,11 @@ io.on('connection', function(socket){
           roomName = config.rooms[Math.floor(Math.random() * config.rooms.length)];
 	  attempts++;
     }
+
     // If still unable to join, create a random name.
     if (!roomName) {
           roomName = Math.floor(Math.random() * 100000);
     }
-
 
     // Set up the room
     if (typeof(rooms[roomName]) === 'undefined') {
