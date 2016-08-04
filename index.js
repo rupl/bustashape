@@ -11,7 +11,7 @@ var rooms = [];
 // Setup persistence in mongo (ITS WEBSCALE)
 var mongodb = require('mongodb')
 var monk = require('monk')
-var url = 'mongo:27017/bustashape';
+var url = '192.168.0.22:27017/bustashape';
 var db = monk(url);
 
 // Initialize app
