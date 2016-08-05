@@ -12,6 +12,8 @@ services:
     image: mongo:latest
     restart: always
     mem_limit: 512m
+    ports:
+      - "27018:27018"
   mongoexpress:
     image: mongo-express
     ports:
