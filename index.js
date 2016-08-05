@@ -8,6 +8,12 @@ var env = process.env.NODE_ENV || 'local';
 var GA = process.env.GA || '';
 var rooms = [];
 
+// Setup persistence in mongo (ITS WEBSCALE)
+var mongodb = require('mongodb')
+var monk = require('monk')
+var url = '192.168.0.22:27017/bustashape';
+var db = monk(url);
+
 // Initialize app
 var app = express();
 var http = require('http').Server(app);
@@ -32,7 +38,7 @@ app.get('/', function(req, res){
  * Someone connected.
  */
 io.on('connection', function(socket){
-  console.log('👥➡  somebody connected');
+  console.log('👥➡  somebody connected from %s', socket.request.connection.remoteAddress);
   var client;
   var roomName;
   var nickname;
@@ -42,27 +48,35 @@ io.on('connection', function(socket){
    */
   socket.on('join', function(data, fn) {
     // Sanitize input.
-    nickname = (data.nick) ? data.nick.toLowerCase().replace(/[^\d\w- ]+/gi, '') : false;
+    nickname = Math.random().toString(16).slice(2);
     roomName = (data.room) ? data.room.toLowerCase().replace(/[^\d\w-]+/gi, '') : false;
 
-    // Pick a nickname when none was entered.
-    if (!nickname) {
-      nickname = Math.random().toString(16).slice(2)
+    // Check if the room already exists, if not, add an entry
+    roomz = db.get('rooms');
+    roomz.index('roomname unique');
+    roomz.findOne({'roomname':roomName}, function(err, item) {
+      if (item) {
+        // Existing room
+        roomName = item.roomname
+        console.log('Connecting to existing room %s', roomName); 
+      }
+      else {
+        // Not existing
+        console.log('Creating new room %s', roomName);
+        roomz.insert({'roomname':roomName});
+      }
+    });
+
+    // Join the requested room and retry 5 times if we can't join.
+    var attempts = 0;
+    while ( !roomName && (rooms[roomName] !== 'undefined') && attempts < 5) {
+          roomName = config.rooms[Math.floor(Math.random() * config.rooms.length)];
+	  attempts++;
     }
 
-    // Join the requested room or create it.
+    // If still unable to join, create a random name.
     if (!roomName) {
-      // Generate strings until a room name is found.
-      var attempts = 0;
-      while ( !roomName && (rooms[roomName] !== 'undefined') ) {
-        if ( attempts < 5 ) {
-          roomName = config.rooms[Math.floor(Math.random() * config.rooms.length)];
-        } else {
-          // We've failed to get a friendly room name. Just make a random string.
           roomName = Math.floor(Math.random() * 100000);
-        }
-        attempts++;
-      }
     }
 
     // Set up the room

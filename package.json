@@ -19,6 +19,8 @@
     "gulp-uglify": "^1.5.1",
     "gulp-util": "^3.0.7",
     "merge-stream": "^1.0.0",
+    "mongodb": ">=2.1.0",
+    "monk": ">=2.1.0",
     "snyk": "^1.14.3",
     "socket.io": "^1.4.5",
     "two.js": "^0.5.0"

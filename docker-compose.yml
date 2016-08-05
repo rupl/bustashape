@@ -1,0 +1,28 @@
+version: '2'
+services:
+  web:
+    build: .
+    links:
+      - mongo
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+      - "8080:8080"
+  mongo:
+    image: mongo:latest
+    restart: always
+    mem_limit: 512m
+    ports:
+      - "27018:27018"
+  mongoexpress:
+    image: mongo-express
+    ports:
+      - "8081:8081"
+    links:
+      - mongo
+    mem_limit: 128m
+    depends_on:
+      - mongo
+    environment:
+      - ME_CONFIG_BASICAUTH_USERNAME=user
+      - ME_CONFIG_BASICAUTH_PASSWORD=pass
