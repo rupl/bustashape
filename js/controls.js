@@ -5,6 +5,10 @@
 // The height of the drawer when closed. Defined in CSS.
 var CONTROLS_HEIGHT = 64;
 
+// The velocity a gesture must be. Higher threshold means fewer gestures will be
+// considered swipes.
+var SWIPE_THRESHOLD = 0.666;
+
 // The controls themselves.
 var controls = $('#form-controls');
 
@@ -40,7 +44,7 @@ $$('.preset').forEach(function (el) {
 
   mc.add(new Hammer.Pan({ threshold: 0, pointers: 0 }));
   mc.add(new Hammer.Tap());
-  mc.on("panstart panmove", dragControls);
+  mc.on("panstart panmove panend", dragControls);
   mc.on("tap", createShape);
 });
 
@@ -49,6 +53,7 @@ $$('.preset').forEach(function (el) {
 //
 function dragControls(ev) {
   ev.preventDefault();
+  var direction = 'up';
 
   // Grab initial position so we know where to move.
   if (ev.type === 'panstart') {
@@ -72,42 +77,77 @@ function dragControls(ev) {
       controls_transform.y = -controls_transform.height;
     }
 
-    if (ev.isFinal) {
-      // Instead of tracking the gesture, we need to calculate whether the
-      // drawer is more open or closed, then transition to that state.
-      //
-      // Detection
-      // * First check event velocity/direction to see if it was a swiping motion.
-      // * If that is somehow inconclusive, check actual position.
-      //
-      // Reaction
-      // * If position is within STICKINESS range, just set Y to 0.
-      // * Add 2x2 CSS animations each behind a class. (up-fast, up-slow, down-fast, down-slow)
-      // * If swipe is conclusive, use fast animation
-      // * If gesture was slower, use slow animation.
-      // * Append class to the controls.
-    }
-
     // Redraw.
     if (!ev.isFinal && !controls_transform.ticking) {
-      reqAnimationFrame(function () {
-        var final_value = 'translateY(' + controls_transform.y + 'px)';
-
-        // Set position.
-        controls.style.webkitTransform = final_value;
-        controls.style.transform = final_value;
-
-        // Set opacity.
-        controls.style.opacity = controls_transform.opacity;
-
-        // Release frame.
-        controls_transform.ticking = false;
-      });
-
-      // Wait for frame to finish drawing before starting another.
+      redrawControls();
       controls_transform.ticking = true;
     }
   }
+
+  // Determine how to transition the drawer open or closed based on the final
+  // velocity or position of the gesture.
+  if (ev.type === 'panend') {
+
+    // First check event velocity/direction to see if it was a swiping motion.
+    // When a swipe is detected, follow the swipe regardless of current position.
+    if (Math.abs(ev.velocityY) > SWIPE_THRESHOLD) {
+      direction = ev.velocityY > 0 ? 'up' : 'down';
+
+      // Set animation.
+      controls.classList.add(direction + '-fast');
+
+      // Set a timer to remove animation class.
+      setTimeout(function () {
+        // Set transform to its end position.
+        var temp_transform = direction == 'down' ? 0 : -236;
+        controls_transform.y = temp_transform;
+        redrawControls();
+
+        // remove class that was just set after it runs.
+        controls.classList.remove(direction + '-fast');
+      }, 300);
+
+      // we're done here.
+      return;
+    }
+
+    // Velocity was not sufficient to consider the gesture a swipe. Instead of
+    // tracking the gesture, we need to calculate whether the drawer is more
+    // open or closed, then transition to that state. The logic is more or less
+    // the same as velocity.
+    direction = Math.abs(controls_transform.y) > 118 ? 'up' : 'down';
+
+    // Set animation.
+    controls.classList.add(direction + '-slow');
+
+    // Set a timer to remove animation class.
+    setTimeout(function () {
+      // Set transform to its end position.
+      var temp_transform = direction == 'down' ? 0 : -236;
+      controls_transform.y = temp_transform;
+      redrawControls();
+
+      // remove class that was just set after it runs.
+      controls.classList.remove(direction + '-slow');
+    }, 800);
+
+    // we're done here.
+    return;
+  }
+}
+
+// Helper function to manage controls state and animation.
+function redrawControls () {
+  reqAnimationFrame(function () {
+    var final_value = 'translateY(' + controls_transform.y + 'px)';
+
+    // Set position.
+    controls.style.webkitTransform = final_value;
+    controls.style.transform = final_value;
+
+    // release frame
+    controls_transform.ticking = false;
+  });
 }
 
 // If save button is possible, create it now.
@@ -156,3 +196,4 @@ function saveCanvas() {
   save_button.setAttribute('href', data_uri);
   save_button.setAttribute('download', filename);
 }
+

@@ -155,6 +155,38 @@
     top: 16px;
     right: 16px;
   }
+
+  //
+  // Animations for drawer opening/closing.
+  //
+  &.up-fast {
+    animation: slide-up .25s ease-out 1;
+    animation-fill-mode: forwards;
+  }
+  &.down-fast {
+    animation: slide-down .25s ease-out 1;
+    animation-fill-mode: forwards;
+  }
+  &.up-slow {
+    animation: slide-up .75s ease-out 1;
+    animation-fill-mode: forwards;
+  }
+  &.down-slow {
+    animation: slide-down .75s ease-out 1;
+    animation-fill-mode: forwards;
+  }
+}
+
+@keyframes slide-down {
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes slide-up {
+  100% {
+    transform: translateY(-236px);
+  }
 }
 
 @keyframes button-pulse {
