@@ -16,18 +16,23 @@
   opacity: 1;
   transition: .5s ease-in-out;
   transition-property: width, top;
-  background: rgba(#ccc, .4);
+  background: rgba(#eee, .8);
   border-top: 4px solid rgba(#000, .1);
 
   // Setting this by default means we don't have to handle special cases when
   // reading the transform in JS. Hammer will transform this element based on
   // drag event handlers for the controls.
-  transform: translateY(0);
+  transform: translateY(0px);
 
-  // Fancy iOS 9 blurring. Not too wide of support but it's darn purty and
-  // definitely makes the controls easier to comprehend.
-  -webkit-backdrop-filter: blur(15px);
-  backdrop-filter: blur(15px);
+  // When backdrop filter is present, make the controls look fancier using the
+  // CSS background blurring inspired by iOS.
+  //
+  // @see http://caniuse.com/#feat=css-backdrop-filter
+  .backdropfilter & {
+    background: rgba(#ddd, .36);
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+  }
 
   //
   // Flexbox props
@@ -160,11 +165,11 @@
   // Animations for drawer opening/closing.
   //
   &.up-fast {
-    animation: slide-up .25s ease-out 1;
+    animation: slide-up .2s ease-out 1;
     animation-fill-mode: forwards;
   }
   &.down-fast {
-    animation: slide-down .25s ease-out 1;
+    animation: slide-down .2s ease-out 1;
     animation-fill-mode: forwards;
   }
   &.up-slow {

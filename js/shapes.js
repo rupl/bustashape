@@ -5,6 +5,7 @@
 function createShape(ev) {
   // Stop default behavior.
   ev.preventDefault();
+  ev.srcEvent.stopPropagation();
 
   // Store original touch target.
   var target = ev.target;

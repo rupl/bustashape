@@ -21,6 +21,9 @@ var controls_transform = {
   y: 0
 };
 
+// Lookup the animationend event for this browser.
+var animationEvent = whichAnimationEvent();
+
 //
 // Initialize preset buttons
 //
@@ -39,14 +42,21 @@ var controls_transform = {
 //       space directly above the drawer, so that sloppy grabs still open or
 //       close the drawer.
 //
-$$('.preset').forEach(function (el) {
+$$('#form-controls').forEach(function (el) {
   var mc = new Hammer.Manager(el);
+  mc.options.domEvents = true;
 
   mc.add(new Hammer.Pan({ threshold: 0, pointers: 0 }));
-  mc.add(new Hammer.Tap());
   mc.on("panstart panmove panend", dragControls);
-  mc.on("tap", createShape);
 });
+$$('.preset').forEach(function (el) {
+  var mc = new Hammer.Manager(el);
+  mc.options.domEvents = true;
+
+  mc.add(new Hammer.Tap());
+  mc.on("tap", createShape);
+})
+
 
 //
 // Callback for controls gestures.
@@ -59,6 +69,40 @@ function dragControls(ev) {
   if (ev.type === 'panstart') {
     // Get the starting position for this gesture
     controls_transform.init.y = controls_transform.y;
+  }
+
+  // Determine how to transition the drawer open or closed based on the final
+  // velocity or position of the gesture.
+  if (ev.type === 'panend') {
+
+    // First check event velocity/direction to see if it was a swiping motion.
+    // When a swipe is detected, follow the swipe regardless of current position.
+    if (Math.abs(ev.velocityY) > SWIPE_THRESHOLD) {
+      direction = ev.velocityY > 0 ? 'up' : 'down';
+      controls.classList.add(direction + '-fast');
+    } else {
+      // Velocity was not sufficient to consider the gesture a swipe. Instead of
+      // tracking the gesture, we need to calculate whether the drawer is more
+      // open or closed, then transition to that state.
+      direction = Math.abs(controls_transform.y) > (controls_transform.height / 2) ? 'up' : 'down';
+      controls.classList.add(direction + '-slow');
+    }
+
+    // Remove animation class afterwards.
+    animationEvent && controls.addEventListener(animationEvent, function finishAnimation() {
+      // Set transform to end position of controls animation.
+      controls_transform.y = direction == 'down' ? 0 : -controls_transform.height;
+
+      // Don't use rAF for this DOM update. It should always be immediate.
+      controls.style.webkitTransform = 'translateY(' + controls_transform.y + 'px)';
+      controls.style.transform = 'translateY(' + controls_transform.y + 'px)';
+
+      // Remove any possible animation classes.
+      controls.classList.remove('up-fast', 'up-slow', 'down-fast', 'down-slow');
+
+      // Remove this event listener.
+      controls.removeEventListener(animationEvent, finishAnimation);
+    });
   }
 
   // We're already moving, update form controls.
@@ -82,57 +126,6 @@ function dragControls(ev) {
       redrawControls();
       controls_transform.ticking = true;
     }
-  }
-
-  // Determine how to transition the drawer open or closed based on the final
-  // velocity or position of the gesture.
-  if (ev.type === 'panend') {
-
-    // First check event velocity/direction to see if it was a swiping motion.
-    // When a swipe is detected, follow the swipe regardless of current position.
-    if (Math.abs(ev.velocityY) > SWIPE_THRESHOLD) {
-      direction = ev.velocityY > 0 ? 'up' : 'down';
-
-      // Set animation.
-      controls.classList.add(direction + '-fast');
-
-      // Set a timer to remove animation class.
-      setTimeout(function () {
-        // Set transform to its end position.
-        var temp_transform = direction == 'down' ? 0 : -236;
-        controls_transform.y = temp_transform;
-        redrawControls();
-
-        // remove class that was just set after it runs.
-        controls.classList.remove(direction + '-fast');
-      }, 300);
-
-      // we're done here.
-      return;
-    }
-
-    // Velocity was not sufficient to consider the gesture a swipe. Instead of
-    // tracking the gesture, we need to calculate whether the drawer is more
-    // open or closed, then transition to that state. The logic is more or less
-    // the same as velocity.
-    direction = Math.abs(controls_transform.y) > 118 ? 'up' : 'down';
-
-    // Set animation.
-    controls.classList.add(direction + '-slow');
-
-    // Set a timer to remove animation class.
-    setTimeout(function () {
-      // Set transform to its end position.
-      var temp_transform = direction == 'down' ? 0 : -236;
-      controls_transform.y = temp_transform;
-      redrawControls();
-
-      // remove class that was just set after it runs.
-      controls.classList.remove(direction + '-slow');
-    }, 800);
-
-    // we're done here.
-    return;
   }
 }
 
@@ -197,3 +190,20 @@ function saveCanvas() {
   save_button.setAttribute('download', filename);
 }
 
+// Helper function to provide the proper prefix for an event listener.
+function whichAnimationEvent(){
+  var t;
+  var el = document.createElement('fakeelement');
+  var animations = {
+    'animation':'animationend',
+    'OAnimation':'oAnimationEnd',
+    'MozAnimation':'animationend',
+    'WebkitAnimation':'webkitAnimationEnd'
+  }
+
+  for(t in animations){
+    if( el.style[t] !== undefined ){
+      return animations[t];
+    }
+  }
+}
