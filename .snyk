@@ -3,19 +3,19 @@ ignore:
   'npm:connect:20130701':
     - browser-sync > browser-sync-ui > weinre > express > connect:
         reason: snyk
-        expires: '2016-08-10T19:03:01.156Z'
+        expires: '2016-10-05T15:10:29.940Z'
   'npm:express:20140912':
     - browser-sync > browser-sync-ui > weinre > express:
         reason: snyk
-        expires: '2016-08-10T19:03:01.157Z'
+        expires: '2016-10-05T15:10:29.940Z'
   'npm:qs:20140806':
     - browser-sync > browser-sync-ui > weinre > express > qs:
         reason: snyk
-        expires: '2016-08-10T19:03:01.157Z'
+        expires: '2016-10-05T15:10:29.940Z'
   'npm:qs:20140806-1':
     - browser-sync > browser-sync-ui > weinre > express > qs:
         reason: snyk
-        expires: '2016-08-10T19:03:01.157Z'
+        expires: '2016-10-05T15:10:29.941Z'
   'npm:negotiator:20160616':
     - socket.io > engine.io > accepts > negotiator:
         reason: snyk
@@ -26,6 +26,10 @@ ignore:
     - browser-sync > socket.io > engine.io > accepts > negotiator:
         reason: snyk
         expires: '2016-08-10T19:03:01.157Z'
+  'npm:cli:20160615':
+    - dustjs-linkedin > cli:
+        reason: snyk
+        expires: '2016-10-05T15:10:29.940Z'
 patch:
   'npm:request:20160119':
     - browser-sync > localtunnel > request:
@@ -33,48 +37,26 @@ patch:
   'npm:minimatch:20160620':
     - snyk > recursive-readdir > minimatch:
         patched: '2016-07-11T19:02:00.037Z'
-      gulp > vinyl-fs > glob-stream > glob > minimatch:
-        patched: '2016-07-24T20:03:46.557Z'
     - dustjs-linkedin > cli > glob > minimatch:
         patched: '2016-07-11T19:02:00.037Z'
-      gulp-nodemon > gulp > vinyl-fs > glob-stream > glob > minimatch:
-        patched: '2016-07-24T20:03:46.557Z'
     - browser-sync > chokidar > fsevents > node-pre-gyp > rimraf > glob > minimatch:
         patched: '2016-07-11T19:02:00.037Z'
-      gulp-nodemon > gulp > vinyl-fs > glob-stream > minimatch:
-        patched: '2016-07-24T20:03:46.557Z'
     - browser-sync > chokidar > fsevents > node-pre-gyp > tar > fstream > rimraf > glob > minimatch:
         patched: '2016-07-11T19:02:00.037Z'
-      gulp > vinyl-fs > glob-stream > minimatch:
-        patched: '2016-07-24T20:03:46.557Z'
     - browser-sync > chokidar > fsevents > node-pre-gyp > tar-pack > fstream > rimraf > glob > minimatch:
         patched: '2016-07-11T19:02:00.037Z'
-      gulp-nodemon > nodemon > chokidar > fsevents > node-pre-gyp > tar-pack > rimraf > glob > minimatch:
-        patched: '2016-07-24T20:03:46.557Z'
     - browser-sync > chokidar > fsevents > node-pre-gyp > tar-pack > fstream-ignore > fstream > rimraf > glob > minimatch:
         patched: '2016-07-11T19:02:00.037Z'
-      gulp-nodemon > nodemon > chokidar > fsevents > node-pre-gyp > tar > fstream > rimraf > glob > minimatch:
-        patched: '2016-07-24T20:03:46.557Z'
     - browser-sync > chokidar > fsevents > node-pre-gyp > tar-pack > tar > fstream > rimraf > glob > minimatch:
         patched: '2016-07-11T19:02:00.037Z'
-      gulp-nodemon > nodemon > chokidar > fsevents > node-pre-gyp > tar-pack > fstream > rimraf > glob > minimatch:
-        patched: '2016-07-24T20:03:46.557Z'
     - browser-sync > chokidar > fsevents > node-pre-gyp > tar-pack > rimraf > glob > minimatch:
         patched: '2016-07-11T19:02:00.037Z'
-      gulp-nodemon > nodemon > chokidar > fsevents > node-pre-gyp > tar-pack > fstream-ignore > fstream > rimraf > glob > minimatch:
-        patched: '2016-07-24T20:03:46.557Z'
     - browser-sync > chokidar > fsevents > node-pre-gyp > tar-pack > fstream-ignore > minimatch:
         patched: '2016-07-11T19:02:00.037Z'
-      gulp-nodemon > nodemon > chokidar > fsevents > node-pre-gyp > tar-pack > tar > fstream > rimraf > glob > minimatch:
-        patched: '2016-07-24T20:03:46.557Z'
     - dustjs-linkedin > chokidar > readdirp > minimatch:
         patched: '2016-07-11T19:02:00.037Z'
-      gulp-nodemon > nodemon > chokidar > fsevents > node-pre-gyp > rimraf > glob > minimatch:
-        patched: '2016-07-24T20:03:46.557Z'
     - gulp-nodemon > gulp > vinyl-fs > glob-watcher > gaze > globule > minimatch:
         patched: '2016-07-11T19:02:00.037Z'
-      gulp-nodemon > nodemon > chokidar > fsevents > node-pre-gyp > tar-pack > fstream-ignore > minimatch:
-        patched: '2016-07-24T20:03:46.557Z'
     - gulp > vinyl-fs > glob-watcher > gaze > globule > glob > minimatch:
         patched: '2016-07-11T19:02:00.037Z'
     - gulp-nodemon > gulp > vinyl-fs > glob-watcher > gaze > globule > glob > minimatch:
@@ -83,6 +65,28 @@ patch:
         patched: '2016-07-11T19:02:00.037Z'
     - browser-sync > resp-modifier > minimatch:
         patched: '2016-07-11T19:02:00.037Z'
+    - gulp > vinyl-fs > glob-stream > glob > minimatch:
+        patched: '2016-07-24T20:03:46.557Z'
+    - gulp-nodemon > gulp > vinyl-fs > glob-stream > glob > minimatch:
+        patched: '2016-07-24T20:03:46.557Z'
+    - gulp-nodemon > gulp > vinyl-fs > glob-stream > minimatch:
+        patched: '2016-07-24T20:03:46.557Z'
+    - gulp > vinyl-fs > glob-stream > minimatch:
+        patched: '2016-07-24T20:03:46.557Z'
+    - gulp-nodemon > nodemon > chokidar > fsevents > node-pre-gyp > tar-pack > rimraf > glob > minimatch:
+        patched: '2016-07-24T20:03:46.557Z'
+    - gulp-nodemon > nodemon > chokidar > fsevents > node-pre-gyp > tar > fstream > rimraf > glob > minimatch:
+        patched: '2016-07-24T20:03:46.557Z'
+    - gulp-nodemon > nodemon > chokidar > fsevents > node-pre-gyp > tar-pack > fstream > rimraf > glob > minimatch:
+        patched: '2016-07-24T20:03:46.557Z'
+    - gulp-nodemon > nodemon > chokidar > fsevents > node-pre-gyp > tar-pack > fstream-ignore > fstream > rimraf > glob > minimatch:
+        patched: '2016-07-24T20:03:46.557Z'
+    - gulp-nodemon > nodemon > chokidar > fsevents > node-pre-gyp > tar-pack > tar > fstream > rimraf > glob > minimatch:
+        patched: '2016-07-24T20:03:46.557Z'
+    - gulp-nodemon > nodemon > chokidar > fsevents > node-pre-gyp > rimraf > glob > minimatch:
+        patched: '2016-07-24T20:03:46.557Z'
+    - gulp-nodemon > nodemon > chokidar > fsevents > node-pre-gyp > tar-pack > fstream-ignore > minimatch:
+        patched: '2016-07-24T20:03:46.557Z'
   'npm:ws:20160624':
     - browser-sync > socket.io > socket.io-client > engine.io-client > ws:
         patched: '2016-07-11T19:02:00.037Z'
@@ -99,3 +103,8 @@ patch:
         patched: '2016-07-24T20:03:46.557Z'
     - browser-sync > localtunnel > request > tough-cookie:
         patched: '2016-07-24T20:03:46.557Z'
+  'npm:negotiator:20160616':
+    - socket.io > engine.io > accepts > negotiator:
+        patched: '2016-09-05T15:09:18.231Z'
+    - browser-sync > socket.io > engine.io > accepts > negotiator:
+        patched: '2016-09-05T15:09:18.231Z'
