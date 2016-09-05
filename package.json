@@ -5,11 +5,11 @@
   "repository": "https://github.com/rupl/bustashape",
   "license": "MIT",
   "dependencies": {
-    "browser-sync": "^2.12.9",
+    "browser-sync": "^2.14.1",
     "consolidate": "^0.13.1",
     "dustjs-helpers": "^1.7.3",
     "dustjs-linkedin": "^2.7.2",
-    "express": "^4.13.3",
+    "express": "^4.14.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^2.3.1",
     "gulp-concat": "^2.6.0",
