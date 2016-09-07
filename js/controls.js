@@ -57,6 +57,8 @@ $$('.preset').forEach(function (el) {
   mc.on("tap", createShape);
 })
 
+// Set focus on first preset.
+$$('.preset')[0].classList.add('is-focused');
 
 //
 // Callback for controls gestures.
@@ -74,7 +76,6 @@ function dragControls(ev) {
   // Determine how to transition the drawer open or closed based on the final
   // velocity or position of the gesture.
   if (ev.type === 'panend') {
-
     // First check event velocity/direction to see if it was a swiping motion.
     // When a swipe is detected, follow the swipe regardless of current position.
     if (Math.abs(ev.velocityY) > SWIPE_THRESHOLD) {
@@ -90,8 +91,10 @@ function dragControls(ev) {
 
     // Remove animation class afterwards.
     animationEvent && controls.addEventListener(animationEvent, function finishAnimation() {
+      var goingDown = direction == 'down';
+
       // Set transform to end position of controls animation.
-      controls_transform.y = direction == 'down' ? 0 : -controls_transform.height;
+      controls_transform.y = goingDown ? 0 : -controls_transform.height;
 
       // Don't use rAF for this DOM update. It should always be immediate.
       controls.style.webkitTransform = 'translateY(' + controls_transform.y + 'px)';
@@ -99,6 +102,13 @@ function dragControls(ev) {
 
       // Remove any possible animation classes.
       controls.classList.remove('up-fast', 'up-slow', 'down-fast', 'down-slow');
+
+      // Add a class if the drawer was just opened, remove if closed
+      if (!goingDown) {
+        controls.classList.add('is-open');
+      } else {
+        controls.classList.remove('is-open');
+      }
 
       // Remove this event listener.
       controls.removeEventListener(animationEvent, finishAnimation);
@@ -193,16 +203,16 @@ function saveCanvas() {
 // Helper function to provide the proper prefix for an event listener.
 function whichAnimationEvent(){
   var t;
-  var el = document.createElement('fakeelement');
+  var fake = document.createElement('fakeelement');
   var animations = {
     'animation':'animationend',
     'OAnimation':'oAnimationEnd',
     'MozAnimation':'animationend',
     'WebkitAnimation':'webkitAnimationEnd'
-  }
+  };
 
-  for(t in animations){
-    if( el.style[t] !== undefined ){
+  for (t in animations) {
+    if (fake.style[t] !== undefined) {
       return animations[t];
     }
   }

@@ -35,7 +35,7 @@
 
     <!-- Shape editor -->
     <form id="form-controls" class="controls hide preset-1">
-      <div class="preset">
+      <div class="preset is-focused">
         <span class="proto proto-1"
           data-shape="square"
           data-color="#FF5722"
@@ -79,7 +79,7 @@
         <input type="radio" name="shape" value="circle" id="shape--circle" /> <label for="shape--circle"><span class="hide">circle</span></label>
         <input type="radio" name="shape" value="triangle" id="shape--triangle" /> <label for="shape--triangle"><span class="hide">triangle</span></label>
         <input type="radio" name="shape" value="rectangle" id="shape--rectangle" /> <label for="shape--rectangle"><span class="hide">rectangle</span></label>
-      </label>
+      </fieldset>
 
       <fieldset class="fieldset--color">
         <legend>Color</legend>
