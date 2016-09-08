@@ -23,7 +23,7 @@ var twitter = new Twitter({
 });
 
 // Twitter threshold. Number of people that must be present to tweet the room.
-var TWITTER_THRESHOLD = 2;
+var TWITTER_THRESHOLD = process.env.TWITTER_THRESHOLD || 2;
 
 // Expose static assets
 app.use(express.static(__dirname + '/_public', {redirect: false}));
