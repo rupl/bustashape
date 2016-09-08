@@ -35,26 +35,65 @@
 
     <!-- Shape editor -->
     <form id="form-controls" class="controls hide preset-1">
-      {! <button id="toggle" aria-label="Open Controls" title="Open the controls"><span class="cancel">❌</span><span class="open">🔷</span></button>
+      <div class="preset">
+        <span class="proto proto-1"
+          data-shape="square"
+          data-color="#FF5722"
+          data-opacity=".9"
+          data-blend="normal">
+        </span>
+      </div>
+      <div class="preset">
+        <span class="proto proto-2"
+          data-shape="rectangle"
+          data-color="#482D57"
+          data-opacity=".9"
+          data-blend="normal">
+        </span>
+      </div>
+      <div class="preset">
+        <span class="proto proto-3"
+          data-shape="circle"
+          data-color="#03C1EB"
+          data-opacity=".9"
+          data-blend="normal">
+        </span>
+      </div>
+      <div class="preset">
+        <span class="proto proto-4"
+          data-shape="triangle"
+          data-color="#86F3B8"
+          data-opacity=".9"
+          data-blend="normal">
+        </span>
+      </div>
 
-      <label for="shape">Shape
-        <select name="shape" id="shape" readonly disabled>
-          <option value="square">square</option>
-          <option value="circle">circle</option>
-          <option value="triangle">triangle</option>
-        </select>
+      <hr class="divider" />
+
+      {! <button id="toggle" aria-label="Open Controls" title="Open the controls"><span class="cancel">❌</span><span class="open">🔷</span></button> !}
+      {! <button id="add" aria-label="Add Shape" title="Add Shape!" readonly disabled><span class="add">+</span></button> !}
+
+      <fieldset class="fieldset--shape">
+        <legend>Shape</legend>
+        <input type="radio" name="shape" value="square" id="shape--square" /> <label for="shape--square"><span class="hide">square</span></label>
+        <input type="radio" name="shape" value="circle" id="shape--circle" /> <label for="shape--circle"><span class="hide">circle</span></label>
+        <input type="radio" name="shape" value="triangle" id="shape--triangle" /> <label for="shape--triangle"><span class="hide">triangle</span></label>
+        <input type="radio" name="shape" value="rectangle" id="shape--rectangle" /> <label for="shape--rectangle"><span class="hide">rectangle</span></label>
       </label>
 
-      <label for="color">Color
-        <input id="color" type="text" name="color" value="#3366cc" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly disabled>
-      </label>
+      <fieldset class="fieldset--color">
+        <legend>Color</legend>
+        <input id="color" type="text" name="color" value="#3366cc" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      </fieldset>
 
-      <label for="opacity">Opacity
-        <input id="opacity" type="range" name="opacity" min="0" max="1" step=".05" value=".6" orient="vertical" readonly disabled>
-      </label>
+      <fieldset class="fieldset--opacity">
+        <legend>Opacity</legend>
+        <input id="opacity" type="range" name="opacity" min="0" max="1" step=".05">
+      </fieldset>
 
-      <label for="mix-blend">Blend
-        <select name="mix-blend" id="mix-blend" readonly disabled>
+      <fieldset class="fieldset--mix-blend">
+        <legend>Blend</legend>
+        <select name="mix-blend" id="mix-blend">
           <option value="normal">normal</option>
           <option value="multiply">multiply</option>
           <option value="screen">screen</option>
@@ -72,14 +111,7 @@
           <option value="color">color</option>
           <option value="luminosity">luminosity</option>
         </select>
-      </label>
-
-      <button id="add" aria-label="Add Shape" title="Add Shape!" readonly disabled><span class="add">+</span></button> !}
-
-      <div class="preset"><span class="proto proto-1" data-shape="square" data-color="#FF5722" data-opacity=".9" data-blend="normal"></span></div>
-      <div class="preset"><span class="proto proto-2" data-shape="rectangle" data-color="#482D57" data-opacity=".9" data-blend="normal"></span></div>
-      <div class="preset"><span class="proto proto-3" data-shape="circle" data-color="#03C1EB" data-opacity=".9" data-blend="normal"></span></div>
-      <div class="preset"><span class="proto proto-4" data-shape="triangle" data-color="#86F3B8" data-opacity=".9" data-blend="normal"></span></div>
+      </fieldset>
     </form>
 
     {@eq key=env value="local"}

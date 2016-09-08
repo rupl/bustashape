@@ -58,7 +58,7 @@ io.on('connection', function(socket){
 
     // Pick a nickname when none was entered.
     if (!nickname) {
-      nickname = Math.random().toString(16).slice(2)
+      nickname = Math.random().toString(16).slice(2);
     }
 
     // Join the requested room or create it.
@@ -91,7 +91,7 @@ io.on('connection', function(socket){
     }
 
     // Log the event.
-    console.log('👥  %s is joining %s', nickname, roomName);
+    console.log('👥   %s is joining %s', nickname, roomName);
 
     // List user as a member of the room.
     client = {
@@ -135,6 +135,10 @@ io.on('connection', function(socket){
    * A new shape appears!
    */
   socket.on('add', function(props){
+    // Create a random ID
+    var id = 'shape-' + Math.random().toString(16).slice(2);
+    props.id = id;
+
     // We use io.to() instead of socket.broadcast() because when a shape is
     // added, all clients (including the person who initiated the ADD command)
     // need to receive the ADD event in order to create the shape onscreen.

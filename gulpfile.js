@@ -84,6 +84,7 @@ gulp.task('js', function() {
     'js/client.js',
     'js/canvas.js',
     'js/controls.js',
+    'js/shapes.js',
   ])
   .pipe(plumber())
   .pipe(concat('ui.min.js'))

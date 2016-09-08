@@ -2,7 +2,7 @@ var client = new client();
 var me = {};
 var logged_in = false;
 
-// Initialize two.js
+// Initialize the canvas instance of two.js
 var canvas = $('#canvas');
 var two = new Two({
   fullscreen: true,
@@ -112,15 +112,6 @@ client.socket.on('add', function(props) {
   // mc.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
   // mc.on("doubletap", onDoubleTap);
 
-  // Clean up all gestures by doing a final render/broadcast.
-  mc.on("hammer.input", function(ev) {
-    if(ev.isFinal) {
-      requestElementUpdate();
-      el.classList.remove('grabbing');
-    }
-  });
-
-
   /**
    * Hammer: listen for pan
    */
@@ -216,6 +207,18 @@ client.socket.on('add', function(props) {
   //   }, 500);
   //   requestElementUpdate();
   // }
+
+  /*
+   * Hammer: Final
+   *
+   * Clean up all gestures by doing a final render/broadcast.
+   */
+  mc.on("hammer.input", function(ev) {
+    if(ev.isFinal) {
+      requestElementUpdate();
+      el.classList.remove('grabbing');
+    }
+  });
 
   //----------------------------------------------------------------------------
   // Rendering functions
