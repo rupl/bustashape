@@ -3,6 +3,7 @@ var express = require('express');
 var config = require('./config.json');
 var dust = require('dustjs-linkedin');
 var cons = require('consolidate');
+var Twitter = require('twitter');
 var port = process.env.PORT || 8080;
 var env = process.env.NODE_ENV || 'local';
 var GA = process.env.GA || '';
@@ -13,6 +14,13 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+// Twitter
+var twitter = new Twitter({
+  consumer_key: process.env.TWITTER_CONSUMER_KEY,
+  consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+  access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
+  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+});
 
 // Expose static assets
 app.use(express.static(__dirname + '/_public', {redirect: false}));
@@ -105,6 +113,19 @@ io.on('connection', function(socket){
       'nick': nickname,
       'room': roomName,
       'users': rooms[roomName]
+    });
+
+    // TODO: count the number of users in a room and limit tweets to a certain
+    //       threshold of users in a room.
+    // console.log('🚧  ', rooms[roomName].length);
+
+    // Broadcast on twitter
+    var randomTweet = config.tweets[Math.floor(Math.random() * config.tweets.length)];
+    twitter.post('statuses/update', {status: randomTweet + ' http://bustashape.com/#' + roomName},  function(error, tweet, response) {
+      if (error) throw error;
+      // Log the tweet.
+      console.log('📣  ', tweet.text)
+      console.log('🔗  ', 'https://twitter.com/bustashape/status/' + tweet.id);
     });
   });
 
