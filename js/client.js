@@ -231,6 +231,7 @@ client.socket.on('add', function(props) {
 
       if (broadcast !== false) {
         client.socket.emit('change', {
+          room: client.room,
           id: props.id,
           transform: transform
         });
