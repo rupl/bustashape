@@ -135,23 +135,23 @@ io.on('connection', function(socket){
    * A new shape appears!
    */
   socket.on('add', function(props){
-    // We use io.to() instead of socket.broadcast() because when a shape is
+    // We use io.to() instead of socket.to() because when a shape is
     // added, all clients (including the person who initiated the ADD command)
     // need to receive the ADD event in order to create the shape onscreen.
-    io.to(roomName).emit('add', props);
-    console.log('🔷💥 ', roomName, JSON.stringify(props).replace('\n',''));
+    io.to(props.room).emit('add', props);
+    console.log('🔷💥 ', JSON.stringify(props).replace('\n',''));
   });
 
   /**
    * A shape is being changed.
    */
   socket.on('change', function(props){
-    // We use socket.broadcast() instead of io.to() because when shapes are
+    // We use socket.to() instead of io.to() because when shapes are
     // changed, the client who is making the changes should NOT receive the
     // socket data. it happens locally only, and then the changes are then
     // broadcast to all other clients.
-    socket.to(roomName).emit('change', props);
-    console.log('🔷💨 ', roomName, JSON.stringify(props).replace('\n',''));
+    socket.to(props.room).emit('change', props);
+    console.log('🔷💨 ', JSON.stringify(props).replace('\n',''));
   });
 
   /**
