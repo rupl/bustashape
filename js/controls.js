@@ -47,6 +47,7 @@ function createShape(ev) {
     x: REL_X,
     y: REL_Y,
     scale: REL_SCALE,
+    angle: 0,
   });
   ev.preventDefault();
 }

@@ -29,6 +29,10 @@ var START_ANGLE = 0;
  * Listen for new shapes and add them to DOM.
  */
 client.socket.on('add', function(props) {
+  // Just bail if a shape with this ID already exists. It would be much better
+  // to not duplicate calls, but this at least avoids over-populating the DOM.
+  if (!!$('#' + props.id)) return;
+
   // Close all form controls that might be open.
   unFocus();
 
@@ -50,6 +54,7 @@ client.socket.on('add', function(props) {
   shape.id = props.id;
   shape.fill = props.color;
   shape.opacity = props.opacity;
+  shape.rotation = Math.radians(props.angle);
   shape.noStroke();
 
   // Set pre-popping size. This will be animated to the "default" settings.
@@ -87,7 +92,7 @@ client.socket.on('add', function(props) {
   var transform = {
     x: props.x,
     y: props.y,
-    angle: START_ANGLE,
+    angle: props.angle,
     scale: props.scale,
   };
 

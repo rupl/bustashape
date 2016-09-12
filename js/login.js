@@ -46,7 +46,7 @@ function join() {
 
       // Set this global to true so saving can be triggered by keyCode
       window.logged_in = true;
-    }, 1000);
+    }, 500);
   });
 }
 
@@ -58,7 +58,25 @@ document.on('user-left', userLeft, true);
  * The server reports that a new person has connected.
  */
 function userJoined(data) {
-  // One day we'll have an indicator that someone joined. It would go here.
+  var children = two.scene.children;
+
+  // Loop through children and prep each shape.
+  children.forEach(function (child) {
+    // Assemble the object needed to create the shape in its current form.
+    var shape = {
+      'id': child.id,
+      'opacity': child._opacity,
+      'x': child._matrix.elements[2],
+      'y': child._matrix.elements[5],
+      'scale': child._scale,
+      'angle': Math.degrees(child._rotation),
+      'color': child._fill,
+      'class': child._renderer.elem.classList.value.split('--')[1], // barf
+      'mixBlendMode': '' // not yet.
+    };
+    // Send this shape's status to the new user.
+    client.send('sync', data.sid, shape);
+  });
 
   // Log to console.
   console.info('👥➡ %s just joined!', data.nick);
