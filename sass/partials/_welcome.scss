@@ -3,7 +3,13 @@
 //------------------------------------------------------------------------------
 
 .welcome {
+  background: rgba(#fff, .5);
+  backdrop-filter: blur(15px);
   position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   padding: 1em;
   z-index: 15;
 
