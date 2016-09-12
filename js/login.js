@@ -71,9 +71,10 @@ function userJoined(data) {
       'scale': child._scale,
       'angle': Math.degrees(child._rotation),
       'color': child._fill,
-      'class': child._renderer.elem.classList.value.split('--')[1], // barf
+      'class': child._renderer.elem.classList[child._renderer.elem.classList.length-1].split('--')[1], // barf
       'mixBlendMode': '' // not yet.
     };
+
     // Send this shape's status to the new user.
     client.send('sync', data.sid, shape);
   });
