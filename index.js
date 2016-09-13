@@ -43,7 +43,7 @@ app.get('/', function(req, res){
  * Someone connected.
  */
 io.on('connection', function(socket){
-  console.log('👥➡  somebody connected');
+  // console.log('👥➡  somebody connected');
   var client;
   var roomName;
   var nickname;
@@ -63,17 +63,7 @@ io.on('connection', function(socket){
 
     // Join the requested room or create it.
     if (!roomName) {
-      // Generate strings until a room name is found.
-      var attempts = 0;
-      while ( !roomName && (rooms[roomName] !== 'undefined') ) {
-        if ( attempts < 5 ) {
-          roomName = config.rooms[Math.floor(Math.random() * config.rooms.length)];
-        } else {
-          // We've failed to get a friendly room name. Just make a random string.
-          roomName = Math.floor(Math.random() * 100000);
-        }
-        attempts++;
-      }
+      roomName = config.rooms[Math.floor(Math.random() * config.rooms.length)];
     }
 
     // Set up the room
@@ -141,6 +131,15 @@ io.on('connection', function(socket){
     io.to(props.room).emit('add', props);
     console.log('🔷💥 ', JSON.stringify(props).replace('\n',''));
   });
+
+  /**
+   * Pass shapes along to new users.
+   */
+  socket.on('sync', function (id, shape) {
+    console.log('🔷🔗 ', id, JSON.stringify(shape).replace('\n',''));
+    socket.to(id).emit('add', shape);
+  });
+
 
   /**
    * A shape is being changed.
