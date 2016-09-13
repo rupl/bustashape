@@ -59,11 +59,13 @@ document.on('user-left', userLeft, true);
  */
 function userJoined(data) {
   var children = two.scene.children;
+  var shapes = [];
 
   // Loop through children and prep each shape.
   children.forEach(function (child) {
-    // Assemble the object needed to create the shape in its current form.
-    var shape = {
+    // Assemble the object needed to create the shape in its current form and
+    // add it to the payload.
+    shapes.push({
       'id': child.id,
       'opacity': child._opacity,
       'x': child._matrix.elements[2],
@@ -73,11 +75,11 @@ function userJoined(data) {
       'color': child._fill,
       'class': child._renderer.elem.classList[child._renderer.elem.classList.length-1].split('--')[1], // barf
       'mixBlendMode': '' // not yet.
-    };
-
-    // Send this shape's status to the new user.
-    client.send('sync', data.sid, shape);
+    });
   });
+
+  // Send the payload of new shapes to the new user.
+  client.send('sync', data.sid, shapes);
 
   // Log to console.
   console.info('👥➡ %s just joined!', data.nick);

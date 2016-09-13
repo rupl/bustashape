@@ -135,9 +135,13 @@ io.on('connection', function(socket){
   /**
    * Pass shapes along to new users.
    */
-  socket.on('sync', function (id, shape) {
-    console.log('🔷🔗 ', id, JSON.stringify(shape).replace('\n',''));
-    socket.to(id).emit('add', shape);
+  socket.on('sync', function (id, shapes) {
+    console.log('🔷🔄 ', id, shapes.length, 'shapes total');
+
+    // Split out the payload and emit individual shapes to the new user.
+    shapes.forEach(function (shape) {
+      socket.to(id).emit('add', shape);
+    });
   });
 
 
