@@ -30,7 +30,10 @@ function join() {
   // Attempt to join the room.
   client.send('join', data, function (res, data) {
     // Something went wrong.
-    if (!res) { alert(data); return false; }
+    if (!res) {
+      alert(data);
+      return false;
+    }
 
     // Join the room.
     client.room = data.room;
