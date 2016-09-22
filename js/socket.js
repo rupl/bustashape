@@ -17,7 +17,11 @@ var client = function() {
   // When connection is finally re-stablished, join the bustashape room.
   this.socket.on('reconnect', function (data) {
     console.info('Reconnecting...');
-    join();
+
+    // If there's a room name in the URL, reconnect.
+    if (window.location.hash != '') {
+      join();
+    }
   });
 
   this.socket.on('user-joined', function(data) {

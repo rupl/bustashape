@@ -71,7 +71,6 @@ gulp.task('js', function() {
     'js/hammer.min.js',
     'js/utils.js',
     'js/socket.js',
-    'js/login.js',
   ])
   .pipe(plumber())
   .pipe(concat('bootstrap.min.js'))
@@ -82,6 +81,7 @@ gulp.task('js', function() {
     'node_modules/two.js/build/two.js',
     'js/tween-old.js',
     'js/client.js',
+    'js/login.js',
     'js/canvas.js',
     'js/controls.js',
   ])
