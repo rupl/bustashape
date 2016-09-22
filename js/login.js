@@ -11,6 +11,7 @@ $('#form-login').on('submit', function (ev) {
 // Auto-fill room name when hash is present
 if (window.location.hash !== '') {
   $('#room').value = window.location.hash;
+  join();
 }
 
 
