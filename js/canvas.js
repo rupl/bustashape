@@ -115,9 +115,87 @@ if (Modernizr.touchevents) {
   }
 }
 
-// Touch events are not detected.
+// Touch events are not detected. Set up some keyCode listeners to make it nicer
+// for projection and other public displays.
 else {
+  if (debug_busta === true) {
+    console.debug('💻 No touch events detected. Setting up projection mode.');
+  }
 
+  // We have to set up two event listeners because the `-` and `=` keys report
+  // different values across different browsers inside the `keypress` event, and
+  // additionally, Chrome doesn't fire the listeners for arrow keys on `keydown`
+  // event listeners.
+
+  // Pan handler. heh.
+  document.addEventListener('keydown', function handleProjectorPan(e) {
+    var key = e.which || e.keyCode;
+
+    if (!!window.logged_in) {
+      switch (key) {
+
+        // Left arrow.
+        case 37:
+          scene_transform.x -= (e.shiftKey) ? 100 : 10;
+          break;
+
+        // Right arrow.
+        case 39:
+          scene_transform.x += (e.shiftKey) ? 100 : 10;
+          break;
+
+        // Up arrow.
+        case 38:
+          scene_transform.y -= (e.shiftKey) ? 100 : 10;
+          break;
+
+        // Down arrow.
+        case 40:
+          scene_transform.y += (e.shiftKey) ? 100 : 10;
+          break;
+      }
+
+      // Update screen.
+      redrawCanvasPan();
+    }
+  });
+
+  // Zoom handler.
+  document.addEventListener('keypress', function handleProjectorZoom(e) {
+    var key = e.which || e.keyCode;
+
+    if (!!window.logged_in) {
+      switch (key) {
+
+        // Zoom in
+        case 45:
+          scene_transform.scale /= 1.08;
+          break;
+        case 95: // [Shift]
+          scene_transform.scale /= 2;
+          break;
+
+        // Zoom out
+        case 61:
+          scene_transform.scale *= 1.08;
+          break;
+        case 43: // [Shift]
+          scene_transform.scale *= 2;
+          break;
+      }
+
+      // Limit scaling to avoid getting lost.
+      if (scene_transform.scale < 1 / ZOOM_LIMIT) {
+        scene_transform.scale = 1 / ZOOM_LIMIT;
+      }
+      if (scene_transform.scale > ZOOM_LIMIT) {
+        scene_transform.scale = ZOOM_LIMIT;
+      }
+
+      // Update screen.
+      redrawCanvasPan();
+    }
+  });
 }
 
 /*

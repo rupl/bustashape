@@ -76,15 +76,17 @@ if (Modernizr.atobbtoa && Modernizr.adownload && !Modernizr.touchevents) {
   save_button.on('click', saveCanvas);
 
   // Listen for `s` key
-  window.onload = function(){
-    document.onkeypress = function(e) {
-      var key = e.keyCode || e.which;
+  window.onload = function() {
+    document.addEventListener('keypress', function handleSaveCommands(e) {
+      var key = e.which || e.keyCode;
+
+      // Only react to the `s` key, and only do it if we've joined a room.
       if (!!window.logged_in && key === 115) {
         saveCanvas();
         $('#save').click();
         return;
       }
-    };
+    });
   };
 }
 
