@@ -3,7 +3,12 @@
 //------------------------------------------------------------------------------
 
 .welcome {
+  // background: rgba(#fff, .75);
   position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   padding: 1em;
   z-index: 15;
 
@@ -34,24 +39,24 @@
     opacity: .75;
   }
 
-  // Display a message to mouse users so I can ease my conscience about the
-  // various levels of support.
-  .no-touch {
-    opacity: 0;
-    overflow: hidden;
-    margin-bottom: 0;
-    height: 70px;
-    max-height: 0;
-    font-size: 1.2em;
-    font-style: italic;
-    transition: .5s ease-in-out;
-    transition-property: max-height, opacity;
+  // // Display a message to mouse users so I can ease my conscience about the
+  // // various levels of support.
+  // .no-touch {
+  //   opacity: 0;
+  //   overflow: hidden;
+  //   margin-bottom: 0;
+  //   height: 70px;
+  //   max-height: 0;
+  //   font-size: 1.2em;
+  //   font-style: italic;
+  //   transition: .5s ease-in-out;
+  //   transition-property: max-height, opacity;
 
-    .no-touchevents & {
-      opacity: 1;
-      max-height: 200px;
-    }
-  }
+  //   .no-touchevents & {
+  //     opacity: 1;
+  //     max-height: 200px;
+  //   }
+  // }
 
   .colophon {
     opacity: .9;

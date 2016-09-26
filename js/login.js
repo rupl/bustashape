@@ -11,6 +11,7 @@ $('#form-login').on('submit', function (ev) {
 // Auto-fill room name when hash is present
 if (window.location.hash !== '') {
   $('#room').value = window.location.hash.replace('#','');
+  join();
 }
 
 
@@ -29,7 +30,10 @@ function join() {
   // Attempt to join the room.
   client.send('join', data, function (res, data) {
     // Something went wrong.
-    if (!res) { alert(data); return false; }
+    if (!res) {
+      alert(data);
+      return false;
+    }
 
     // Join the room.
     client.room = data.room;
@@ -46,7 +50,7 @@ function join() {
 
       // Set this global to true so saving can be triggered by keyCode
       window.logged_in = true;
-    }, 1000);
+    }, 500);
   });
 }
 
@@ -58,7 +62,28 @@ document.on('user-left', userLeft, true);
  * The server reports that a new person has connected.
  */
 function userJoined(data) {
-  // One day we'll have an indicator that someone joined. It would go here.
+  var children = two.scene.children;
+  var shapes = [];
+
+  // Loop through children and prep each shape.
+  children.forEach(function (child) {
+    // Assemble the object needed to create the shape in its current form and
+    // add it to the payload.
+    shapes.push({
+      'id': child.id,
+      'opacity': child._opacity,
+      'x': child._matrix.elements[2],
+      'y': child._matrix.elements[5],
+      'scale': child._scale,
+      'angle': Math.degrees(child._rotation),
+      'color': child._fill,
+      'class': child._renderer.elem.classList[child._renderer.elem.classList.length-1].split('--')[1], // barf
+      'mixBlendMode': '' // not yet.
+    });
+  });
+
+  // Send the payload of new shapes to the new user.
+  client.send('sync', data.sid, shapes);
 
   // Log to console.
   console.info('👥➡ %s just joined!', data.nick);

@@ -3,6 +3,7 @@ var express = require('express');
 var config = require('./config.json');
 var dust = require('dustjs-linkedin');
 var cons = require('consolidate');
+// var Twitter = require('twitter');
 var port = process.env.PORT || 8080;
 var env = process.env.NODE_ENV || 'local';
 var GA = process.env.GA || '';
@@ -13,6 +14,16 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+// Twitter
+// var twitter = new Twitter({
+//   consumer_key: process.env.TWITTER_CONSUMER_KEY,
+//   consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+//   access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
+//   access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+// });
+
+// Twitter threshold. Number of people that must be present to tweet the room.
+// var TWITTER_THRESHOLD = process.env.TWITTER_THRESHOLD || 2;
 
 // Expose static assets
 app.use(express.static(__dirname + '/_public', {redirect: false}));
@@ -32,7 +43,7 @@ app.get('/', function(req, res){
  * Someone connected.
  */
 io.on('connection', function(socket){
-  console.log('👥➡  somebody connected');
+  // console.log('👥➡  somebody connected');
   var client;
   var roomName;
   var nickname;
@@ -52,17 +63,7 @@ io.on('connection', function(socket){
 
     // Join the requested room or create it.
     if (!roomName) {
-      // Generate strings until a room name is found.
-      var attempts = 0;
-      while ( !roomName && (rooms[roomName] !== 'undefined') ) {
-        if ( attempts < 5 ) {
-          roomName = config.rooms[Math.floor(Math.random() * config.rooms.length)];
-        } else {
-          // We've failed to get a friendly room name. Just make a random string.
-          roomName = Math.floor(Math.random() * 100000);
-        }
-        attempts++;
-      }
+      roomName = config.rooms[Math.floor(Math.random() * config.rooms.length)];
     }
 
     // Set up the room
@@ -106,6 +107,17 @@ io.on('connection', function(socket){
       'room': roomName,
       'users': rooms[roomName]
     });
+
+    // Broadcast on twitter
+    // if (rooms[roomName].length >= TWITTER_THRESHOLD) {
+    //   var randomTweet = config.tweets[Math.floor(Math.random() * config.tweets.length)];
+    //   twitter.post('statuses/update', {status: randomTweet + ' http://bustashape.com/#' + roomName},  function(error, tweet, response) {
+    //     if (error) throw error;
+    //     // Log the tweet.
+    //     console.log('📣  ', tweet.text)
+    //     console.log('🔗  ', 'https://twitter.com/bustashape/status/' + tweet.id);
+    //   });
+    // }
   });
 
 
@@ -113,27 +125,36 @@ io.on('connection', function(socket){
    * A new shape appears!
    */
   socket.on('add', function(props){
-    // Create a random ID
-    var id = 'shape-' + Math.random().toString(16).slice(2);
-    props.id = id;
-
-    // We use io.to() instead of socket.broadcast() because when a shape is
+    // We use io.to() instead of socket.to() because when a shape is
     // added, all clients (including the person who initiated the ADD command)
     // need to receive the ADD event in order to create the shape onscreen.
-    io.to(roomName).emit('add', props);
-    console.log('🔷💥 ', roomName, JSON.stringify(props).replace('\n',''));
+    io.to(props.room).emit('add', props);
+    console.log('🔷💥 ', JSON.stringify(props).replace('\n',''));
   });
+
+  /**
+   * Pass shapes along to new users.
+   */
+  socket.on('sync', function (id, shapes) {
+    console.log('🔷🔄 ', id, shapes.length, 'shapes total');
+
+    // Split out the payload and emit individual shapes to the new user.
+    shapes.forEach(function (shape) {
+      socket.to(id).emit('add', shape);
+    });
+  });
+
 
   /**
    * A shape is being changed.
    */
   socket.on('change', function(props){
-    // We use socket.broadcast() instead of io.to() because when shapes are
+    // We use socket.to() instead of io.to() because when shapes are
     // changed, the client who is making the changes should NOT receive the
     // socket data. it happens locally only, and then the changes are then
     // broadcast to all other clients.
-    socket.to(roomName).emit('change', props);
-    console.log('🔷💨 ', roomName, JSON.stringify(props).replace('\n',''));
+    socket.to(props.room).emit('change', props);
+    console.log('🔷💨 ', JSON.stringify(props).replace('\n',''));
   });
 
   /**

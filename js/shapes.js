@@ -41,6 +41,8 @@ function createShape(ev) {
   // Send to ALL clients including self. It doesn't immediately add a shape to
   // the DOM, the 'add' socket listener does it after a round trip to server.
   client.socket.emit('add', {
+    room: client.room,
+    id: 'shape-' + Math.floor(Math.random() * 1000000000),
     class: preset.dataset.shape,
     opacity: preset.dataset.opacity,
     color: preset.dataset.color,
@@ -49,5 +51,6 @@ function createShape(ev) {
     x: REL_X,
     y: REL_Y,
     scale: REL_SCALE,
+    angle: 0,
   });
 }

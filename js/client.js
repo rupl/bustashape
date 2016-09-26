@@ -29,6 +29,10 @@ var START_ANGLE = 0;
  * Listen for new shapes and add them to DOM.
  */
 client.socket.on('add', function(props) {
+  // Just bail if a shape with this ID already exists. It would be much better
+  // to not duplicate calls, but this at least avoids over-populating the DOM.
+  if (!!$('#' + props.id)) return;
+
   // Close all form controls that might be open.
   unFocus();
 
@@ -50,6 +54,7 @@ client.socket.on('add', function(props) {
   shape.id = props.id;
   shape.fill = props.color;
   shape.opacity = props.opacity;
+  shape.rotation = Math.radians(props.angle);
   shape.noStroke();
 
   // Set pre-popping size. This will be animated to the "default" settings.
@@ -87,7 +92,7 @@ client.socket.on('add', function(props) {
   var transform = {
     x: props.x,
     y: props.y,
-    angle: START_ANGLE,
+    angle: props.angle,
     scale: props.scale,
   };
 
@@ -119,8 +124,6 @@ client.socket.on('add', function(props) {
     ev.preventDefault();
 
     if (ev.type === 'panstart') {
-      // The first time any shape moves, it needs this class removed.
-      el.classList.remove('unchanged');
       // Change cursor on screens that have one.
       el.classList.add('grabbing');
 
@@ -234,6 +237,7 @@ client.socket.on('add', function(props) {
 
       if (broadcast !== false) {
         client.socket.emit('change', {
+          room: client.room,
           id: props.id,
           transform: transform
         });
@@ -268,9 +272,6 @@ client.socket.on('add', function(props) {
    */
   client.socket.on('change', function(props) {
     if (props.id === el.id) {
-      // In case this is the first time the shape has moved, remove this class.
-      el.classList.remove('unchanged');
-
       // Transform and animate the shape.
       transform = props.transform;
       requestElementUpdate(false);

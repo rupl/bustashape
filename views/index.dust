@@ -13,7 +13,7 @@
     <div class="welcome">
       <h1><img src="/img/bustashape-logo.svg" alt="bustashape"></h1>
       <p>Welcome! Pick a room.<br class="r"> Or leave it blank and we'll surprise you!</p>
-      <p class="no-touch">This <strong>labor of love</strong> was designed for touch. You can still use it with a mouse but it's not what we're focusing on.</p>
+      {! <p class="no-touch">This <strong>labor of love</strong> was designed for touch. You can still use it with a mouse but it's not what we're focusing on.</p> !}
       <p class="colophon">made with 💞 by <a href="https://twitter.com/rupl">rupl</a> and <a href="https://twitter.com/afragon">afragon</a></p>
     </div>
 
@@ -38,7 +38,7 @@
       <div class="preset is-focused">
         <span class="proto proto-1"
           data-shape="square"
-          data-color="#FF5722"
+          data-color="#fecc00"
           data-opacity=".9"
           data-blend="normal">
         </span>
@@ -46,7 +46,7 @@
       <div class="preset">
         <span class="proto proto-2"
           data-shape="rectangle"
-          data-color="#482D57"
+          data-color="#006aa7"
           data-opacity=".9"
           data-blend="normal">
         </span>
@@ -54,7 +54,7 @@
       <div class="preset">
         <span class="proto proto-3"
           data-shape="circle"
-          data-color="#03C1EB"
+          data-color="#2a1c43"
           data-opacity=".9"
           data-blend="normal">
         </span>
@@ -62,7 +62,7 @@
       <div class="preset">
         <span class="proto proto-4"
           data-shape="triangle"
-          data-color="#86F3B8"
+          data-color="#d72e4e"
           data-opacity=".9"
           data-blend="normal">
         </span>

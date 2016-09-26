@@ -9,6 +9,21 @@ var client = function() {
   var room = window.location.origin;
   this.socket = io().connect(room);
 
+  // Warn when the connection is lost.
+  this.socket.on('disconnect', function (data) {
+    console.warn('You\'re disconnected!');
+  });
+
+  // When connection is finally re-stablished, join the bustashape room.
+  this.socket.on('reconnect', function (data) {
+    console.info('Reconnecting...');
+
+    // If there's a room name in the URL, reconnect.
+    if (window.location.hash != '') {
+      join();
+    }
+  });
+
   this.socket.on('user-joined', function(data) {
     var evt = createEvent('user-joined');
     evt.nick = data.nick;
