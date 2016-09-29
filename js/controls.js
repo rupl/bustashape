@@ -118,6 +118,65 @@ setPresetFocus(firstPreset);
 
 
 //
+// Helper function to handle taps to presets. They have different behaviors
+// depending on the state of the controls (open/closed).
+//
+function handlePresetTap(ev) {
+  if (controls.classList.contains('is-open')) {
+    setPresetFocus(ev.srcEvent.target);
+  } else {
+    createShape(ev);
+  }
+}
+
+
+//
+// Helper function to set focus on a different preset.
+//
+function setPresetFocus(el) {
+  var settings = {};
+  var presets = $$('.preset');
+  var target = el;
+
+  // Remove focus from previous element.
+  presets.forEach(function (preset) {
+    preset.classList.remove('is-focused');
+  });
+
+  // Walk upwards through the DOM until we find the preset wrapper.
+  // This is just in case the actual shape element was directly tapped.
+  while (!target.classList.contains('preset')) {
+    target = target.parentNode;
+  }
+
+  // Set focus on target.
+  target.classList.add('is-focused');
+  settings = target.childNodes[0].dataset;
+
+  // Update settings to match focused preset. Inverse of setPresetOptions().
+  $('#shape--' + settings.shape).checked = true;
+  $('#opacity').value = settings.opacity;
+  $('#color').value = settings.color;
+  $('#mix-blend-mode').value = settings.mixBlendMode;
+}
+
+
+//
+// Helper function to update focused preset when options are changed.
+//
+function setPresetOptions(el) {
+  // reset class
+  el.classList.remove('proto--square','proto--rectangle','proto--circle','proto--triangle');
+  el.classList.add('proto--' + el.dataset.shape);
+
+  // set simple props
+  el.style.color = el.dataset.color;
+  el.style.opacity = el.dataset.opacity;
+  el.style.mixBlendMode = el.dataset.mixBlendMode;
+}
+
+
+//
 // Callback for controls gestures.
 //
 function dragControls(ev) {
@@ -210,65 +269,6 @@ function redrawControls () {
     // release frame
     controls_transform.ticking = false;
   });
-}
-
-
-//
-// Helper function to handle taps to presets. They have different behaviors
-// depending on the state of the controls (open/closed).
-//
-function handlePresetTap(ev) {
-  if (controls.classList.contains('is-open')) {
-    setPresetFocus(ev.srcEvent.target);
-  } else {
-    createShape(ev);
-  }
-}
-
-
-//
-// Helper function to set focus on a different preset.
-//
-function setPresetFocus(el) {
-  var settings = {};
-  var presets = $$('.preset');
-  var target = el;
-
-  // Remove focus from previous element.
-  presets.forEach(function (preset) {
-    preset.classList.remove('is-focused');
-  });
-
-  // Walk upwards through the DOM until we find the preset wrapper.
-  // This is just in case the actual shape element was directly tapped.
-  while (!target.classList.contains('preset')) {
-    target = target.parentNode;
-  }
-
-  // Set focus on target.
-  target.classList.add('is-focused');
-  settings = target.childNodes[0].dataset;
-
-  // Update settings to match focused preset. Inverse of setPresetOptions().
-  $('#shape--' + settings.shape).checked = true;
-  $('#opacity').value = settings.opacity;
-  $('#color').value = settings.color;
-  $('#mix-blend-mode').value = settings.mixBlendMode;
-}
-
-
-//
-// Helper function to update focused preset when options are changed.
-//
-function setPresetOptions(el) {
-  // reset class
-  el.classList.remove('proto--square','proto--rectangle','proto--circle','proto--triangle');
-  el.classList.add('proto--' + el.dataset.shape);
-
-  // set simple props
-  el.style.color = el.dataset.color;
-  el.style.opacity = el.dataset.opacity;
-  el.style.mixBlendMode = el.dataset.mixBlendMode;
 }
 
 
