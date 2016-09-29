@@ -43,6 +43,11 @@ $$('#form-controls').forEach(function (el) {
 
   mc.add(new Hammer.Pan({ threshold: 0, pointers: 0 }));
   mc.on("panstart panmove panend", dragControls);
+
+  // Don't ever submit the form. Ever.
+  el.addEventListener('submit', function(ev) {
+    ev.preventDefault();
+  })
 });
 
 $$('.preset').forEach(function (el) {
