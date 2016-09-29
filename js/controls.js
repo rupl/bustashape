@@ -157,6 +157,7 @@ function setPresetFocus(el) {
   $('#shape--' + settings.shape).checked = true;
   $('#opacity').value = settings.opacity;
   $('#color').value = settings.color;
+  $('#color').style.backgroundColor = settings.color;
   $('#mix-blend-mode').value = settings.mixBlendMode;
 }
 

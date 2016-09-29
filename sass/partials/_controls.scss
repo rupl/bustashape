@@ -63,9 +63,9 @@ $divider-styles: 4px solid rgba(#000, .1);
     flex: 1 0 25%;
 
     // box-model settings are unfortunately magic, affected by lower controls :(
-    height: 58px;
+    height: 56px;
     margin-top: -10px; // counter the .controls padding
-    margin-bottom: -5px; // sometimes I have no idea what I'm doing.
+    margin-bottom: -3px; // sometimes I have no idea what I'm doing.
     padding-top: 10px; // position the proto within our box
 
     // Fancy stuff for slick UI.
@@ -156,11 +156,19 @@ $divider-styles: 4px solid rgba(#000, .1);
     }
   }
 
+  .fieldset--color {
+    input {
+      width: 200px;
+      height: 32px;
+      font-size: 1.2em;
+    }
+  }
+
   .fieldset--opacity {
     input {
-      border: 1px solid #333;
+      border: 1px solid rgba(#333, .5);
       border-radius: 3px;
-      height: 40px;
+      height: 32px;
       width: 100%;
       max-width: 320px;
       user-select: initial;
@@ -188,7 +196,7 @@ $divider-styles: 4px solid rgba(#000, .1);
     select {
       width: 100%;
       max-width: 180px;
-      font-size: 1.4em;
+      font-size: 1.2em;
       margin-left: .5em;
     }
   }

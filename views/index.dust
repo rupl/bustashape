@@ -83,7 +83,7 @@
 
       <fieldset class="fieldset--color">
         <legend>Color</legend>
-        <input id="color" type="color" name="color" value="#000000" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        <input id="color" type="color" name="color" pattern="#[a-f0-9]{6}">
       </fieldset>
 
       <fieldset class="fieldset--opacity">
