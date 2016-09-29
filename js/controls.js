@@ -59,7 +59,63 @@ $$('.preset').forEach(function (el) {
 })
 
 // Set focus on first preset.
-$$('.preset')[0].classList.add('is-focused');
+var firstPreset = $$('.preset')[0];
+setPresetFocus(firstPreset);
+
+// Set listeners on shape input
+(function initControls() {
+  $$('input[name="shape"]').forEach(function(el) {
+    el.addEventListener('change', function(ev) {
+      // Save setting.
+      var proto = $('.preset.is-focused').childNodes[0];
+      proto.dataset.shape = this.value;
+
+      // Update visual appearance.
+      setPresetOptions(proto);
+    })
+  });
+
+  $('#color').addEventListener('change', function(ev) {
+    // Save setting.
+    var proto = $('.preset.is-focused').childNodes[0];
+    proto.dataset.color = this.value;
+
+    // Update visual appearance.
+    setPresetOptions(proto);
+
+    // Prevent the #form-controls listener from grabbing this gesture.
+    ev.stopPropagation();
+  });
+
+  $('#opacity').addEventListener('input', function(ev) {
+    // Save setting.
+    var proto = $('.preset.is-focused').childNodes[0];
+    proto.dataset.opacity = this.value;
+
+    // Update visual appearance.
+    setPresetOptions(proto);
+
+    // Prevent the #form-controls listener from grabbing this gesture.
+    ev.stopPropagation();
+    ev.preventDefault();
+  });
+
+  $('#mix-blend-mode').addEventListener('change', function(ev) {
+    // Save setting.
+    var proto = $('.preset.is-focused').childNodes[0];
+    proto.dataset.mixBlendMode = this.value;
+
+    // Update visual appearance.
+    setPresetOptions(proto);
+
+    // Prevent the #form-controls listener from grabbing this gesture.
+    ev.stopPropagation();
+  });
+
+  // Updates all proto shapes with current options.
+  $$('.proto').forEach(setPresetOptions);
+})();
+
 
 //
 // Callback for controls gestures.
@@ -140,7 +196,9 @@ function dragControls(ev) {
   }
 }
 
+//
 // Helper function to manage controls state and animation.
+//
 function redrawControls () {
   reqAnimationFrame(function () {
     var final_value = 'translateY(' + controls_transform.y + 'px)';
@@ -154,20 +212,27 @@ function redrawControls () {
   });
 }
 
+
+//
 // Helper function to handle taps to presets. They have different behaviors
 // depending on the state of the controls (open/closed).
+//
 function handlePresetTap(ev) {
   if (controls.classList.contains('is-open')) {
-    setPresetFocus(ev);
+    setPresetFocus(ev.srcEvent.target);
   } else {
     createShape(ev);
   }
 }
 
+
+//
 // Helper function to set focus on a different preset.
-function setPresetFocus(ev) {
+//
+function setPresetFocus(el) {
+  var settings = {};
   var presets = $$('.preset');
-  var target = ev.srcEvent.target;
+  var target = el;
 
   // Remove focus from previous element.
   presets.forEach(function (preset) {
@@ -182,14 +247,37 @@ function setPresetFocus(ev) {
 
   // Set focus on target.
   target.classList.add('is-focused');
+  settings = target.childNodes[0].dataset;
 
-  // @TODO: update controls to use settings from current focus.
+  // Update settings to match focused preset. Inverse of setPresetOptions().
+  $('#shape--' + settings.shape).checked = true;
+  $('#opacity').value = settings.opacity;
+  $('#color').value = settings.color;
+  $('#mix-blend-mode').value = settings.mixBlendMode;
 }
 
+
+//
+// Helper function to update focused preset when options are changed.
+//
+function setPresetOptions(el) {
+  // reset class
+  el.classList.remove('proto--square','proto--rectangle','proto--circle','proto--triangle');
+  el.classList.add('proto--' + el.dataset.shape);
+
+  // set simple props
+  el.style.color = el.dataset.color;
+  el.style.opacity = el.dataset.opacity;
+  el.style.mixBlendMode = el.dataset.mixBlendMode;
+}
+
+
+//
 // If save button is possible, create it now.
 //
 // @TODO: During room creation, create config to either show or hide button
 //        instead of always hiding when touch events are detected.
+//
 if (Modernizr.atobbtoa && Modernizr.adownload && !Modernizr.touchevents) {
   // Create save button.
   var save_button = document.createElement('a');
@@ -224,8 +312,11 @@ if (Modernizr.atobbtoa && Modernizr.adownload && !Modernizr.touchevents) {
   };
 }
 
+
+//
 // Take contents of canvas and encode them into save button so they can be
 // downloaded. The click or keypress event handles the button triggering.
+//
 function saveCanvas() {
   // Generate SVG.
   var save_button = $('#save');
@@ -238,7 +329,10 @@ function saveCanvas() {
   save_button.setAttribute('download', filename);
 }
 
+
+//
 // Helper function to provide the proper prefix for an event listener.
+//
 function whichAnimationEvent(){
   var t;
   var fake = document.createElement('fakeelement');

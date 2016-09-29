@@ -47,7 +47,7 @@ function createShape(ev) {
     opacity: preset.dataset.opacity,
     color: preset.dataset.color,
     borderColor: preset.dataset.color,
-    mixBlendMode: preset.dataset.blend,
+    mixBlendMode: preset.dataset.mixBlendMode,
     x: REL_X,
     y: REL_Y,
     scale: REL_SCALE,

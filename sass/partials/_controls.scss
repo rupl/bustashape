@@ -61,10 +61,14 @@ $divider-styles: 4px solid rgba(#000, .1);
   //
   .preset {
     flex: 1 0 25%;
-    height: 57px;
+
+    // box-model settings are unfortunately magic, affected by lower controls :(
+    height: 58px;
     margin-top: -10px; // counter the .controls padding
-    margin-bottom: -10px; // sometimes I have no idea what I'm doing.
+    margin-bottom: -5px; // sometimes I have no idea what I'm doing.
     padding-top: 10px; // position the proto within our box
+
+    // Fancy stuff for slick UI.
     transform-style: preserve-3d; // for button "pop" effect
     perspective: 100px; // lower => more "pop" from UI when creating shapes
     transition: background .1666s linear;
@@ -107,6 +111,10 @@ $divider-styles: 4px solid rgba(#000, .1);
     }
 
     label {
+      display: inline-block;
+      margin: 0 5%;
+      height: $size;
+
       &::after {
         display: inline-block;
         content: ' ';
@@ -124,9 +132,10 @@ $divider-styles: 4px solid rgba(#000, .1);
     }
     label[for="shape--circle"] {
       &::after {
-        width: $size;
-        height: $size;
+        width: $size + 2; // prevent clipping
+        height: $size + 2; // prevent clipping
         border-radius: 50%;
+        transform: translateY(1px); // re-center
       }
     }
     label[for="shape--triangle"] {
@@ -149,8 +158,38 @@ $divider-styles: 4px solid rgba(#000, .1);
 
   .fieldset--opacity {
     input {
+      border: 1px solid #333;
+      border-radius: 3px;
+      height: 40px;
       width: 100%;
       max-width: 320px;
+      user-select: initial;
+      user-drag: initial;
+      appearance: none;
+      position: relative;
+
+      &:after {
+        content: 'opacity';
+        position: absolute;
+        font-size: 2em;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -55%); // 55% bc it's all lowercase.
+        opacity: .5;
+      }
+    }
+  }
+
+  .fieldset--mix-blend-mode {
+    label {
+      display: inline-block;
+      color: #000;
+    }
+    select {
+      width: 100%;
+      max-width: 180px;
+      font-size: 1.4em;
+      margin-left: .5em;
     }
   }
 

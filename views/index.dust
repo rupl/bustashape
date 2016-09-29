@@ -35,12 +35,12 @@
 
     <!-- Shape editor -->
     <form id="form-controls" class="controls hide preset-1">
-      <div class="preset is-focused">
+      <div class="preset">
         <span class="proto proto-1"
           data-shape="square"
           data-color="#fecc00"
           data-opacity=".9"
-          data-blend="normal">
+          data-mix-blend-mode="normal">
         </span>
       </div>
       <div class="preset">
@@ -48,7 +48,7 @@
           data-shape="rectangle"
           data-color="#006aa7"
           data-opacity=".9"
-          data-blend="normal">
+          data-mix-blend-mode="normal">
         </span>
       </div>
       <div class="preset">
@@ -56,7 +56,7 @@
           data-shape="circle"
           data-color="#2a1c43"
           data-opacity=".9"
-          data-blend="normal">
+          data-mix-blend-mode="normal">
         </span>
       </div>
       <div class="preset">
@@ -64,7 +64,7 @@
           data-shape="triangle"
           data-color="#d72e4e"
           data-opacity=".9"
-          data-blend="normal">
+          data-mix-blend-mode="normal">
         </span>
       </div>
 
@@ -83,18 +83,19 @@
 
       <fieldset class="fieldset--color">
         <legend>Color</legend>
-        <input id="color" type="text" name="color" value="#3366cc" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        <input id="color" type="color" name="color" value="#000000" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
       </fieldset>
 
       <fieldset class="fieldset--opacity">
         <legend>Opacity</legend>
-        <input id="opacity" type="range" name="opacity" min="0" max="1" step=".05">
+        <input id="opacity" type="range" name="opacity" min=".05" max="1" step=".05" value=".9">
       </fieldset>
 
-      <fieldset class="fieldset--mix-blend">
-        <legend>Blend</legend>
-        <select name="mix-blend" id="mix-blend">
-          <option value="normal">normal</option>
+      <fieldset class="fieldset--mix-blend-mode">
+        <legend>Blend mode</legend>
+        <label for="mix-blend-mode">Blend mode: </label>
+        <select name="mix-blend-mode" id="mix-blend-mode">
+          <option selected value="normal">normal</option>
           <option value="multiply">multiply</option>
           <option value="screen">screen</option>
           <option value="overlay">overlay</option>

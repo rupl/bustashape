@@ -78,7 +78,7 @@ function userJoined(data) {
       'angle': Math.degrees(child._rotation),
       'color': child._fill,
       'class': child._renderer.elem.classList[child._renderer.elem.classList.length-1].split('--')[1], // barf
-      'mixBlendMode': '' // not yet.
+      'mixBlendMode': child._renderer.elem.style.mixBlendMode,
     });
   });
 
