@@ -33,11 +33,6 @@ var animationEvent = whichAnimationEvent();
 // exposed. All changes are instant and tapping the shape again will create a
 // shape with the new properties.
 //
-// TODO: create a dummy event listener for the drawer itself which prevents
-//       default and avoids triggering any OS gestures (like pull to refresh),
-//       avoiding unintentional triggering if the person misses any of the
-//       targets in the drawer.
-//
 // TODO: Perhaps make an invisible element which takes up about 15-20px of
 //       space directly above the drawer, so that sloppy grabs still open or
 //       close the drawer.
@@ -49,12 +44,13 @@ $$('#form-controls').forEach(function (el) {
   mc.add(new Hammer.Pan({ threshold: 0, pointers: 0 }));
   mc.on("panstart panmove panend", dragControls);
 });
+
 $$('.preset').forEach(function (el) {
   var mc = new Hammer.Manager(el);
   mc.options.domEvents = true;
 
   mc.add(new Hammer.Tap());
-  mc.on("tap", createShape);
+  mc.on("tap", handlePresetTap);
 })
 
 // Set focus on first preset.
@@ -151,6 +147,38 @@ function redrawControls () {
     // release frame
     controls_transform.ticking = false;
   });
+}
+
+// Helper function to handle taps to presets. They have different behaviors
+// depending on the state of the controls (open/closed).
+function handlePresetTap(ev) {
+  if (controls.classList.contains('is-open')) {
+    setPresetFocus(ev);
+  } else {
+    createShape(ev);
+  }
+}
+
+// Helper function to set focus on a different preset.
+function setPresetFocus(ev) {
+  var presets = $$('.preset');
+  var target = ev.srcEvent.target;
+
+  // Remove focus from previous element.
+  presets.forEach(function (preset) {
+    preset.classList.remove('is-focused');
+  });
+
+  // Walk upwards through the DOM until we find the preset wrapper.
+  // This is just in case the actual shape element was directly tapped.
+  while (!target.classList.contains('preset')) {
+    target = target.parentNode;
+  }
+
+  // Set focus on target.
+  target.classList.add('is-focused');
+
+  // @TODO: update controls to use settings from current focus.
 }
 
 // If save button is possible, create it now.
