@@ -133,8 +133,6 @@ client.socket.on('add', function(props) {
     ev.preventDefault();
 
     if (ev.type === 'panstart') {
-      // The first time any shape moves, it needs this class removed.
-      el.classList.remove('unchanged');
       // Change cursor on screens that have one.
       el.classList.add('grabbing');
 
@@ -271,9 +269,6 @@ client.socket.on('add', function(props) {
    */
   client.socket.on('change', function(props) {
     if (props.id === el.id) {
-      // In case this is the first time the shape has moved, remove this class.
-      el.classList.remove('unchanged');
-
       // Transform and animate the shape.
       transform = props.transform;
       requestElementUpdate(false);

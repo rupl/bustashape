@@ -4,18 +4,30 @@ ignore:
     - browser-sync > browser-sync-ui > weinre > express > connect:
         reason: snyk
         expires: '2016-10-05T15:10:29.940Z'
+      browser-sync-ui > weinre > express > connect:
+        reason: snyk
+        expires: '2016-10-22T15:49:24.987Z'
   'npm:express:20140912':
     - browser-sync > browser-sync-ui > weinre > express:
         reason: snyk
         expires: '2016-10-05T15:10:29.940Z'
+      browser-sync-ui > weinre > express:
+        reason: snyk
+        expires: '2016-10-22T15:49:24.987Z'
   'npm:qs:20140806':
     - browser-sync > browser-sync-ui > weinre > express > qs:
         reason: snyk
         expires: '2016-10-05T15:10:29.940Z'
+      browser-sync-ui > weinre > express > qs:
+        reason: snyk
+        expires: '2016-10-22T15:49:24.987Z'
   'npm:qs:20140806-1':
     - browser-sync > browser-sync-ui > weinre > express > qs:
         reason: snyk
         expires: '2016-10-05T15:10:29.941Z'
+      browser-sync-ui > weinre > express > qs:
+        reason: snyk
+        expires: '2016-10-22T15:49:24.987Z'
   'npm:negotiator:20160616':
     - socket.io > engine.io > accepts > negotiator:
         reason: snyk
@@ -99,6 +111,8 @@ patch:
   'npm:tough-cookie:20160722':
     - browser-sync > chokidar > fsevents > node-pre-gyp > request > tough-cookie:
         patched: '2016-07-24T20:03:46.557Z'
+      chokidar > fsevents > node-pre-gyp > request > tough-cookie:
+        patched: '2016-09-22T15:48:21.076Z'
     - gulp-nodemon > nodemon > chokidar > fsevents > node-pre-gyp > request > tough-cookie:
         patched: '2016-07-24T20:03:46.557Z'
     - browser-sync > localtunnel > request > tough-cookie:

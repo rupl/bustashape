@@ -1,13 +1,9 @@
 //------------------------------------------------------------------------------
 // Shapes
 //------------------------------------------------------------------------------
-
-//
-// Unchanged
-//
-// When a new shape appears it is "unchanged"
-// until being touched for the first time.
-.unchanged {
+.shape {
+  cursor: grab;
+  cursor: -webkit-grab;
 }
 
 //
@@ -15,4 +11,5 @@
 //
 .grabbing {
   cursor: grabbing;
+  cursor: -webkit-grabbing;
 }

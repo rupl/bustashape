@@ -4,9 +4,17 @@ A collaborative, real-time tool for creating artwork in the browser. Inspired by
 
 An experiment by [Chris Ruppel](https://github.com/rupl) and [Afra Noubarzadeh](https://github.com/afragon).
 
+## Multiplayer art
+
+Visit [bustashape.com](http://www.bustashape.com) to try it out with others! Just like a video game, it works best when you have a fast connection with a low ping.
+
+## Video
+
+:movie_camera: [An early version of bustashape](https://www.youtube.com/watch?v=Czg--AgziuI)
+
 ## Installation and Setup
 
-Assuming you have [node.js](https://nodejs.org) installed, just run the following commands:
+**Only needed if you want to set up your own instance.** Assuming you have [node.js](https://nodejs.org) installed, just run the following commands:
 
 ```
 npm install -g gulp
@@ -22,11 +30,3 @@ gulp start
 It will open up the site in your default browser automatically. To really see the magic, open other browser windows and point them at http://localhost:3000, or load it on other devices using the same LAN (the "External" URL will be listed in console with your current IP).
 
 Have fun!
-
-## Multiplayer art
-
-Visit [bustashape.com](http://www.bustashape.com) to try it out with others! Just like a video game, it works best when you have a fast connection with a low ping.
-
-## Video
-
-Here's a very short video of my WIP: https://www.youtube.com/watch?v=Czg--AgziuI
