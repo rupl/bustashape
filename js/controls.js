@@ -20,6 +20,8 @@ $$('.proto').forEach(function (el) {
 // shape options, there is a different set of actions executed.
 //
 function createShape(ev) {
+  ev.preventDefault();
+
   // New shape position
   //
   // Shapes get lost when the user doesn't see them immediately. New shapes
@@ -49,7 +51,9 @@ function createShape(ev) {
     scale: REL_SCALE,
     angle: 0,
   });
-  ev.preventDefault();
+
+  // Log to GA
+  ga('send', 'event', 'Shapes', 'create', client.room);
 }
 
 // If save button is possible, create it now.
