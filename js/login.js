@@ -86,7 +86,7 @@ function userJoined(data) {
   });
 
   // Send the payload of new shapes to the new user.
-  client.send('sync', data.sid, shapes);
+  client.send('sync-shapes', data.sid, shapes);
 
   // Log to console.
   console.info('👥➡ %s just joined!', data.nick);
