@@ -181,8 +181,20 @@ function setPresetOptions(el) {
 // Callback for controls gestures.
 //
 function dragControls(ev) {
-  ev.preventDefault();
   var direction = 'up';
+
+  // First, we need to figure out if we're bailing out of this callback.
+  // There are several form controls whose function is completely disrupted
+  // by this listener. We need to exit early when we detect that they are
+  // being manipulated.
+  if (ev.srcEvent.target === $('#opacity')) {
+    // Bail.
+    return;
+  } else {
+    // If we're proceeding, then prevent default behavior and allow this cb
+    // to control the drawer.
+    ev.preventDefault();
+  }
 
   // Grab initial position so we know where to move.
   if (ev.type === 'panstart') {
