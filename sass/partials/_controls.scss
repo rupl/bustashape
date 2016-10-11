@@ -65,7 +65,7 @@ $divider-styles: 4px solid rgba(#000, .1);
     // box-model settings are unfortunately magic, affected by lower controls :(
     height: 56px;
     margin-top: -10px; // counter the .controls padding
-    margin-bottom: -3px; // sometimes I have no idea what I'm doing.
+    margin-bottom: -14px; // sometimes I have no idea what I'm doing.
     padding-top: 10px; // position the proto within our box
 
     // Fancy stuff for slick UI.
@@ -157,6 +157,9 @@ $divider-styles: 4px solid rgba(#000, .1);
   }
 
   .fieldset--color {
+    // CURRENTLY NOT DISPLAYED
+    display: none;
+
     input {
       width: 200px;
       height: 32px;

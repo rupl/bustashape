@@ -38,7 +38,7 @@
       <div class="preset">
         <span class="proto proto-1"
           data-shape="square"
-          data-color="#fecc00"
+          data-color="#{palette[0]}"
           data-opacity=".9"
           data-mix-blend-mode="normal">
         </span>
@@ -46,7 +46,7 @@
       <div class="preset">
         <span class="proto proto-2"
           data-shape="rectangle"
-          data-color="#006aa7"
+          data-color="#{palette[1]}"
           data-opacity=".9"
           data-mix-blend-mode="normal">
         </span>
@@ -54,7 +54,7 @@
       <div class="preset">
         <span class="proto proto-3"
           data-shape="circle"
-          data-color="#2a1c43"
+          data-color="#{palette[2]}"
           data-opacity=".9"
           data-mix-blend-mode="normal">
         </span>
@@ -62,7 +62,7 @@
       <div class="preset">
         <span class="proto proto-4"
           data-shape="triangle"
-          data-color="#d72e4e"
+          data-color="#{palette[3]}"
           data-opacity=".9"
           data-mix-blend-mode="normal">
         </span>

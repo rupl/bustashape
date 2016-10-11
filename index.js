@@ -31,6 +31,7 @@ app.use(express.static(__dirname + '/_public', {redirect: false}));
 // Main app URL
 app.get('/', function(req, res){
   cons.dust('views/index.dust', {
+    palette: config.palettes[Math.floor(Math.random() * config.palettes.length)],
     GA: GA,
     env: env
   }, function (err, out) {
