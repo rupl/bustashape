@@ -170,16 +170,28 @@ $divider-styles: 4px solid rgba(#000, .1);
   .fieldset--opacity {
     input {
       border: 1px solid rgba(#333, .5);
-      border-radius: 3px;
+      border-radius: 4px;
       height: 32px;
       width: 100%;
       max-width: 320px;
-      user-select: initial;
-      user-drag: initial;
       appearance: none;
       position: relative;
+      outline: none;
 
+      // Blink/Webkit custom styles
+      &::-webkit-slider-thumb {
+        appearance: none;
+        background: #fff;
+        height: 40px;
+        width: 32px;
+        border: 1px solid #bbb;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      // Label
       &:after {
+        display: inline-block;
         content: 'opacity';
         position: absolute;
         font-size: 2em;
