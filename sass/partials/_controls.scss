@@ -8,9 +8,8 @@ $divider-styles: 4px solid rgba(#000, .1);
   width: 100vw;
   height: 300px;
   overflow: hidden;
-  padding: .5em;
   position: fixed;
-  top: calc(100% - 64px);
+  top: calc(100% - #{$drawer-height});
   z-index: 1100;
   user-select: none;
 
@@ -40,7 +39,7 @@ $divider-styles: 4px solid rgba(#000, .1);
   .divider {
     width: 100vw;
     height: 0;
-    margin: 0 -.5em; // counter the .controls padding
+    margin: 0;
     padding: 0;
     border: 0;
     border-top: $divider-styles;
@@ -62,7 +61,6 @@ $divider-styles: 4px solid rgba(#000, .1);
   .preset {
     flex: 1 0 25%;
     align-self: stretch;
-    margin-top: -10px;
 
     // Fancy stuff for slick UI.
     transform-style: preserve-3d; // for button "pop" effect
