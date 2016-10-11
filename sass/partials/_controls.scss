@@ -61,17 +61,18 @@ $divider-styles: 4px solid rgba(#000, .1);
   //
   .preset {
     flex: 1 0 25%;
-
-    // box-model settings are unfortunately magic, affected by lower controls :(
-    height: 56px;
-    margin-top: -10px; // counter the .controls padding
-    margin-bottom: -14px; // sometimes I have no idea what I'm doing.
-    padding-top: 10px; // position the proto within our box
+    align-self: stretch;
+    margin-top: -10px;
 
     // Fancy stuff for slick UI.
     transform-style: preserve-3d; // for button "pop" effect
     perspective: 100px; // lower => more "pop" from UI when creating shapes
     transition: background .1666s linear;
+  }
+
+  .proto {
+    position: relative;
+    top: 12px;
   }
 
   // When the drawer is exposed, a preset must have focus in order to be configured.
@@ -85,9 +86,9 @@ $divider-styles: 4px solid rgba(#000, .1);
   // Each property is now in a fieldset so we can style the groups of inputs
   // more easily.
   fieldset {
+    flex: 0 0 100%;
     width: 100vw;
     border: 0;
-    margin-top: 1em;
 
     legend {
       display: none;
