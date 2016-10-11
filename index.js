@@ -145,6 +145,14 @@ io.on('connection', function(socket){
     });
   });
 
+  /**
+   * Configure each user's controls remotely
+   */
+  socket.on('sync-controls', function (id, controls) {
+    console.log('📱🔄 ', id, controls);
+
+    socket.to(id).emit('sync-controls', controls);
+  });
 
   /**
    * A shape is being changed.

@@ -66,7 +66,9 @@ document.on('user-left', userLeft, true);
  */
 function userJoined(data) {
   var children = two.scene.children;
+  var presets = $$('.proto');
   var shapes = [];
+  var palette = [];
 
   // Loop through children and prep each shape.
   children.forEach(function (child) {
@@ -87,6 +89,14 @@ function userJoined(data) {
 
   // Send the payload of new shapes to the new user.
   client.send('sync-shapes', data.sid, shapes);
+
+  // Assemble an array containing the current color palette.
+  presets.forEach(function (proto) {
+    palette.push(proto.dataset.color);
+  });
+
+  // Send our current color palette to new user.
+  client.send('sync-controls', data.sid, {colors: palette});
 
   // Log to console.
   console.info('👥➡ %s just joined!', data.nick);

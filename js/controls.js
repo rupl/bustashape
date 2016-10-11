@@ -362,3 +362,25 @@ function whichAnimationEvent(){
     }
   }
 }
+
+//
+// Event listeners
+//
+document.on('sync-controls', syncControls, true);
+
+/**
+ * Sync controls.
+ *
+ * Receives data from other users and reconfigures controls to match the
+ * settings of the group. Currently only does colors.
+ */
+function syncControls (palette) {
+  // Sync colors.
+  if (palette.hasOwnProperty('colors')) {
+    var current = 0;
+    $$('.proto').forEach(function (proto) {
+      proto.dataset.color = palette.colors[current++];
+      setPresetOptions(proto);
+    });
+  }
+}
