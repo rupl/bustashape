@@ -31,6 +31,7 @@ app.use(express.static(__dirname + '/_public', {redirect: false}));
 // Main app URL
 app.get('/', function(req, res){
   cons.dust('views/index.dust', {
+    palette: config.palettes[Math.floor(Math.random() * config.palettes.length)],
     GA: GA,
     env: env
   }, function (err, out) {
@@ -58,7 +59,7 @@ io.on('connection', function(socket){
 
     // Pick a nickname when none was entered.
     if (!nickname) {
-      nickname = Math.random().toString(16).slice(2)
+      nickname = Math.random().toString(16).slice(2);
     }
 
     // Join the requested room or create it.
@@ -135,7 +136,7 @@ io.on('connection', function(socket){
   /**
    * Pass shapes along to new users.
    */
-  socket.on('sync', function (id, shapes) {
+  socket.on('sync-shapes', function (id, shapes) {
     console.log('🔷🔄 ', id, shapes.length, 'shapes total');
 
     // Split out the payload and emit individual shapes to the new user.
@@ -144,6 +145,14 @@ io.on('connection', function(socket){
     });
   });
 
+  /**
+   * Configure each user's controls remotely
+   */
+  socket.on('sync-controls', function (id, controls) {
+    console.log('📱🔄 ', id, controls);
+
+    socket.to(id).emit('sync-controls', controls);
+  });
 
   /**
    * A shape is being changed.

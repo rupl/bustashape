@@ -10,7 +10,7 @@ $('#form-login').on('submit', function (ev) {
 
 // Auto-fill room name when hash is present
 if (window.location.hash !== '') {
-  $('#room').value = window.location.hash;
+  $('#room').value = window.location.hash.replace('#','');
   join();
 }
 
@@ -39,6 +39,9 @@ function join() {
     client.room = data.room;
     window.location.hash = ('#' + data.room);
 
+    // Log to GA
+    ga('send', 'event', 'Users', 'join', data.room);
+
     // Hide login form.
     $('#btn-login').value = '👍';
 
@@ -63,7 +66,9 @@ document.on('user-left', userLeft, true);
  */
 function userJoined(data) {
   var children = two.scene.children;
+  var presets = $$('.proto');
   var shapes = [];
+  var palette = [];
 
   // Loop through children and prep each shape.
   children.forEach(function (child) {
@@ -78,12 +83,20 @@ function userJoined(data) {
       'angle': Math.degrees(child._rotation),
       'color': child._fill,
       'class': child._renderer.elem.classList[child._renderer.elem.classList.length-1].split('--')[1], // barf
-      'mixBlendMode': '' // not yet.
+      'mixBlendMode': child._renderer.elem.style.mixBlendMode,
     });
   });
 
   // Send the payload of new shapes to the new user.
-  client.send('sync', data.sid, shapes);
+  client.send('sync-shapes', data.sid, shapes);
+
+  // Assemble an array containing the current color palette.
+  presets.forEach(function (proto) {
+    palette.push(proto.dataset.color);
+  });
+
+  // Send our current color palette to new user.
+  client.send('sync-controls', data.sid, {colors: palette});
 
   // Log to console.
   console.info('👥➡ %s just joined!', data.nick);

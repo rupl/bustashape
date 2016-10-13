@@ -14,7 +14,7 @@
       <h1><img src="/img/bustashape-logo.svg" alt="bustashape"></h1>
       <p>Welcome! Pick a room.<br class="r"> Or leave it blank and we'll surprise you!</p>
       {! <p class="no-touch">This <strong>labor of love</strong> was designed for touch. You can still use it with a mouse but it's not what we're focusing on.</p> !}
-      <p class="colophon">made with 💞 by <a href="https://twitter.com/rupl">rupl</a> and <a href="https://twitter.com/afragon">afragon</a></p>
+      <p class="colophon">an experiment by <a href="https://twitter.com/rupl">rupl</a> and <a href="https://twitter.com/afragon">afragon</a></p>
     </div>
 
     <!-- initial action -->
@@ -35,27 +35,64 @@
 
     <!-- Shape editor -->
     <form id="form-controls" class="controls hide preset-1">
-      {! <button id="toggle" aria-label="Open Controls" title="Open the controls"><span class="cancel">❌</span><span class="open">🔷</span></button>
+      <div class="preset">
+        <span class="proto proto-1"
+          data-shape="square"
+          data-color="#{palette[0]}"
+          data-opacity=".9"
+          data-mix-blend-mode="normal">
+        </span>
+      </div>
+      <div class="preset">
+        <span class="proto proto-2"
+          data-shape="rectangle"
+          data-color="#{palette[1]}"
+          data-opacity=".9"
+          data-mix-blend-mode="normal">
+        </span>
+      </div>
+      <div class="preset">
+        <span class="proto proto-3"
+          data-shape="circle"
+          data-color="#{palette[2]}"
+          data-opacity=".9"
+          data-mix-blend-mode="normal">
+        </span>
+      </div>
+      <div class="preset">
+        <span class="proto proto-4"
+          data-shape="triangle"
+          data-color="#{palette[3]}"
+          data-opacity=".9"
+          data-mix-blend-mode="normal">
+        </span>
+      </div>
 
-      <label for="shape">Shape
-        <select name="shape" id="shape" readonly disabled>
-          <option value="square">square</option>
-          <option value="circle">circle</option>
-          <option value="triangle">triangle</option>
-        </select>
-      </label>
+      <hr class="divider">
 
-      <label for="color">Color
-        <input id="color" type="text" name="color" value="#3366cc" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly disabled>
-      </label>
+      <fieldset class="fieldset--shape">
+        <legend>Shape</legend>
+        <input type="radio" name="shape" value="square" id="shape--square" /> <label for="shape--square"><span class="hide">square</span></label>
+        <input type="radio" name="shape" value="circle" id="shape--circle" /> <label for="shape--circle"><span class="hide">circle</span></label>
+        <input type="radio" name="shape" value="triangle" id="shape--triangle" /> <label for="shape--triangle"><span class="hide">triangle</span></label>
+        <input type="radio" name="shape" value="rectangle" id="shape--rectangle" /> <label for="shape--rectangle"><span class="hide">rectangle</span></label>
+      </fieldset>
 
-      <label for="opacity">Opacity
-        <input id="opacity" type="range" name="opacity" min="0" max="1" step=".05" value=".6" orient="vertical" readonly disabled>
-      </label>
+      <fieldset class="fieldset--color">
+        <legend>Color</legend>
+        <input id="color" type="color" name="color" pattern="#[a-f0-9]{6}">
+      </fieldset>
 
-      <label for="mix-blend">Blend
-        <select name="mix-blend" id="mix-blend" readonly disabled>
-          <option value="normal">normal</option>
+      <fieldset class="fieldset--opacity">
+        <legend>Opacity</legend>
+        <input id="opacity" type="range" name="opacity" min=".2" max="1" step=".01" value=".7">
+      </fieldset>
+
+      <fieldset class="fieldset--mix-blend-mode">
+        <legend>Blend mode</legend>
+        <label for="mix-blend-mode">Blend mode: </label>
+        <select name="mix-blend-mode" id="mix-blend-mode">
+          <option selected value="normal">normal</option>
           <option value="multiply">multiply</option>
           <option value="screen">screen</option>
           <option value="overlay">overlay</option>
@@ -72,14 +109,8 @@
           <option value="color">color</option>
           <option value="luminosity">luminosity</option>
         </select>
-      </label>
-
-      <button id="add" aria-label="Add Shape" title="Add Shape!" readonly disabled><span class="add">+</span></button> !}
-
-      <div class="preset"><span class="proto proto-1" data-shape="square" data-color="#fecc00" data-opacity=".9" data-blend="normal"></span></div>
-      <div class="preset"><span class="proto proto-2" data-shape="rectangle" data-color="#006aa7" data-opacity=".9" data-blend="normal"></span></div>
-      <div class="preset"><span class="proto proto-3" data-shape="circle" data-color="#2a1c43" data-opacity=".9" data-blend="normal"></span></div>
-      <div class="preset"><span class="proto proto-4" data-shape="triangle" data-color="#d72e4e" data-opacity=".9" data-blend="normal"></span></div>
+        <br><br>
+      </fieldset>
     </form>
 
     {@eq key=env value="local"}
@@ -87,19 +118,23 @@
     {:else}
       <script>var debug_busta = false;</script>
     {/eq}
+
+    {@eq key=env value="production"}
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', '{GA}', 'auto');
+        ga('send', 'pageview');
+      </script>
+    {:else}
+      <script>window.ga = function() {};</script>
+    {/eq}
+
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/ui.min.js"></script>
-    {@eq key=env value="production"}
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-      ga('create', '{GA}', 'auto');
-      ga('send', 'pageview');
-    </script>
-    {/eq}
   </body>
 </html>

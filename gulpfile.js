@@ -85,6 +85,7 @@ gulp.task('js', function() {
     'js/login.js',
     'js/canvas.js',
     'js/controls.js',
+    'js/shapes.js',
   ])
   .pipe(plumber())
   .pipe(concat('ui.min.js'))
@@ -116,7 +117,7 @@ gulp.task('build', ['sass', 'js', 'img']);
 // -----------------------------------------------------------------------------
 gulp.task('watch', function() {
   gulp.watch('sass/**/*', ['sass']);
-  gulp.watch('js/*', ['js']);
+  gulp.watch('js/**/*', ['js']);
 });
 
 
@@ -126,7 +127,7 @@ gulp.task('watch', function() {
 gulp.task('start', ['sass', 'js', 'img', 'watch', 'bs'], function () {
   nodemon({
     script: 'index.js',
-    ext: 'html dust js',
+    ext: 'html dust js json',
     env: { 'NODE_ENV': env }
   });
 });
