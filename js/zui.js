@@ -78,6 +78,12 @@ _.extend(ZUI, {
     return m;
   },
 
+  TranslateMatrixTo: function(m, x, y) {
+    m.elements[2] = x;
+    m.elements[5] = y;
+    return m;
+  },
+
   PositionToScale: function(pos) {
     return Math.exp(pos);
   },
@@ -177,6 +183,11 @@ _.extend(ZUI.prototype, {
 
   translateSurface: function(x, y) {
     ZUI.TranslateMatrix(this.surfaceMatrix, x, y);
+    return this;
+  },
+
+  translateSurfaceTo: function(x, y) {
+    ZUI.TranslateMatrixTo(this.surfaceMatrix, x, y);
     return this;
   },
 
