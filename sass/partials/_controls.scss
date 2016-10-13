@@ -2,123 +2,218 @@
 // Shape editor
 //------------------------------------------------------------------------------
 
+$divider-styles: 4px solid rgba(#000, .1);
+
 .controls {
   width: 100vw;
-  height: 64px;
-  padding: .5em;
+  height: 300px;
+  overflow: hidden;
   position: fixed;
-  bottom: 0;
+  top: calc(100% - #{$drawer-height});
   z-index: 1100;
   user-select: none;
 
   color: #fff;
   opacity: 1;
-  transition: all .5s ease-in-out;
-  background: rgba(#000, .15);
-  border-top: 4px solid rgba(#000, .1);
+  transition: .5s ease-in-out;
+  transition-property: width, top;
+  background: rgba(#ddd, .86);
+  border-top: $divider-styles;
+  will-change: transform;
 
-  // Space the labels/buttons out a bit
-  // label, button {
-  //   display: inline-block;
-  //   padding: .5em .2em;
-  //   user-select: none;
-  //   text-transform: lowercase;
-  //   cursor: pointer;
-  //   position: relative; // for child controls
-  //   z-index: 5;
-  //   color: #000;
-  //   // text-shadow: 1px 1px 0 rgba(#000, .6);
+  // Setting this by default means we don't have to handle special cases when
+  // reading the transform in JS. Hammer will transform this element based on
+  // drag event handlers for the controls.
+  transform: translateY(0px);
 
-  //   // Default "closed" state.
-  //   opacity: 0;
-  //   transform: translateX(-20px);
+  // When backdrop filter is present, make the controls look fancier using the
+  // CSS background blurring inspired by iOS.
+  //
+  // @see http://caniuse.com/#feat=css-backdrop-filter
+  .backdropfilter & {
+    background: rgba(#ddd, .43);
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+  }
 
-  //   // Transition between states.
-  //   transition: .33333s $snap-1;
-  //   transition-property: transform, opacity;
-
-  //   // Remove 300ms delay on focusable elements in a future version of Safari.
-  //   //
-  //   // @see https://adactio.com/journal/10019
-    touch-action: manipulation;
-
-  //   // Space out the menu on larger screens.
-  //   //
-  //   // @TODO: replace with flexbox
-  //   @media (min-width: 360px) {
-  //     padding-left: .4em;
-  //     padding-right: .4em;
-  //   }
-  // }
-
-  // // Hide controls by default. Holding finger on label toggles visibility.
-  // input,
-  // select {
-  //   position: absolute;
-  //   z-index: 5;
-  //   left: 0;
-  //   bottom: 3em;
-  //   opacity: 0; // unconditional bc if the person got this far, they have JS.
-  //   transform: translateY(100%); // slide down out of view
-  //   transition: all .1666s ease-in-out;
-  // }
-
-  // // Show controls when toggled
-  // input.visible,
-  // select.visible {
-  //   opacity: 1;
-  //   transform: translateY(0);
-  //   z-index: 50;
-  // }
-
-  // input {
-  //   border: 0;
-  //   padding: 10px;
-  //   width: auto;
-  //   margin-right: .5%;
-  // }
-
-  .hidden {
-    display: none;
+  .divider {
+    width: 100vw;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-top: $divider-styles;
   }
 
   //
-  // Opacity
+  // Flexbox container props
   //
-  // #opacity {
-  //   // Vertical slider
-  //   writing-mode: bt-lr; // IE
-  //   -webkit-appearance: slider-vertical; // WebKit / Blink
-  //   // Firefox uses the "orient" attr in HTML to be vertical
+  display: flex;
+  flex-flow: row wrap;
+  text-align: center;
 
-  //   // Slider styles
-  //   width: 50%;
+  //
+  // Shape presets.
+  //
+  // These are the create buttons. They can be individually configured, and
+  // function as buttons when the drawer is closed.
+  //
+  .preset {
+    flex: 1 0 25%;
+    align-self: stretch;
 
-  //   &::-webkit-slider-thumb {
-  //     -webkit-appearance: none;
-  //     background-color: #ecf0f1;
-  //     border: 1px solid #bdc3c7;
-  //     width: 30px;
-  //     height: 24px;
-  //     border-radius: 10px;
-  //     cursor: pointer;
-  //   }
-  // }
+    // Fancy stuff for slick UI.
+    transform-style: preserve-3d; // for button "pop" effect
+    perspective: 100px; // lower => more "pop" from UI when creating shapes
+    transition: background .1666s linear;
+  }
 
-  // Color
-  // label[for="color"] {
-  //   #color {
-  //     // display: none;
-  //     transform: translateX(10000px);
-  //   }
+  .proto {
+    position: relative;
+    top: 12px;
+  }
 
-  //   .cp-app {
-  //     position: absolute;
-  //     top: auto !important; // override inline styles from lib
-  //     bottom: 3em !important; // override inline styles from lib
-  //     left: -8em !important;
-  //   }
-  // }
+  // When the drawer is exposed, a preset must have focus in order to be configured.
+  &.is-open .is-focused {
+    background: rgba(0, 0, 0, .25);
+  }
+
+
+  // Fieldsets
+  //
+  // Each property is now in a fieldset so we can style the groups of inputs
+  // more easily.
+  fieldset {
+    flex: 0 0 100%;
+    width: 100vw;
+    border: 0;
+
+    legend {
+      display: none;
+      color: #555;
+      font-size: .75em;
+      padding-bottom: 1em;
+      text-align: center;
+      text-transform: uppercase;
+      text-shadow: 1px 1px 0 rgba(#fff, .6);
+    }
+  }
+
+  //
+  // Preset shapes
+  //
+  .fieldset--shape {
+    $size: 36px;
+
+    input[type="radio"] {
+      display: none;
+    }
+
+    label {
+      display: inline-block;
+      margin: 0 5%;
+      height: $size;
+
+      &::after {
+        display: inline-block;
+        content: ' ';
+        background: #000;
+        opacity: .8;
+        margin: 0 4%;
+      }
+    }
+
+    label[for="shape--square"] {
+      &::after {
+        width: $size;
+        height: $size;
+      }
+    }
+    label[for="shape--circle"] {
+      &::after {
+        width: $size + 2; // prevent clipping
+        height: $size + 2; // prevent clipping
+        border-radius: 50%;
+        transform: translateY(1px); // re-center
+      }
+    }
+    label[for="shape--triangle"] {
+      &::after {
+        width: $size;
+        height: $size;
+        border-left: ($size / 2) solid transparent;
+        border-right: ($size / 2) solid transparent;
+        border-bottom: $size solid #000;
+        background-color: transparent;
+      }
+    }
+    label[for="shape--rectangle"] {
+      &::after {
+        width: $size * 2;
+        height: $size;
+      }
+    }
+  }
+
+  .fieldset--color {
+    // CURRENTLY NOT DISPLAYED
+    display: none;
+
+    input {
+      width: 200px;
+      height: 32px;
+      font-size: 1.2em;
+    }
+  }
+
+  .fieldset--opacity {
+    input {
+      border: 1px solid rgba(#333, .5);
+      border-radius: 4px;
+      height: 32px;
+      width: 100%;
+      max-width: 320px;
+      appearance: none;
+      position: relative;
+      outline: none;
+
+      // Blink/Webkit custom styles
+      &::-webkit-slider-thumb {
+        appearance: none;
+        background: #fff;
+        height: 40px;
+        width: 32px;
+        border: 1px solid #bbb;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      // Label
+      &:after {
+        display: inline-block;
+        content: 'opacity';
+        position: absolute;
+        font-size: 2em;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -55%); // 55% bc it's all lowercase.
+        opacity: .5;
+      }
+    }
+  }
+
+  .fieldset--mix-blend-mode {
+    label {
+      display: inline-block;
+      color: #000;
+    }
+    select {
+      width: 100%;
+      max-width: 180px;
+      font-size: 1.2em;
+      margin-left: .5em;
+    }
+  }
 
   // General button styles
   button {
@@ -136,124 +231,45 @@
     z-index: 100;
   }
 
-  // Toggle button
-  // #toggle {
-  //   width: 1.7em;
-  //   margin-left: 0;
-  //   opacity: 1;
-  //   position: relative;
-  //   z-index: 100;
-
-  //   // Spice up the button with effects.
-  //   white-space: nowrap;
-  //   text-indent: -1em;
-
-  //   // Transition effects.
-  //   transition: background-color .2s ease-in-out,
-  //               text-indent .25s ease-in-out;
-
-  //   // Override interaction indicators.
-  //   &:focus, &:hover {
-  //     outline: none;
-  //   }
-  //   &:focus {
-  //     background-color: rgba(255, 255, 255, .1);
-  //   }
-
-  //   .open, .cancel {
-  //     display: inline-block;
-  //     text-align: left;
-  //     width: 2em;
-  //   }
-
-  //   .open {
-  //     // Nudge the emoji into better-looking place.
-  //     transform: translateX(-1px);
-  //   }
-  // }
-
-  // #add {
-  //   padding: 0;
-  //   background-color: rgba(255, 255, 255, .16);
-  //   outline: none;
-
-  //   // Icon
-  //   .add {
-  //     font-size: 1.5em;
-  //     text-shadow: 1px 1px 0 rgba(#000, .6);
-
-  //     // Nudge the emoji into better-looking place.
-  //     display: inline-block;
-  //     transform: translateY(-4px);
-  //   }
-
-  //   // Override interaction indicators.
-  //   &:focus {
-  //     animation: button-pulse 2s ease-in-out alternate infinite;
-  //   }
-  // }
-
   #save {
     cursor: pointer;
     color: white;
     text-decoration: none;
     position: absolute;
-    bottom: .5em;
-    right: .5em;
+    top: 16px;
+    right: 16px;
   }
 
   //
-  // Toggle drawer
+  // Animations for drawer opening/closing.
   //
+  &.up-fast {
+    animation: slide-up .2s ease-out 1;
+    animation-fill-mode: forwards;
+  }
+  &.down-fast {
+    animation: slide-down .2s ease-out 1;
+    animation-fill-mode: forwards;
+  }
+  &.up-slow {
+    animation: slide-up .75s ease-out 1;
+    animation-fill-mode: forwards;
+  }
+  &.down-slow {
+    animation: slide-down .75s ease-out 1;
+    animation-fill-mode: forwards;
+  }
+}
 
-  // Active styles
-//   &.controls--open {
-//     // Toggle state
-//     #toggle {
-//       text-indent: 0em;
-//       background-color: rgba(255, 255, 255, .16);
-//     }
+@keyframes slide-down {
+  100% {
+    transform: translateY(0px);
+  }
+}
 
-//     // Set the default visible properties.
-//     label, button {
-//       opacity: 1;
-//       transform: none;
-//       z-index: 5;
-//     }
-//   }
-
-//   // Now, individually set the disabled states to create a pleasing transition
-//   // from closed to open.
-//   button#toggle {
-//     transform: none;
-//   }
-//   label:nth-of-type(1) {
-//     transition-delay: 0;
-//   }
-//   label:nth-of-type(2) {
-//     transition-delay: .04s;
-//   }
-//   label:nth-of-type(3) {
-//     transition-delay: .08s;
-//   }
-//   label:nth-of-type(4) {
-//     transition-delay: .12s;
-//   }
-//   button#add {
-//     transition-delay: .16s;
-//   }
-
-  //
-  // Flexbox props
-  //
-  display: flex;
-  flex-flow: row wrap;
-  text-align: center;
-
-  .preset {
-    flex: 1 0 25%;
-    transform-style: preserve-3d; // for advanced button effects
-    perspective: 100px;
+@keyframes slide-up {
+  100% {
+    transform: translateY(-236px);
   }
 }
 

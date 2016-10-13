@@ -38,6 +38,12 @@ var client = function() {
     document.dispatchEvent(evt);
   });
 
+  this.socket.on('sync-controls', function(data) {
+    var evt = createEvent('sync-controls');
+    evt.colors = data.colors;
+    document.dispatchEvent(evt);
+  });
+
   function createEvent(name) {
     var ev = document.createEvent('Event');
     ev.initEvent(name, true, true);
