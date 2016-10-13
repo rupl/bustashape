@@ -232,7 +232,7 @@ client.socket.on('add', function(props) {
    */
   function requestElementUpdate(broadcast) {
     if (!ticking) {
-      reqAnimationFrame(redrawElement);
+      requestAnimationFrame(redrawElement);
       ticking = true;
 
       if (broadcast !== false) {

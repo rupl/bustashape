@@ -17,15 +17,6 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = function (name, fn
 }
 
 //
-// requestAnimationFrame polyfill
-//
-var reqAnimationFrame = (function () {
-  return window[Hammer.prefixed(window, 'requestAnimationFrame')] || function (callback) {
-    window.setTimeout(callback, 1000 / 60);
-  };
-})();
-
-//
 // Blur all form fields
 //
 // @see http://stackoverflow.com/a/29237391/175551
