@@ -272,7 +272,7 @@ function dragControls(ev) {
 // Helper function to manage controls state and animation.
 //
 function redrawControls () {
-  reqAnimationFrame(function () {
+  requestAnimationFrame(function () {
     var final_value = 'translateY(' + controls_transform.y + 'px)';
 
     // Set position.
