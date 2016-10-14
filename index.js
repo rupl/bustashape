@@ -82,7 +82,7 @@ io.on('connection', function(socket){
     }
 
     // Log the event.
-    console.log('👥   %s is joining %s', nickname, roomName);
+    console.log('👥➡🚪  %s is joining %s', nickname, roomName);
 
     // List user as a member of the room.
     client = {
@@ -170,8 +170,6 @@ io.on('connection', function(socket){
    * Someone got bored.
    */
   socket.on('disconnect', function() {
-    console.log('👥⬅  %s left %s', nickname || 'somebody', roomName || '');
-
     if ( !roomName ) {
       // No room was found. The server probably restarted so just bail.
       return false;
@@ -191,8 +189,14 @@ io.on('connection', function(socket){
           'nick': client.nick,
           'sid' : client.sid
         });
+
+        // Log the event.
+        console.log('👥⬅🚪  %s left %s', nickname || 'somebody', roomName || 'an unknown room');
       }
     }
+
+    // Log the event.
+    console.log('👥⬅   %s disconnected', nickname || 'somebody');
 
     // Forget room name
     //

@@ -80,6 +80,7 @@ gulp.task('js', function() {
   var ui = gulp.src([
     'node_modules/two.js/build/two.js',
     'js/tween-old.js',
+    'js/zui.js',
     'js/client.js',
     'js/login.js',
     'js/canvas.js',
