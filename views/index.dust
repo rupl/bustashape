@@ -132,7 +132,7 @@
     {/eq}
 
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/ui.min.js"></script>
+    <script src="/js/vendor.min.js"></script>
+    <script src="/js/main.min.js"></script>
   </body>
 </html>

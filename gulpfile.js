@@ -66,21 +66,22 @@ gulp.task('sass', function() {
 gulp.task('js', function() {
   bs.notify('<span style="color: grey">Running:</span> JS tasks');
 
-  var bootstrap = gulp.src([
-    'js/modernizr.min.js',
-    'js/hammer.min.js',
-    'js/utils.js',
-    'js/socket.js',
+  var vendor = gulp.src([
+    'js/vendor/modernizr.min.js',
+    'js/vendor/hammer.min.js',
+    'node_modules/two.js/build/two.js',
+    'js/vendor/tween-old.js',
+    'js/vendor/zui.js',
   ])
   .pipe(plumber())
-  .pipe(concat('bootstrap.min.js'))
+  .pipe(concat('vendor.min.js'))
   .pipe(uglify())
   .pipe(gulp.dest('_public/js'));
 
-  var ui = gulp.src([
-    'node_modules/two.js/build/two.js',
-    'js/tween-old.js',
-    'js/zui.js',
+  var main = gulp.src([
+    'js/_busta.js',
+    'js/_utils.js',
+    'js/socket.js',
     'js/client.js',
     'js/login.js',
     'js/canvas.js',
@@ -88,12 +89,12 @@ gulp.task('js', function() {
     'js/shapes.js',
   ])
   .pipe(plumber())
-  .pipe(concat('ui.min.js'))
+  .pipe(concat('main.min.js'))
   .pipe(uglify())
   .pipe(gulp.dest('_public/js'))
   .pipe(reload({stream: true}));
 
-  return merge(bootstrap, ui);
+  return merge(vendor, main);
 });
 
 
