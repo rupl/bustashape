@@ -30,7 +30,7 @@ zui.addLimits(1 / ZOOM_LIMIT, ZOOM_LIMIT);
 // Touch UI
 //
 if (Modernizr.touchevents) {
-  if (debug_busta === true) {
+  if (debug_busta !== 'undefined') {
     console.debug('👆 Touch events detected. Setting up mobile canvas...');
   }
 
@@ -103,7 +103,7 @@ if (Modernizr.touchevents) {
 // for projection and other public displays.
 //
 else {
-  if (debug_busta === true) {
+  if (debug_busta !== 'undefined') {
     console.debug('💻 No touch events detected. Setting up projection mode.');
   }
 
@@ -196,7 +196,7 @@ function redrawCanvasScale() {
   scene_transform.y = offset.surfaceMatrix.elements[5];
 
   // debug
-  if (debug_busta === true) {
+  if (debug_busta !== 'undefined') {
     debugCanvas(scene_transform);
   }
 
@@ -213,7 +213,7 @@ function redrawCanvasPan(deltaX, deltaY) {
   zui.updateSurface();
 
   // debug
-  if (debug_busta === true) {
+  if (debug_busta !== 'undefined') {
     debugCanvas(scene_transform);
   }
 

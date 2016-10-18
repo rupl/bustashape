@@ -15,7 +15,7 @@ two.bind('update', function twoUpdateListener() {
 });
 
 // debug
-if (debug_busta === true) {
+if (debug_busta !== 'undefined') {
   console.debug('💥 two.js initialized using ' + two.type + ' renderer.')
 }
 
@@ -73,7 +73,7 @@ client.socket.on('add', function(props) {
   // and apply the advanced CSS props (e.g. blend mode).
   two.update();
 
-  if (debug_busta === true) {
+  if (debug_busta !== 'undefined') {
     debugShape(shape);
   }
 
@@ -254,7 +254,7 @@ client.socket.on('add', function(props) {
     shape.scale = transform.scale;
     shape.rotation = Math.radians(transform.angle);
 
-    if (debug_busta === true) {
+    if (debug_busta !== 'undefined') {
       debugShape(shape);
     }
 

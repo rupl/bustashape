@@ -115,8 +115,6 @@
 
     {@eq key=env value="local"}
       <script>var debug_busta = true;</script>
-    {:else}
-      <script>var debug_busta = false;</script>
     {/eq}
 
     {@eq key=env value="production"}
