@@ -1,30 +1,19 @@
 /**
  * Log a user in
  */
-
-// Listen for form submission.
-$('#form-login').on('submit', function (ev) {
-  join();
-  ev.preventDefault();
-});
-
-// Auto-fill room name when hash is present
-if (window.location.hash !== '') {
-  $('#room').value = window.location.hash.replace('#','');
-  join();
-}
+me.logged_in = false;
 
 
 //
-// Connects to a specific room.
+// Join a room
 //
-function join() {
+me.join = function () {
   // me.nick = $('#nick').value;
   me.room = $('#room').value || false;
 
   var data = {
     // 'nick': me.nick,
-    'room': me.room
+    'room': me.room,
   };
 
   // Attempt to join the room.
@@ -49,13 +38,34 @@ function join() {
       $('.welcome').classList.add('hide');
       $('#form-login').classList.add('hide');
       $('#form-controls').classList.remove('hide');
-      blurAll();
 
       // Set this global to true so saving can be triggered by keyCode
-      window.logged_in = true;
+      me.logged_in = true;
     }, 500);
   });
+};
+
+
+//
+// Listen for form submission and join room
+//
+$('#form-login').on('submit', function (ev) {
+  me.join();
+  ev.preventDefault();
+});
+
+//
+// Auto-fill and login
+//
+// When hash is present (e.g. following a shared link) just login immediately
+// and let them join the action. We shouldn't require them to take any action
+// whatsoever in order to join an existing room.
+//
+if (window.location.hash !== '') {
+  $('#room').value = window.location.hash.replace('#','');
+  me.join();
 }
+
 
 // Announce when people join the room.
 document.on('user-joined', userJoined, true);
@@ -96,7 +106,7 @@ function userJoined(data) {
   });
 
   // Send our current color palette to new user.
-  client.send('sync-controls', data.sid, {colors: palette});
+  client.send('sync-controls', data.sid, { colors: palette });
 
   // Log to console.
   console.info('👥➡ %s just joined!', data.nick);

@@ -1,3 +1,5 @@
+/* eslint no-unused-vars: 1 */
+
 //
 // Callback for the simple Add action. When a user drags up the menu to reveal
 // shape options, there is a different set of actions executed.

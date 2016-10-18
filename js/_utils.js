@@ -1,3 +1,5 @@
+/* eslint no-unused-vars: 1 */
+
 //
 // bling.js but using qS and qSA
 //
@@ -6,15 +8,16 @@ window.$$ = document.querySelectorAll.bind(document);
 
 Node.prototype.on = window.on = function (name, fn) {
   this.addEventListener(name, fn);
-}
+};
 
 NodeList.prototype.__proto__ = Array.prototype;
 
 NodeList.prototype.on = NodeList.prototype.addEventListener = function (name, fn) {
-  this.forEach(function (elem, i) {
+  this.forEach(function (elem) {
     elem.on(name, fn);
   });
-}
+};
+
 
 //
 // Blur all form fields
@@ -28,17 +31,6 @@ function blurAll(){
   document.body.removeChild(tmp);
 }
 
-//
-// unFocus
-//
-// In the new UI, the add buttons are no longer form elements. "blurring" is not
-// a matter of focusing on an invisible form item. It is done stylistically.
-//
-function unFocus() {
-  $$('.proto').forEach(function unFocusProto(el) {
-    el.classList.remove('active');
-  });
-}
 
 //
 // Coerce things (mostly strings) to numbers.

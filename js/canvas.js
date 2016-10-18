@@ -12,7 +12,7 @@ var scene_transform = {
   scale: 1,
   center: {
     x: two.width / 2,
-    y: two.height / 2
+    y: two.height / 2,
   },
   origin: {},
 };
@@ -40,60 +40,6 @@ if (Modernizr.touchevents) {
   scene.add(new Hammer.Pinch({ threshold: 0 }));
   scene.add(new Hammer.Pan({ threshold: 0, pointers: 0 })).recognizeWith([scene.get('pinch')]);
   scene.on("pinchstart pinchmove panstart panmove", changeCanvas);
-
-  //
-  // Event listener for changing position/zoom of canvas.
-  //
-  // There is one callback for all touch gestures in order to minimize
-  // calculations needed to generate the proper response to a multi-touch
-  // interaction involving both panning and zooming. The function first checks
-  // for pinching and if the zoom needs to be adjusted, it automatically
-  // incorporates panning to produce an intuitive zoom origin in the center of
-  // the two fingers.
-  //
-  // If there's no pinch gesture occurring, it falls back to a simpler, faster
-  // calculation that only pans the canvas instead of zooming it as well.
-  //
-  function changeCanvas(ev) {
-    if (ev.target === svg) {
-      // Negate default gestures (e.g. pinch-to-select tabs in iPad Safari)
-      ev.preventDefault();
-
-      if (ev.type === 'pinchstart' && ev.target === svg) {
-        scene_transform.initScale = n(scene_transform.scale) || 1;
-        scene_transform.initX = n(scene_transform.x) || 0;
-        scene_transform.initY = n(scene_transform.y) || 0;
-      }
-
-      if (ev.type === 'pinchmove' && ev.target === svg) {
-        scene_transform.scale = scene_transform.initScale * ev.scale;
-        scene_transform.center.x = ev.center.x;
-        scene_transform.center.y = ev.center.y;
-
-        if (!scene_transform.ticking) {
-          requestAnimationFrame(redrawCanvasScale);
-          scene_transform.ticking = true;
-        }
-      }
-
-      if (ev.type === 'panstart' && ev.target === svg) {
-        // Get the starting position for this gesture
-        scene_transform.initX = n(scene_transform.x) || 0;
-        scene_transform.initY = n(scene_transform.y) || 0;
-      }
-
-      // We're already moving, use the values we stored during 'panstart'
-      if (ev.type === 'panmove' && ev.target === svg) {
-        scene_transform.x = n(scene_transform.initX) + n(ev.deltaX);
-        scene_transform.y = n(scene_transform.initY) + n(ev.deltaY);
-
-        if (!scene_transform.ticking) {
-          requestAnimationFrame(redrawCanvasPan);
-          scene_transform.ticking = true;
-        }
-      }
-    }
-  }
 }
 
 //
@@ -116,7 +62,7 @@ else {
   document.addEventListener('keydown', function handleProjectorPan(e) {
     var key = e.which || e.keyCode;
 
-    if (!!window.logged_in) {
+    if (me.logged_in) {
       switch (key) {
 
         // Left arrow.
@@ -149,7 +95,7 @@ else {
   document.addEventListener('keypress', function handleProjectorZoom(e) {
     var key = e.which || e.keyCode;
 
-    if (!!window.logged_in) {
+    if (me.logged_in) {
       switch (key) {
 
         // Zoom in
@@ -175,6 +121,62 @@ else {
   });
 }
 
+
+//
+// Event listener for changing position/zoom of canvas.
+//
+// There is one callback for all touch gestures in order to minimize
+// calculations needed to generate the proper response to a multi-touch
+// interaction involving both panning and zooming. The function first checks
+// for pinching and if the zoom needs to be adjusted, it automatically
+// incorporates panning to produce an intuitive zoom origin in the center of
+// the two fingers.
+//
+// If there's no pinch gesture occurring, it falls back to a simpler, faster
+// calculation that only pans the canvas instead of zooming it as well.
+//
+function changeCanvas(ev) {
+  if (ev.target === svg) {
+    // Negate default gestures (e.g. pinch-to-select tabs in iPad Safari)
+    ev.preventDefault();
+
+    if (ev.type === 'pinchstart' && ev.target === svg) {
+      scene_transform.initScale = n(scene_transform.scale) || 1;
+      scene_transform.initX = n(scene_transform.x) || 0;
+      scene_transform.initY = n(scene_transform.y) || 0;
+    }
+
+    if (ev.type === 'pinchmove' && ev.target === svg) {
+      scene_transform.scale = scene_transform.initScale * ev.scale;
+      scene_transform.center.x = ev.center.x;
+      scene_transform.center.y = ev.center.y;
+
+      if (!scene_transform.ticking) {
+        requestAnimationFrame(redrawCanvasScale);
+        scene_transform.ticking = true;
+      }
+    }
+
+    if (ev.type === 'panstart' && ev.target === svg) {
+      // Get the starting position for this gesture
+      scene_transform.initX = n(scene_transform.x) || 0;
+      scene_transform.initY = n(scene_transform.y) || 0;
+    }
+
+    // We're already moving, use the values we stored during 'panstart'
+    if (ev.type === 'panmove' && ev.target === svg) {
+      scene_transform.x = n(scene_transform.initX) + n(ev.deltaX);
+      scene_transform.y = n(scene_transform.initY) + n(ev.deltaY);
+
+      if (!scene_transform.ticking) {
+        requestAnimationFrame(redrawCanvasPan);
+        scene_transform.ticking = true;
+      }
+    }
+  }
+}
+
+
 //
 // Redraw the entire scene using two.js
 //
@@ -191,13 +193,13 @@ function redrawCanvasScale() {
   var matrix = zui.zoomSet(scene_transform.scale, scene_transform.center.x, scene_transform.center.y);
 
   // Pull the new X/Y coordinates out of ZUI and keep our stuff in sync.
-  var offset = zui.updateOffset();
+  var offset = matrix.updateOffset();
   scene_transform.x = offset.surfaceMatrix.elements[2];
   scene_transform.y = offset.surfaceMatrix.elements[5];
 
   // debug
   if (debug_busta !== 'undefined') {
-    debugCanvas(scene_transform);
+    window.debugCanvas(scene_transform);
   }
 
   // Redraw and release next frame.
@@ -207,14 +209,14 @@ function redrawCanvasScale() {
 //
 // Redraw the entire scene using two.js
 //
-function redrawCanvasPan(deltaX, deltaY) {
+function redrawCanvasPan() {
   // Update scene.
   zui.translateSurfaceTo(scene_transform.x, scene_transform.y);
   zui.updateSurface();
 
   // debug
   if (debug_busta !== 'undefined') {
-    debugCanvas(scene_transform);
+    window.debugCanvas(scene_transform);
   }
 
   // Redraw and release next frame.

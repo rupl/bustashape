@@ -1,28 +1,26 @@
-var client = new client();
-var me = {};
-var logged_in = false;
-
 // Initialize the canvas instance of two.js
 var canvas = $('#canvas');
 var two = new Two({
   fullscreen: true,
-  autostart: true
+  autostart: true,
 }).appendTo(canvas);
+
 
 // Allow tweening to run continuously.
 two.bind('update', function twoUpdateListener() {
   TWEEN.update();
 });
 
+
 // debug
 if (debug_busta !== 'undefined') {
-  console.debug('💥 two.js initialized using ' + two.type + ' renderer.')
+  console.debug('💥 two.js initialized using ' + two.type + ' renderer.');
 }
+
 
 // Define some constants for two.js
 var START_WIDTH = 200;
 var START_HEIGHT = 200;
-var START_ANGLE = 0;
 
 
 /**
@@ -31,23 +29,21 @@ var START_ANGLE = 0;
 client.socket.on('add', function(props) {
   // Just bail if a shape with this ID already exists. It would be much better
   // to not duplicate calls, but this at least avoids over-populating the DOM.
-  if (!!$('#' + props.id)) return;
-
-  // Close all form controls that might be open.
-  unFocus();
+  if ($('#' + props.id)) return;
 
   var START_X = n(props.x);
   var START_Y = n(props.y);
+  var shape;
 
   // Create new shape
   if (props.class === 'circle') {
-    var shape = two.makeCircle(START_X, START_Y, START_WIDTH / 2);
+    shape = two.makeCircle(START_X, START_Y, START_WIDTH / 2);
   } else if (props.class === 'rectangle') {
-    var shape = two.makeRectangle(START_X, START_Y, START_WIDTH * 2, START_HEIGHT);
+    shape = two.makeRectangle(START_X, START_Y, START_WIDTH * 2, START_HEIGHT);
   } else if (props.class === 'triangle') {
-    var shape = two.makePolygon(START_X, START_Y, START_WIDTH / 1.5, 3);
+    shape = two.makePolygon(START_X, START_Y, START_WIDTH / 1.5, 3);
   } else {
-    var shape = two.makeRectangle(START_X, START_Y, START_WIDTH, START_HEIGHT);
+    shape = two.makeRectangle(START_X, START_Y, START_WIDTH, START_HEIGHT);
   }
 
   // Fill out common props
@@ -62,9 +58,9 @@ client.socket.on('add', function(props) {
 
   // Popping animation
   // @see https://jsfiddle.net/jonobr1/72bytkhm/
-  var pop = new TWEEN.Tween(shape)
+  new TWEEN.Tween(shape)
     .to({
-      scale: props.scale
+      scale: props.scale,
     }, 400)
     .easing(TWEEN.Easing.Elastic.Out)
     .start();
@@ -74,7 +70,7 @@ client.socket.on('add', function(props) {
   two.update();
 
   if (debug_busta !== 'undefined') {
-    debugShape(shape);
+    window.debugShape(shape);
   }
 
   // Reference DOM element to allow direct manipulation for a few things.
@@ -87,7 +83,8 @@ client.socket.on('add', function(props) {
   var mc = new Hammer.Manager(el);
   var initX;
   var initY;
-  var timer;
+  var initScale;
+  var initAngle;
   var ticking = false;
   var transform = {
     x: props.x,
@@ -239,7 +236,7 @@ client.socket.on('add', function(props) {
         client.socket.emit('change', {
           room: client.room,
           id: props.id,
-          transform: transform
+          transform: transform,
         });
       }
     }
@@ -255,7 +252,7 @@ client.socket.on('add', function(props) {
     shape.rotation = Math.radians(transform.angle);
 
     if (debug_busta !== 'undefined') {
-      debugShape(shape);
+      window.debugShape(shape);
     }
 
     // Redraw

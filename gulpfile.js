@@ -31,7 +31,7 @@ gulp.task('bs', function() {
     proxy: 'localhost:8080',
     files: 'css/*.css',
     open: false,
-    ghostMode: false // ghostMode is incompatible with bustashape's socket data.
+    ghostMode: false, // incompatible with bustashape's socket data.
   });
 });
 
@@ -49,7 +49,7 @@ gulp.task('sass', function() {
     .pipe(sass({
         outputStyle: 'nested',
       })
-      .on('error', function(err, res) {
+      .on('error', function(err) {
         log(c.red('sass'), 'failed to compile');
         log(c.red('> ') + err.message);
         bs.notify('<span style="color: red">Sass failed to compile</span>');
@@ -129,10 +129,10 @@ gulp.task('watch', function() {
 // Run the dev server
 // -----------------------------------------------------------------------------
 gulp.task('start', ['sass', 'js', 'img', 'watch', 'bs'], function () {
-  nodemon({
+  return nodemon({
     script: 'index.js',
     ext: 'html dust js json',
-    env: { 'NODE_ENV': env }
+    env: { 'NODE_ENV': env },
   });
 });
 

@@ -1,26 +1,27 @@
 //------------------------------------------------------------------------------
 // Hook socket events to document events
 //------------------------------------------------------------------------------
+var me = {};
 
 /**
  * Set up socket listeners
  */
-var client = function() {
+var createClient = function() {
   var room = window.location.origin;
   this.socket = io().connect(room);
 
   // Warn when the connection is lost.
-  this.socket.on('disconnect', function (data) {
+  this.socket.on('disconnect', function () {
     console.warn('You\'re disconnected!');
   });
 
   // When connection is finally re-stablished, join the bustashape room.
-  this.socket.on('reconnect', function (data) {
+  this.socket.on('reconnect', function () {
     console.info('Reconnecting...');
 
     // If there's a room name in the URL, reconnect.
     if (window.location.hash != '') {
-      join();
+      me.join();
     }
   });
 
@@ -49,15 +50,21 @@ var client = function() {
     ev.initEvent(name, true, true);
     return ev;
   }
-}
+};
 
 /**
  * Allow events to be sent from client code.
  */
-client.prototype.send = function(cmd, data, fn) {
+createClient.prototype.send = function(cmd, data, fn) {
   if ( fn != null ) {
     this.socket.emit(cmd, data, fn);
   } else {
     this.socket.emit(cmd, data);
   }
-}
+};
+
+//
+// init for this user.
+//
+/* eslint-disable no-unused-vars */
+var client = new createClient();

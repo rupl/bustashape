@@ -18,7 +18,7 @@ var controls_transform = {
   ticking: false,
   height: controls.getClientRects()[0].height - CONTROLS_HEIGHT,
   init: {y: 0},
-  y: 0
+  y: 0,
 };
 
 // Lookup the animationend event for this browser.
@@ -47,7 +47,7 @@ $$('#form-controls').forEach(function (el) {
   // Don't ever submit the form. Ever.
   el.addEventListener('submit', function(ev) {
     ev.preventDefault();
-  })
+  });
 });
 
 $$('.preset').forEach(function (el) {
@@ -56,7 +56,7 @@ $$('.preset').forEach(function (el) {
 
   mc.add(new Hammer.Tap());
   mc.on("tap", handlePresetTap);
-})
+});
 
 // Set focus on first preset.
 var firstPreset = $$('.preset')[0];
@@ -65,14 +65,14 @@ setPresetFocus(firstPreset);
 // Set listeners on shape input
 (function initControls() {
   $$('input[name="shape"]').forEach(function(el) {
-    el.addEventListener('change', function(ev) {
+    el.addEventListener('change', function() {
       // Save setting.
       var proto = $('.preset.is-focused').childNodes[0];
       proto.dataset.shape = this.value;
 
       // Update visual appearance.
       setPresetOptions(proto);
-    })
+    });
   });
 
   $('#color').addEventListener('change', function(ev) {
@@ -125,7 +125,7 @@ function handlePresetTap(ev) {
   if (controls.classList.contains('is-open')) {
     setPresetFocus(ev.srcEvent.target);
   } else {
-    createShape(ev);
+    window.createShape(ev);
   }
 }
 
@@ -353,7 +353,7 @@ function whichAnimationEvent(){
     'animation':'animationend',
     'OAnimation':'oAnimationEnd',
     'MozAnimation':'animationend',
-    'WebkitAnimation':'webkitAnimationEnd'
+    'WebkitAnimation':'webkitAnimationEnd',
   };
 
   for (t in animations) {
@@ -363,10 +363,25 @@ function whichAnimationEvent(){
   }
 }
 
+
+//
+// unFocus
+//
+// In the new UI, the add buttons are no longer form elements. "blurring" is not
+// a matter of focusing on an invisible form item. It is done stylistically.
+//
+function unFocus() {
+  $$('.proto').forEach(function unFocusProto(el) {
+    el.classList.remove('active');
+  });
+}
+
+
 //
 // Event listeners
 //
 document.on('sync-controls', syncControls, true);
+client.socket.on('add', unFocus);
 
 /**
  * Sync controls.
