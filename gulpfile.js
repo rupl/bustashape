@@ -14,6 +14,7 @@ var nodemon = require('gulp-nodemon');
 var sass = require('gulp-sass');
 var prefix = require('gulp-autoprefixer');
 var concat = require('gulp-concat');
+var eslint = require('gulp-eslint');
 var uglify = require('gulp-uglify');
 var bs = require('browser-sync');
 var reload = bs.reload;
@@ -89,6 +90,8 @@ gulp.task('js', function() {
     'js/shapes.js',
   ])
   .pipe(plumber())
+  .pipe(eslint())
+  .pipe(eslint.format())
   .pipe(concat('main.min.js'))
   .pipe(uglify())
   .pipe(gulp.dest('_public/js'))

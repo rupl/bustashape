@@ -34,5 +34,9 @@
     "snyk-protect": "snyk protect",
     "prepublish": "npm run snyk-protect"
   },
-  "snyk": true
+  "snyk": true,
+  "devDependencies": {
+    "eslint": "^3.8.1",
+    "gulp-eslint": "^3.0.1"
+  }
 }
