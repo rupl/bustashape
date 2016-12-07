@@ -3,28 +3,28 @@ ignore:
   'npm:connect:20130701':
     - browser-sync > browser-sync-ui > weinre > express > connect:
         reason: snyk
-        expires: '2016-11-11T10:26:02.376Z'
+        expires: '2017-01-06T10:20:14.914Z'
     - browser-sync-ui > weinre > express > connect:
         reason: snyk
         expires: '2016-10-22T15:49:24.987Z'
   'npm:express:20140912':
     - browser-sync > browser-sync-ui > weinre > express:
         reason: snyk
-        expires: '2016-11-11T10:26:02.376Z'
+        expires: '2017-01-06T10:20:14.914Z'
     - browser-sync-ui > weinre > express:
         reason: snyk
         expires: '2016-10-22T15:49:24.987Z'
   'npm:qs:20140806':
     - browser-sync > browser-sync-ui > weinre > express > qs:
         reason: snyk
-        expires: '2016-11-11T10:26:02.377Z'
+        expires: '2017-01-06T10:20:14.915Z'
     - browser-sync-ui > weinre > express > qs:
         reason: snyk
         expires: '2016-10-22T15:49:24.987Z'
   'npm:qs:20140806-1':
     - browser-sync > browser-sync-ui > weinre > express > qs:
         reason: snyk
-        expires: '2016-11-11T10:26:02.377Z'
+        expires: '2017-01-06T10:20:14.916Z'
     - browser-sync-ui > weinre > express > qs:
         reason: snyk
         expires: '2016-10-22T15:49:24.987Z'
@@ -41,7 +41,7 @@ ignore:
   'npm:cli:20160615':
     - dustjs-linkedin > cli:
         reason: snyk
-        expires: '2016-11-11T10:26:02.375Z'
+        expires: '2017-01-06T10:20:14.913Z'
 patch:
   'npm:request:20160119':
     - browser-sync > localtunnel > request:
