@@ -103,6 +103,8 @@ $divider-styles: 4px solid rgba(#000, .1);
   // Preset shapes
   //
   .fieldset--shape {
+    // CURRENTLY NOT DISPLAYED
+    display: none;
     $size: 36px;
 
     input[type="radio"] {
@@ -167,6 +169,9 @@ $divider-styles: 4px solid rgba(#000, .1);
   }
 
   .fieldset--opacity {
+    // CURRENTLY NOT DISPLAYED
+    display: none;
+
     input {
       border: 1px solid rgba(#333, .5);
       border-radius: 4px;

@@ -20,8 +20,8 @@ if (debug_busta === true) {
 }
 
 // Define some constants for two.js
-var START_WIDTH = 200;
-var START_HEIGHT = 200;
+var START_WIDTH = 100;
+var START_HEIGHT = 100;
 var START_ANGLE = 0;
 
 
@@ -103,11 +103,11 @@ client.socket.on('add', function(props) {
 
   // Set up the main gesture, multi-touch dragging/rotating
   mc.add(new Hammer.Pan({ threshold: 0, pointers: 0 }));
-  mc.add(new Hammer.Rotate({ threshold: 0 })).recognizeWith(mc.get('pan'));
-  mc.add(new Hammer.Pinch({ threshold: 0 })).recognizeWith([mc.get('pan'), mc.get('rotate')]);
+  // mc.add(new Hammer.Rotate({ threshold: 0 })).recognizeWith(mc.get('pan'));
+  // mc.add(new Hammer.Pinch({ threshold: 0 })).recognizeWith([mc.get('pan'), mc.get('rotate')]);
   mc.on("panstart panmove", onPan);
-  mc.on("rotatestart rotatemove", onRotate);
-  mc.on("pinchstart pinchmove", onPinch);
+  // mc.on("rotatestart rotatemove", onRotate);
+  // mc.on("pinchstart pinchmove", onPinch);
 
   // Tapping gesture
   // mc.add(new Hammer.Tap());
@@ -140,6 +140,8 @@ client.socket.on('add', function(props) {
     if (ev.type === 'panmove') {
       transform.x = n(initX) + (n(ev.deltaX) / two.scene.scale);
       transform.y = n(initY) + (n(ev.deltaY) / two.scene.scale);
+      transform.ww = window.innerWidth;
+      transform.wh = window.innerHeight;
     }
 
     requestElementUpdate();
@@ -239,7 +241,8 @@ client.socket.on('add', function(props) {
         client.socket.emit('change', {
           room: client.room,
           id: props.id,
-          transform: transform
+          transform: transform,
+          color: shape.fill
         });
       }
     }

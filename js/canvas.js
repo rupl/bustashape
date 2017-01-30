@@ -20,7 +20,10 @@ var scene_transform = {
 // Zoom limit is due to internals of two.js — it rounds to three
 // sig-figs when setting matrix transforms of Groups and Paths so if we
 // exceed the resolution of the numbers, weird stuff happens.
-var ZOOM_LIMIT = 500;
+//
+// For bustapixel we want to disable zoom. Setting a value of 1 allows us
+// to disable zooming without touching the other pieces of code.
+var ZOOM_LIMIT = 1;
 
 // Setup zooming/panning mechanism.
 var zui = new ZUI(two);
@@ -37,9 +40,12 @@ if (Modernizr.touchevents) {
   // Set up zoom/pan for the whole scene.
   var svg = $('#canvas svg');
   var scene = new Hammer.Manager(svg);
-  scene.add(new Hammer.Pinch({ threshold: 0 }));
-  scene.add(new Hammer.Pan({ threshold: 0, pointers: 0 })).recognizeWith([scene.get('pinch')]);
-  scene.on("pinchstart pinchmove panstart panmove", changeCanvas);
+
+  // // Again, to disable panning and zooming of canvas, event listeners are being
+  // // commented out. The code is there, but we aren't using it now.
+  // scene.add(new Hammer.Pinch({ threshold: 0 }));
+  // scene.add(new Hammer.Pan({ threshold: 0, pointers: 0 })).recognizeWith([scene.get('pinch')]);
+  // scene.on("pinchstart pinchmove panstart panmove", changeCanvas);
 
   //
   // Event listener for changing position/zoom of canvas.

@@ -57,6 +57,11 @@ five.Board().on('ready', function() {
     gamma: 3.6, // 3.6 = night, 2.6 = bright day
   });
 
+  // for debugging, allow REPL interaction with NeoPixel.
+  this.repl.inject({
+    strip: strip
+  });
+
   // Start app after NeoPixel is ready.
   strip.on("ready", function() {
     console.log("👍  NeoPixel is ready with " + strip.length + " LEDs");
@@ -143,6 +148,40 @@ five.Board().on('ready', function() {
         // }
       });
 
+      function drawSquare(props) {
+        var ROW = 8;
+        var COL = 1;
+
+        var coords = {
+          x: Math.round((props.transform.ww/2 - props.transform.x) / (props.transform.ww / 8)) * COL,
+          y: Math.round((props.transform.wh/2 - props.transform.y) / (props.transform.wh / 8)) * ROW,
+        }
+
+
+        // figure out where to start drawing
+        // TODO: avoid resolving to default when value is 0
+        var ORIGIN = Math.round(27 - coords.x - coords.y) || 27;
+        coords.origin = ORIGIN;
+        console.log(coords);
+
+        // don't draw beyond LED array. if the params are out of bounds then
+        // don't draw anything!
+        //
+        // TODO: instead of bailing, validate data and allow for partial draws
+        // by checking each of the four coords and only drawing those that are
+        // inn bounds.
+        if (ORIGIN < 0) { return; }
+        if (ORIGIN > strip.length - COL - ROW - 1) { return; }
+
+        // draw!
+        strip.off();
+        strip.pixel(ORIGIN).color(props.color);
+        strip.pixel(ORIGIN + COL).color(props.color);
+        strip.pixel(ORIGIN + ROW).color(props.color);
+        strip.pixel(ORIGIN + ROW + COL).color(props.color);
+        strip.pixel(ORIGIN).color(props.color);
+        strip.show();
+      }
 
       /**
        * A new shape appears!
@@ -154,11 +193,13 @@ five.Board().on('ready', function() {
         io.to(props.room).emit('add', props);
         console.log('🔷💥 ', JSON.stringify(props).replace('\n',''));
 
-        strip.pixel(27).color(props.color);
-        strip.pixel(28).color(props.color);
-        strip.pixel(35).color(props.color);
-        strip.pixel(36).color(props.color);
-        strip.show();
+        props.transform = {};
+        props.transform.x = props.x;
+        props.transform.y = props.y;
+
+        console.log(props);
+
+        drawSquare(props);
       });
 
       /**
@@ -192,6 +233,8 @@ five.Board().on('ready', function() {
         // broadcast to all other clients.
         socket.to(props.room).emit('change', props);
         console.log('🔷💨 ', JSON.stringify(props).replace('\n',''));
+
+        drawSquare(props);
       });
 
       /**
