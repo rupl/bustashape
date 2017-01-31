@@ -19,10 +19,12 @@
     "gulp-uglify": "^1.5.1",
     "gulp-util": "^3.0.7",
     "johnny-five": "^0.10.6",
+    "lodash": "^4.17.4",
     "merge-stream": "^1.0.0",
     "node-pixel": "^0.9.1",
     "snyk": "^1.14.3",
     "socket.io": "^1.4.5",
+    "socketio-wildcard": "^0.3.0",
     "twitter": "^1.4.0",
     "two.js": "^0.5.0"
   },

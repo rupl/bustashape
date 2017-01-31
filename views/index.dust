@@ -39,7 +39,7 @@
         <span class="proto proto-1"
           data-shape="square"
           data-color="#{palette[0]}"
-          data-opacity=".9"
+          data-opacity="1"
           data-mix-blend-mode="normal">
         </span>
       </div>
@@ -47,7 +47,7 @@
         <span class="proto proto-2"
           data-shape="square"
           data-color="#{palette[1]}"
-          data-opacity=".9"
+          data-opacity="1"
           data-mix-blend-mode="normal">
         </span>
       </div>
@@ -55,7 +55,7 @@
         <span class="proto proto-3"
           data-shape="square"
           data-color="#{palette[2]}"
-          data-opacity=".9"
+          data-opacity="1"
           data-mix-blend-mode="normal">
         </span>
       </div>
@@ -63,7 +63,7 @@
         <span class="proto proto-4"
           data-shape="square"
           data-color="#{palette[3]}"
-          data-opacity=".9"
+          data-opacity="1"
           data-mix-blend-mode="normal">
         </span>
       </div>
@@ -85,7 +85,7 @@
 
       <fieldset class="fieldset--opacity">
         <legend>Opacity</legend>
-        <input id="opacity" type="range" name="opacity" min=".2" max="1" step=".01" value=".7">
+        <input id="opacity" type="range" name="opacity" min=".2" max="1" step=".01" value="1">
       </fieldset>
 
       <fieldset class="fieldset--mix-blend-mode">

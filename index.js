@@ -5,6 +5,7 @@ var dust = require('dustjs-linkedin');
 var cons = require('consolidate');
 var pixel = require('node-pixel');
 var five = require('johnny-five');
+var _ = require('lodash');
 // var Twitter = require('twitter');
 
 var port = process.env.PORT || 8080;
@@ -17,6 +18,8 @@ var strip = null;
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var wildcard = require('socketio-wildcard')();
+io.use(wildcard);
 
 // Twitter
 // var twitter = new Twitter({
@@ -45,16 +48,20 @@ app.get('/', function(req, res){
 });
 
 five.Board().on('ready', function() {
+  // debugging
   console.log('Arduino is ready.');
   var led = new five.Led(10);
   led.brightness(48);
+
+  // refresh rate of LED board
+  var FPS = 30;
 
   // Setup the NeoPixel ring
   strip = new pixel.Strip({
     board: this,
     controller: "FIRMATA",
     strips: [ {pin: 6, length: 64}, ],
-    gamma: 3.6, // 3.6 = night, 2.6 = bright day
+    gamma: 2.6, // 3.6 = night, 2.6 = bright day
   });
 
   // for debugging, allow REPL interaction with NeoPixel.
@@ -148,6 +155,9 @@ five.Board().on('ready', function() {
         // }
       });
 
+      var ledShapes = [];
+      var ledShapesPrev = [];
+
       function drawSquare(props) {
         var ROW = 8;
         var COL = 1;
@@ -157,12 +167,13 @@ five.Board().on('ready', function() {
           y: Math.round((props.transform.wh/2 - props.transform.y) / (props.transform.wh / 8)) * ROW,
         }
 
-
-        // figure out where to start drawing
-        // TODO: avoid resolving to default when value is 0
-        var ORIGIN = Math.round(27 - coords.x - coords.y) || 27;
+        // Figure out where to start drawing based on client data.
+        // When client data is absent, default to center using 27 on 8x8.
+        var ORIGIN = Math.round(27 - coords.x - coords.y);
+        if (isNaN(ORIGIN)) {
+          ORIGIN = 27;
+        }
         coords.origin = ORIGIN;
-        console.log(coords);
 
         // don't draw beyond LED array. if the params are out of bounds then
         // don't draw anything!
@@ -174,14 +185,41 @@ five.Board().on('ready', function() {
         if (ORIGIN > strip.length - COL - ROW - 1) { return; }
 
         // draw!
-        strip.off();
+        strip.pixel(ORIGIN).color(props.color);
+        // maybe it's just timing related, but I can only ever get the first
+        // LED to light up when I repeat the command.
         strip.pixel(ORIGIN).color(props.color);
         strip.pixel(ORIGIN + COL).color(props.color);
         strip.pixel(ORIGIN + ROW).color(props.color);
         strip.pixel(ORIGIN + ROW + COL).color(props.color);
-        strip.pixel(ORIGIN).color(props.color);
-        strip.show();
       }
+
+      function queueDrawing(props) {
+        var dupe = _.find(ledShapes, {'id': props.id});
+        if (dupe) {
+          var index = _.indexOf(ledShapes, _.find(ledShapes, {'id': props.id }));
+          ledShapes.splice(index, 1, props);
+        } else {
+          ledShapes.push(props);
+        }
+
+        drawLEDs();
+      }
+
+      var drawLEDs = _.throttle(function () {
+          console.log('🎨  DRAW frame');
+
+          // clear LED board
+          strip.off();
+
+          // draw new frame
+          ledShapes.forEach(function (v, i, a) {
+            drawSquare(v);
+          });
+
+          // display new frame on LED board
+          strip.show();
+      }, 1000 / FPS);
 
       /**
        * A new shape appears!
@@ -193,13 +231,14 @@ five.Board().on('ready', function() {
         io.to(props.room).emit('add', props);
         console.log('🔷💥 ', JSON.stringify(props).replace('\n',''));
 
+        // this should be fixed upstream but for now just copy values
+        // into a transform object so both add/change can be drawn w/
+        // the same function.
         props.transform = {};
         props.transform.x = props.x;
         props.transform.y = props.y;
 
-        console.log(props);
-
-        drawSquare(props);
+        queueDrawing(props);
       });
 
       /**
@@ -234,7 +273,7 @@ five.Board().on('ready', function() {
         socket.to(props.room).emit('change', props);
         console.log('🔷💨 ', JSON.stringify(props).replace('\n',''));
 
-        drawSquare(props);
+        queueDrawing(props);
       });
 
       /**

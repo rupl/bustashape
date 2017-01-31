@@ -37,18 +37,18 @@ var animationEvent = whichAnimationEvent();
 //       space directly above the drawer, so that sloppy grabs still open or
 //       close the drawer.
 //
-$$('#form-controls').forEach(function (el) {
-  var mc = new Hammer.Manager(el);
-  mc.options.domEvents = true;
+// $$('#form-controls').forEach(function (el) {
+//   var mc = new Hammer.Manager(el);
+//   mc.options.domEvents = true;
 
-  mc.add(new Hammer.Pan({ threshold: 0, pointers: 0 }));
-  mc.on("panstart panmove panend", dragControls);
+//   mc.add(new Hammer.Pan({ threshold: 0, pointers: 0 }));
+//   mc.on("panstart panmove panend", dragControls);
 
-  // Don't ever submit the form. Ever.
-  el.addEventListener('submit', function(ev) {
-    ev.preventDefault();
-  })
-});
+//   // Don't ever submit the form. Ever.
+//   el.addEventListener('submit', function(ev) {
+//     ev.preventDefault();
+//   })
+// });
 
 $$('.preset').forEach(function (el) {
   var mc = new Hammer.Manager(el);
