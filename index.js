@@ -53,14 +53,18 @@ five.Board().on('ready', function() {
   var led = new five.Led(10);
   led.brightness(48);
 
-  // refresh rate of LED board
+  // NeoPixel drawing params
+  //
+  // TODO: send w/h to clients on connect.
   var FPS = 30;
+  var BOARD_WIDTH = 8;
+  var BOARD_HEIGHT = 8;
 
   // Setup the NeoPixel ring
   strip = new pixel.Strip({
     board: this,
     controller: "FIRMATA",
-    strips: [ {pin: 6, length: 64}, ],
+    strips: [ {pin: 6, length: BOARD_WIDTH*BOARD_HEIGHT}, ],
     gamma: 2.6, // 3.6 = night, 2.6 = bright day
   });
 
@@ -73,6 +77,9 @@ five.Board().on('ready', function() {
   strip.on("ready", function() {
     console.log("👍  NeoPixel is ready with " + strip.length + " LEDs");
     strip.off();
+
+    var ledShapes = [];
+    var ledShapesPrev = [];
 
     /**
      * Someone connected.
@@ -155,16 +162,19 @@ five.Board().on('ready', function() {
         // }
       });
 
-      var ledShapes = [];
-      var ledShapesPrev = [];
-
-      function drawSquare(props) {
+      function drawSquare(props, erase) {
         var ROW = 8;
         var COL = 1;
+        var drawColor = props.color;
+
+        if (typeof erase !== 'undefined' && erase === true) {
+          drawColor = 'black';
+          console.log('🚫  erasing old frame...');
+        }
 
         var coords = {
-          x: Math.round((props.transform.ww/2 - props.transform.x) / (props.transform.ww / 8)) * COL,
-          y: Math.round((props.transform.wh/2 - props.transform.y) / (props.transform.wh / 8)) * ROW,
+          x: props.transform.led.x * COL,
+          y: props.transform.led.y * ROW,
         }
 
         // Figure out where to start drawing based on client data.
@@ -185,16 +195,19 @@ five.Board().on('ready', function() {
         if (ORIGIN > strip.length - COL - ROW - 1) { return; }
 
         // draw!
-        strip.pixel(ORIGIN).color(props.color);
+        strip.pixel(ORIGIN).color(drawColor);
         // maybe it's just timing related, but I can only ever get the first
         // LED to light up when I repeat the command.
-        strip.pixel(ORIGIN).color(props.color);
-        strip.pixel(ORIGIN + COL).color(props.color);
-        strip.pixel(ORIGIN + ROW).color(props.color);
-        strip.pixel(ORIGIN + ROW + COL).color(props.color);
+        strip.pixel(ORIGIN).color(drawColor);
+        strip.pixel(ORIGIN + COL).color(drawColor);
+        strip.pixel(ORIGIN + ROW).color(drawColor);
+        strip.pixel(ORIGIN + ROW + COL).color(drawColor);
       }
 
       function queueDrawing(props) {
+        props.transform.led.x = Math.round(props.transform.led.x * BOARD_WIDTH);
+        props.transform.led.y = Math.round(props.transform.led.y * BOARD_HEIGHT);
+
         var dupe = _.find(ledShapes, {'id': props.id});
         if (dupe) {
           var index = _.indexOf(ledShapes, _.find(ledShapes, {'id': props.id }));
@@ -207,14 +220,26 @@ five.Board().on('ready', function() {
       }
 
       var drawLEDs = _.throttle(function () {
-          console.log('🎨  DRAW frame');
+          // console.log('🎨  DRAW frame');
 
           // clear LED board
-          strip.off();
+          // strip.off();
 
           // draw new frame
           ledShapes.forEach(function (v, i, a) {
+
+            // erase deltas
+            if (typeof ledShapesPrev[i] !== 'undefined' && !_.isEqual(v.transform.led, ledShapesPrev[i].transform.led)) {
+              console.log('CURR', v.transform.led);
+              console.log('PREV', ledShapesPrev[i].transform.led);
+              drawSquare(ledShapesPrev[i], true);
+            }
+
+            // draw current frame
             drawSquare(v);
+
+            // cache current frame for next render
+            ledShapesPrev[i] = v;
           });
 
           // display new frame on LED board
@@ -237,6 +262,9 @@ five.Board().on('ready', function() {
         props.transform = {};
         props.transform.x = props.x;
         props.transform.y = props.y;
+        props.transform.led = {};
+        props.transform.led.x = (props.transform.ww/2 - props.transform.x) / props.transform.ww;
+        props.transform.led.y = (props.transform.wh/2 - props.transform.y) / props.transform.wh;
 
         queueDrawing(props);
       });

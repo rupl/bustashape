@@ -20,8 +20,8 @@ if (debug_busta === true) {
 }
 
 // Define some constants for two.js
-var START_WIDTH = 100;
-var START_HEIGHT = 100;
+var START_WIDTH = Math.round(window.innerWidth / 8) * 2;
+var START_HEIGHT = Math.round(window.innerHeight / 8) * 2;
 var START_ANGLE = 0;
 
 
@@ -94,6 +94,10 @@ client.socket.on('add', function(props) {
     y: props.y,
     angle: props.angle,
     scale: props.scale,
+    led: {
+      x: 3,
+      y: 3,
+    }
   };
 
 
@@ -142,6 +146,8 @@ client.socket.on('add', function(props) {
       transform.y = n(initY) + (n(ev.deltaY) / two.scene.scale);
       transform.ww = window.innerWidth;
       transform.wh = window.innerHeight;
+      transform.led.x = (transform.ww/2 - transform.x) / transform.ww;
+      transform.led.y = (transform.wh/2 - transform.y) / transform.wh;
     }
 
     requestElementUpdate();

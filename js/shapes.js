@@ -50,6 +50,16 @@ function createShape(ev) {
     mixBlendMode: preset.dataset.mixBlendMode,
     x: REL_X,
     y: REL_Y,
+    transform: {
+      x: REL_X,
+      y: REL_Y,
+      ww: window.innerWidth,
+      wh: window.innerHeight,
+      led: {
+        x: 3,
+        y: 3,
+      }
+    },
     scale: REL_SCALE,
     angle: 0,
   });
