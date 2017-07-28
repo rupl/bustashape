@@ -5,55 +5,61 @@ ignore:
   'npm:connect:20130701':
     - browser-sync > browser-sync-ui > weinre > express > connect:
         reason: snyk
-        expires: '2017-01-06T10:20:14.914Z'
-      browser-sync-ui > weinre > express > connect:
-        reason: snyk
-        expires: '2017-05-05T09:37:49.894Z'
+        expires: '2017-08-27T08:59:31.283Z'
     - browser-sync-ui > weinre > express > connect:
         reason: snyk
         expires: '2016-10-22T15:49:24.987Z'
-      browser-sync > browser-sync-ui > weinre > express > connect:
+    - browser-sync-ui > weinre > express > connect:
+        reason: snyk
+        expires: '2017-05-05T09:37:49.894Z'
+    - browser-sync > browser-sync-ui > weinre > express > connect:
         reason: snyk
         expires: '2017-05-05T09:37:49.894Z'
   'npm:express:20140912':
     - browser-sync > browser-sync-ui > weinre > express:
         reason: snyk
-        expires: '2017-01-06T10:20:14.914Z'
-      browser-sync-ui > weinre > express:
-        reason: snyk
-        expires: '2017-05-05T09:37:49.894Z'
+        expires: '2017-08-27T08:59:31.283Z'
     - browser-sync-ui > weinre > express:
         reason: snyk
         expires: '2016-10-22T15:49:24.987Z'
-      browser-sync > browser-sync-ui > weinre > express:
+    - browser-sync-ui > weinre > express:
+        reason: snyk
+        expires: '2017-05-05T09:37:49.894Z'
+    - browser-sync > browser-sync-ui > weinre > express:
         reason: snyk
         expires: '2017-05-05T09:37:49.894Z'
   'npm:qs:20140806':
     - browser-sync > browser-sync-ui > weinre > express > qs:
         reason: snyk
-        expires: '2017-01-06T10:20:14.915Z'
-      browser-sync-ui > weinre > express > qs:
-        reason: snyk
-        expires: '2017-05-05T09:37:49.895Z'
+        expires: '2017-08-27T08:59:31.283Z'
     - browser-sync-ui > weinre > express > qs:
         reason: snyk
         expires: '2016-10-22T15:49:24.987Z'
-      browser-sync > browser-sync-ui > weinre > express > qs:
+    - browser-sync-ui > weinre > express > qs:
         reason: snyk
         expires: '2017-05-05T09:37:49.895Z'
+    - browser-sync > browser-sync-ui > weinre > express > qs:
+        reason: snyk
+        expires: '2017-05-05T09:37:49.895Z'
+    - browser-sync > browser-sync-ui > weinre > express > connect > qs:
+        reason: None given
+        expires: '2017-08-27T08:59:31.283Z'
   'npm:qs:20140806-1':
     - browser-sync > browser-sync-ui > weinre > express > qs:
         reason: snyk
-        expires: '2017-01-06T10:20:14.916Z'
-      browser-sync-ui > weinre > express > qs:
-        reason: snyk
-        expires: '2017-05-05T09:37:49.895Z'
+        expires: '2017-08-27T08:59:31.283Z'
     - browser-sync-ui > weinre > express > qs:
         reason: snyk
         expires: '2016-10-22T15:49:24.987Z'
-      browser-sync > browser-sync-ui > weinre > express > qs:
+    - browser-sync-ui > weinre > express > qs:
         reason: snyk
         expires: '2017-05-05T09:37:49.895Z'
+    - browser-sync > browser-sync-ui > weinre > express > qs:
+        reason: snyk
+        expires: '2017-05-05T09:37:49.895Z'
+    - browser-sync > browser-sync-ui > weinre > express > connect > qs:
+        reason: None given
+        expires: '2017-08-27T08:59:31.283Z'
   'npm:negotiator:20160616':
     - socket.io > engine.io > accepts > negotiator:
         reason: snyk
@@ -75,6 +81,9 @@ ignore:
     - browser-sync > browser-sync-ui > weinre > express > connect:
         reason: snyk
         expires: '2017-05-05T09:37:49.894Z'
+    - browser-sync > browser-sync-ui > weinre > express > connect:
+        reason: snyk
+        expires: '2017-08-27T08:59:31.283Z'
   'npm:qs:20170213':
     - browser-sync-ui > weinre > express > qs:
         reason: snyk
@@ -82,6 +91,12 @@ ignore:
     - browser-sync > browser-sync-ui > weinre > express > qs:
         reason: snyk
         expires: '2017-05-05T09:37:49.896Z'
+    - browser-sync > browser-sync-ui > weinre > express > qs:
+        reason: snyk
+        expires: '2017-08-27T08:59:31.283Z'
+    - browser-sync > browser-sync-ui > weinre > express > connect > qs:
+        reason: None given
+        expires: '2017-08-27T08:59:31.283Z'
   'npm:shelljs:20140723':
     - eslint > shelljs:
         reason: snyk
@@ -97,36 +112,20 @@ patch:
   'npm:minimatch:20160620':
     - snyk > recursive-readdir > minimatch:
         patched: '2016-07-11T19:02:00.037Z'
-      gulp-nodemon > gulp > vinyl-fs > glob-stream > glob > minimatch:
-        patched: '2017-04-05T09:36:13.199Z'
     - dustjs-linkedin > cli > glob > minimatch:
         patched: '2016-07-11T19:02:00.037Z'
-      gulp > vinyl-fs > glob-stream > minimatch:
-        patched: '2017-04-05T09:36:13.199Z'
     - browser-sync > chokidar > fsevents > node-pre-gyp > rimraf > glob > minimatch:
         patched: '2016-07-11T19:02:00.037Z'
-      gulp > vinyl-fs > glob-stream > glob > minimatch:
-        patched: '2017-04-05T09:36:13.199Z'
     - browser-sync > chokidar > fsevents > node-pre-gyp > tar > fstream > rimraf > glob > minimatch:
         patched: '2016-07-11T19:02:00.037Z'
-      gulp-nodemon > gulp > vinyl-fs > glob-stream > minimatch:
-        patched: '2017-04-05T09:36:13.199Z'
     - browser-sync > chokidar > fsevents > node-pre-gyp > tar-pack > fstream > rimraf > glob > minimatch:
         patched: '2016-07-11T19:02:00.037Z'
-      gulp > vinyl-fs > glob-watcher > gaze > globule > glob > minimatch:
-        patched: '2017-04-05T09:36:13.199Z'
     - browser-sync > chokidar > fsevents > node-pre-gyp > tar-pack > fstream-ignore > fstream > rimraf > glob > minimatch:
         patched: '2016-07-11T19:02:00.037Z'
-      gulp-nodemon > gulp > vinyl-fs > glob-watcher > gaze > globule > minimatch:
-        patched: '2017-04-05T09:36:13.199Z'
     - browser-sync > chokidar > fsevents > node-pre-gyp > tar-pack > tar > fstream > rimraf > glob > minimatch:
         patched: '2016-07-11T19:02:00.037Z'
-      gulp-nodemon > gulp > vinyl-fs > glob-watcher > gaze > globule > glob > minimatch:
-        patched: '2017-04-05T09:36:13.199Z'
     - browser-sync > chokidar > fsevents > node-pre-gyp > tar-pack > rimraf > glob > minimatch:
         patched: '2016-07-11T19:02:00.037Z'
-      gulp > vinyl-fs > glob-watcher > gaze > globule > minimatch:
-        patched: '2017-04-05T09:36:13.199Z'
     - browser-sync > chokidar > fsevents > node-pre-gyp > tar-pack > fstream-ignore > minimatch:
         patched: '2016-07-11T19:02:00.037Z'
     - dustjs-linkedin > chokidar > readdirp > minimatch:
@@ -163,6 +162,22 @@ patch:
         patched: '2016-07-24T20:03:46.557Z'
     - gulp-nodemon > nodemon > chokidar > fsevents > node-pre-gyp > tar-pack > fstream-ignore > minimatch:
         patched: '2016-07-24T20:03:46.557Z'
+    - gulp-nodemon > gulp > vinyl-fs > glob-stream > glob > minimatch:
+        patched: '2017-04-05T09:36:13.199Z'
+    - gulp > vinyl-fs > glob-stream > minimatch:
+        patched: '2017-04-05T09:36:13.199Z'
+    - gulp > vinyl-fs > glob-stream > glob > minimatch:
+        patched: '2017-04-05T09:36:13.199Z'
+    - gulp-nodemon > gulp > vinyl-fs > glob-stream > minimatch:
+        patched: '2017-04-05T09:36:13.199Z'
+    - gulp > vinyl-fs > glob-watcher > gaze > globule > glob > minimatch:
+        patched: '2017-04-05T09:36:13.199Z'
+    - gulp-nodemon > gulp > vinyl-fs > glob-watcher > gaze > globule > minimatch:
+        patched: '2017-04-05T09:36:13.199Z'
+    - gulp-nodemon > gulp > vinyl-fs > glob-watcher > gaze > globule > glob > minimatch:
+        patched: '2017-04-05T09:36:13.199Z'
+    - gulp > vinyl-fs > glob-watcher > gaze > globule > minimatch:
+        patched: '2017-04-05T09:36:13.199Z'
   'npm:ws:20160624':
     - browser-sync > socket.io > socket.io-client > engine.io-client > ws:
         patched: '2016-07-11T19:02:00.037Z'
@@ -201,10 +216,51 @@ patch:
         patched: '2017-04-05T09:36:13.199Z'
     - node-pixel > firmata > serialport > node-pre-gyp > request > qs:
         patched: '2017-04-05T09:36:13.199Z'
+    - browser-sync > qs:
+        patched: '2017-07-28T08:58:46.865Z'
   'npm:ws:20160920':
     - browser-sync > socket.io > socket.io-client > engine.io-client > ws:
         patched: '2017-04-05T09:36:13.199Z'
     - browser-sync > socket.io-client > engine.io-client > ws:
-        patched: '2017-04-05T09:36:13.199Z'
+        patched: '2017-07-28T08:58:46.865Z'
     - browser-sync > socket.io > engine.io > ws:
         patched: '2017-04-05T09:36:13.199Z'
+    - browser-sync > socket.io > engine.io > ws:
+        patched: '2017-07-28T08:58:46.865Z'
+    - browser-sync > socket.io > socket.io-client > engine.io-client > ws:
+        patched: '2017-07-28T08:58:46.865Z'
+  'npm:ms:20170412':
+    - browser-sync > socket.io-client > engine.io-client > debug > ms:
+        patched: '2017-07-28T08:58:46.865Z'
+    - browser-sync > socket.io > socket.io-client > debug > ms:
+        patched: '2017-07-28T08:58:46.865Z'
+    - browser-sync > socket.io > socket.io-client > engine.io-client > debug > ms:
+        patched: '2017-07-28T08:58:46.865Z'
+    - browser-sync > socket.io-client > debug > ms:
+        patched: '2017-07-28T08:58:46.865Z'
+    - browser-sync > socket.io > engine.io > debug > ms:
+        patched: '2017-07-28T08:58:46.865Z'
+    - browser-sync > socket.io > socket.io-adapter > debug > ms:
+        patched: '2017-07-28T08:58:46.865Z'
+    - browser-sync > socket.io > debug > ms:
+        patched: '2017-07-28T08:58:46.865Z'
+    - browser-sync > connect > finalhandler > debug > ms:
+        patched: '2017-07-28T08:58:46.865Z'
+    - browser-sync > connect > debug > ms:
+        patched: '2017-07-28T08:58:46.865Z'
+    - browser-sync > serve-index > debug > ms:
+        patched: '2017-07-28T08:58:46.865Z'
+    - browser-sync > socket.io > socket.io-client > socket.io-parser > debug > ms:
+        patched: '2017-07-28T08:58:46.865Z'
+    - browser-sync > socket.io-client > socket.io-parser > debug > ms:
+        patched: '2017-07-28T08:58:46.865Z'
+    - browser-sync > socket.io > socket.io-adapter > socket.io-parser > debug > ms:
+        patched: '2017-07-28T08:58:46.865Z'
+    - browser-sync > socket.io > socket.io-parser > debug > ms:
+        patched: '2017-07-28T08:58:46.865Z'
+    - browser-sync > serve-static > send > ms:
+        patched: '2017-07-28T08:58:46.865Z'
+    - browser-sync > serve-static > send > debug > ms:
+        patched: '2017-07-28T08:58:46.865Z'
+    - socket.io > socket.io-adapter > debug > ms:
+        patched: '2017-07-28T08:58:46.865Z'
