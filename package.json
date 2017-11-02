@@ -5,7 +5,7 @@
   "repository": "https://github.com/rupl/bustashape",
   "license": "MIT",
   "dependencies": {
-    "browser-sync": "^2.14.1",
+    "browser-sync": "^2.18.13",
     "consolidate": "^0.13.1",
     "dustjs-helpers": "^1.7.3",
     "dustjs-linkedin": "^2.7.2",
@@ -19,13 +19,14 @@
     "gulp-uglify": "^1.5.1",
     "gulp-util": "^3.0.7",
     "merge-stream": "^1.0.0",
-    "snyk": "^1.14.3",
-    "socket.io": "^1.4.5",
+    "snyk": "^1.47.0",
+    "socket.io": "^2.0.2",
     "twitter": "^1.4.0",
     "two.js": "^0.5.0"
   },
   "engines": {
-    "node": "4.8.4"
+    "node": "8.9.0",
+    "npm": "5.5.1"
   },
   "scripts": {
     "postinstall": "gulp build",
