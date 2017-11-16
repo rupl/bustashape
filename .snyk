@@ -5,7 +5,7 @@ ignore:
   'npm:connect:20130701':
     - browser-sync > browser-sync-ui > weinre > express > connect:
         reason: snyk
-        expires: '2017-08-27T08:59:31.283Z'
+        expires: '2017-12-16T15:32:36.227Z'
     - browser-sync-ui > weinre > express > connect:
         reason: snyk
         expires: '2016-10-22T15:49:24.987Z'
@@ -18,7 +18,7 @@ ignore:
   'npm:express:20140912':
     - browser-sync > browser-sync-ui > weinre > express:
         reason: snyk
-        expires: '2017-08-27T08:59:31.283Z'
+        expires: '2017-12-16T15:32:36.227Z'
     - browser-sync-ui > weinre > express:
         reason: snyk
         expires: '2016-10-22T15:49:24.987Z'
@@ -31,7 +31,7 @@ ignore:
   'npm:qs:20140806':
     - browser-sync > browser-sync-ui > weinre > express > qs:
         reason: snyk
-        expires: '2017-08-27T08:59:31.283Z'
+        expires: '2017-12-16T15:32:36.227Z'
     - browser-sync-ui > weinre > express > qs:
         reason: snyk
         expires: '2016-10-22T15:49:24.987Z'
@@ -47,7 +47,7 @@ ignore:
   'npm:qs:20140806-1':
     - browser-sync > browser-sync-ui > weinre > express > qs:
         reason: snyk
-        expires: '2017-08-27T08:59:31.283Z'
+        expires: '2017-12-16T15:32:36.228Z'
     - browser-sync-ui > weinre > express > qs:
         reason: snyk
         expires: '2016-10-22T15:49:24.987Z'
@@ -78,6 +78,9 @@ ignore:
     - browser-sync-ui > weinre > express > connect:
         reason: snyk
         expires: '2017-05-05T09:37:49.893Z'
+      browser-sync > browser-sync-ui > weinre > express > connect:
+        reason: snyk
+        expires: '2017-12-16T15:32:36.227Z'
     - browser-sync > browser-sync-ui > weinre > express > connect:
         reason: snyk
         expires: '2017-05-05T09:37:49.894Z'
@@ -88,6 +91,9 @@ ignore:
     - browser-sync-ui > weinre > express > qs:
         reason: snyk
         expires: '2017-05-05T09:37:49.895Z'
+      browser-sync > browser-sync-ui > weinre > express > qs:
+        reason: snyk
+        expires: '2017-12-16T15:32:36.228Z'
     - browser-sync > browser-sync-ui > weinre > express > qs:
         reason: snyk
         expires: '2017-05-05T09:37:49.896Z'
@@ -104,6 +110,37 @@ ignore:
     - gulp-eslint > eslint > shelljs:
         reason: snyk
         expires: '2017-05-05T09:37:49.896Z'
+  'npm:fresh:20170908':
+    - browser-sync > browser-sync-client > fresh:
+        reason: None given
+        expires: '2017-12-16T15:32:36.227Z'
+    - browser-sync > serve-static > send > fresh:
+        reason: None given
+        expires: '2017-12-16T15:32:36.227Z'
+  'npm:mime:20170907':
+    - browser-sync > serve-static > send > mime:
+        reason: None given
+        expires: '2017-12-16T15:32:36.227Z'
+    - browser-sync > browser-sync-ui > weinre > express > mime:
+        reason: None given
+        expires: '2017-12-16T15:32:36.227Z'
+  'npm:parsejson:20170908':
+    - browser-sync > socket.io-client > engine.io-client > parsejson:
+        reason: None given
+        expires: '2017-12-16T15:32:36.227Z'
+    - browser-sync > socket.io > socket.io-client > engine.io-client > parsejson:
+        reason: None given
+        expires: '2017-12-16T15:32:36.227Z'
+  'npm:ws:20171108':
+    - browser-sync > socket.io-client > engine.io-client > ws:
+        reason: None given
+        expires: '2017-12-16T15:32:36.228Z'
+    - browser-sync > socket.io > engine.io > ws:
+        reason: None given
+        expires: '2017-12-16T15:32:36.228Z'
+    - browser-sync > socket.io > socket.io-client > engine.io-client > ws:
+        reason: None given
+        expires: '2017-12-16T15:32:36.228Z'
 # patches apply the minimum changes required to fix a vulnerability
 patch:
   'npm:request:20160119':
@@ -264,3 +301,49 @@ patch:
         patched: '2017-07-28T08:58:46.865Z'
     - socket.io > socket.io-adapter > debug > ms:
         patched: '2017-07-28T08:58:46.865Z'
+  'npm:debug:20170905':
+    - browser-sync > serve-index > debug:
+        patched: '2017-11-16T15:31:37.326Z'
+    - browser-sync > socket.io-client > socket.io-parser > debug:
+        patched: '2017-11-16T15:31:37.326Z'
+    - browser-sync > socket.io > socket.io-parser > debug:
+        patched: '2017-11-16T15:31:37.326Z'
+    - browser-sync > socket.io > socket.io-adapter > socket.io-parser > debug:
+        patched: '2017-11-16T15:31:37.326Z'
+    - browser-sync > socket.io > socket.io-client > socket.io-parser > debug:
+        patched: '2017-11-16T15:31:37.326Z'
+    - browser-sync > connect > debug:
+        patched: '2017-11-16T15:31:37.326Z'
+    - browser-sync > connect > finalhandler > debug:
+        patched: '2017-11-16T15:31:37.326Z'
+    - browser-sync > serve-static > send > debug:
+        patched: '2017-11-16T15:31:37.326Z'
+    - browser-sync > socket.io > socket.io-client > debug:
+        patched: '2017-11-16T15:31:37.326Z'
+    - browser-sync > socket.io-client > debug:
+        patched: '2017-11-16T15:31:37.326Z'
+    - browser-sync > socket.io > socket.io-client > engine.io-client > debug:
+        patched: '2017-11-16T15:31:37.326Z'
+    - browser-sync > socket.io-client > engine.io-client > debug:
+        patched: '2017-11-16T15:31:37.326Z'
+    - browser-sync > socket.io > debug:
+        patched: '2017-11-16T15:31:37.326Z'
+    - browser-sync > socket.io > engine.io > debug:
+        patched: '2017-11-16T15:31:37.326Z'
+    - browser-sync > socket.io > socket.io-adapter > debug:
+        patched: '2017-11-16T15:31:37.326Z'
+    - browser-sync > localtunnel > debug:
+        patched: '2017-11-16T15:31:37.326Z'
+    - dustjs-linkedin > chokidar > fsevents > node-pre-gyp > tar-pack > debug:
+        patched: '2017-11-16T15:31:37.326Z'
+    - gulp-nodemon > nodemon > chokidar > fsevents > node-pre-gyp > tar-pack > debug:
+        patched: '2017-11-16T15:31:37.326Z'
+    - browser-sync > chokidar > fsevents > node-pre-gyp > tar-pack > debug:
+        patched: '2017-11-16T15:31:37.326Z'
+  'npm:tough-cookie:20170905':
+    - gulp-nodemon > nodemon > chokidar > fsevents > node-pre-gyp > request > tough-cookie:
+        patched: '2017-11-16T15:31:37.326Z'
+    - browser-sync > chokidar > fsevents > node-pre-gyp > request > tough-cookie:
+        patched: '2017-11-16T15:31:37.326Z'
+    - dustjs-linkedin > chokidar > fsevents > node-pre-gyp > request > tough-cookie:
+        patched: '2017-11-16T15:31:37.326Z'
