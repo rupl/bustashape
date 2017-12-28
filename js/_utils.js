@@ -20,27 +20,6 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = function (name, fn
 
 
 //
-// Blur all form fields
-//
-// @see http://stackoverflow.com/a/29237391/175551
-//
-function blurAll(){
-  var tmp = document.createElement("input");
-  document.body.appendChild(tmp);
-  tmp.focus();
-  document.body.removeChild(tmp);
-}
-
-
-//
-// Coerce things (mostly strings) to numbers.
-//
-function n(x) {
-  return Number(x);
-}
-
-
-//
 // Math stuff
 //
 Math.radians = function(degrees) {
@@ -50,16 +29,57 @@ Math.degrees = function(radians) {
   return radians * 180 / Math.PI;
 };
 
+// Coerce strings to numbers
+Math.n = function(x) {
+  return Number(x);
+};
 
-//
-// Debug functions
-//
-function debugCanvas(scene_transform) {
-  var debug = 't:' + scene_transform.x +','+ scene_transform.y +' s:'+ scene_transform.scale;
-  $('.debug--canvas').innerText = debug;
-}
 
-function debugShape(shape) {
-  var debug = 't:' + shape.translation +' s:'+ shape.scale +' r:'+ shape.rotation;
-  $('.debug--shape').innerText = debug;
-}
+////////////////////////////////////////////////////////////////////////////////
+// Bustashape debugging
+//
+// Check whether we're in debug mode and offer some debugging tools.
+////////////////////////////////////////////////////////////////////////////////
+busta.debug = {
+  //
+  // Flag to toggle debug statements
+  //
+  enabled: (typeof debug_busta !== 'undefined'),
+
+  //
+  // Output some debug stats for the canvas
+  //
+  canvas: function(scene_transform) {
+    var debug_data = 't:' + scene_transform.x +','+ scene_transform.y +' s:'+ scene_transform.scale;
+    $('.debug--canvas').innerText = debug_data;
+  },
+
+  //
+  // Output debug stats for the shape the user is interacting with. If two or
+  // more shapes are being dragged it will show whatever data called it last.
+  //
+  shape: function(shape) {
+    var debug_data = 't:' + shape.translation +' s:'+ shape.scale +' r:'+ shape.rotation;
+    $('.debug--shape').innerText = debug_data;
+  },
+};
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Bustashape utilities
+//
+// These things could all have a better home, but until I have that home they
+// are at least not bleeding all over global scope like they used to.
+////////////////////////////////////////////////////////////////////////////////
+busta.utils = {
+  //
+  // Blur all form fields
+  // @see http://stackoverflow.com/a/29237391/175551
+  //
+  blurAll: function() {
+    var tmp = document.createElement("input");
+    document.body.appendChild(tmp);
+    tmp.focus();
+    document.body.removeChild(tmp);
+  },
+};

@@ -125,7 +125,7 @@ function handlePresetTap(ev) {
   if (controls.classList.contains('is-open')) {
     setPresetFocus(ev.srcEvent.target);
   } else {
-    window.createShape(ev);
+    busta.shape.add(ev);
   }
 }
 
@@ -247,7 +247,7 @@ function dragControls(ev) {
   // We're already moving, update form controls.
   if (ev.type === 'panmove') {
     // Store the raw delta.
-    controls_transform.y = n(controls_transform.init.y) + n(ev.deltaY);
+    controls_transform.y = Math.n(controls_transform.init.y) + Math.n(ev.deltaY);
 
     // Don't let controls drop below screen. This is done by ensuring that our
     // translateY is always a NEGATIVE number. Negative means UP in CSS transform.

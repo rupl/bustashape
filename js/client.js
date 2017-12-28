@@ -13,7 +13,7 @@ two.bind('update', function twoUpdateListener() {
 
 
 // debug
-if (debug_busta !== 'undefined') {
+if (busta.debug.enabled) {
   console.debug('💥 two.js initialized using ' + two.type + ' renderer.');
 }
 
@@ -31,8 +31,8 @@ client.socket.on('add', function(props) {
   // to not duplicate calls, but this at least avoids over-populating the DOM.
   if ($('#' + props.id)) return;
 
-  var START_X = n(props.x);
-  var START_Y = n(props.y);
+  var START_X = Math.n(props.x);
+  var START_Y = Math.n(props.y);
   var shape;
 
   // Create new shape
@@ -69,8 +69,8 @@ client.socket.on('add', function(props) {
   // and apply the advanced CSS props (e.g. blend mode).
   two.update();
 
-  if (debug_busta !== 'undefined') {
-    window.debugShape(shape);
+  if (busta.debug.enabled) {
+    busta.debug.shape(shape);
   }
 
   // Reference DOM element to allow direct manipulation for a few things.
@@ -135,8 +135,8 @@ client.socket.on('add', function(props) {
     // If we didn't, the shape would not follow the movement of a person's
     // finger in a natural way.
     if (ev.type === 'panmove') {
-      transform.x = n(initX) + (n(ev.deltaX) / two.scene.scale);
-      transform.y = n(initY) + (n(ev.deltaY) / two.scene.scale);
+      transform.x = Math.n(initX) + (Math.n(ev.deltaX) / two.scene.scale);
+      transform.y = Math.n(initY) + (Math.n(ev.deltaY) / two.scene.scale);
     }
 
     requestElementUpdate();
@@ -176,7 +176,7 @@ client.socket.on('add', function(props) {
       el.classList.add('grabbing');
     }
 
-    transform.angle = n(initAngle) + n(ev.rotation);
+    transform.angle = Math.n(initAngle) + Math.n(ev.rotation);
 
     requestElementUpdate();
   }
@@ -251,8 +251,8 @@ client.socket.on('add', function(props) {
     shape.scale = transform.scale;
     shape.rotation = Math.radians(transform.angle);
 
-    if (debug_busta !== 'undefined') {
-      window.debugShape(shape);
+    if (busta.debug.enabled) {
+      busta.debug.shape(shape);
     }
 
     // Redraw

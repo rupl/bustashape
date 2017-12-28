@@ -23,6 +23,7 @@
           console.debug('💁 GA would have logged: ga(', [].slice.call(arguments).join(', '), ')');
         };
       </script>
+      <script>var debug_busta = true;</script>
     {/eq}
   </head>
   <body>
@@ -130,9 +131,6 @@
       </fieldset>
     </form>
 
-    {@eq key=env value="local"}
-      <script>var debug_busta = true;</script>
-    {/eq}
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/vendor.min.js"></script>
     <script src="/js/main.min.js"></script>

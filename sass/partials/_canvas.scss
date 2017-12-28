@@ -14,16 +14,15 @@
 
 .debug {
   position: absolute;
-  bottom: 7em;
   left: 0;
   right: 0;
+  color: #000;
 }
 
 .debug--shape {
-  opacity: 0;
-  color: #666;
   bottom: 9em;
+  opacity: 0;
 }
 .debug--canvas {
-  color: #000;
+  bottom: 7em;
 }

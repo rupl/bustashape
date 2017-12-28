@@ -30,7 +30,7 @@ zui.addLimits(1 / ZOOM_LIMIT, ZOOM_LIMIT);
 // Touch UI
 //
 if (Modernizr.touchevents) {
-  if (debug_busta !== 'undefined') {
+  if (busta.debug.enabled) {
     console.debug('👆 Touch events detected. Setting up mobile canvas...');
   }
 
@@ -49,7 +49,7 @@ if (Modernizr.touchevents) {
 // for projection and other public displays.
 //
 else {
-  if (debug_busta !== 'undefined') {
+  if (busta.debug.enabled) {
     console.debug('💻 No touch events detected. Setting up projection mode.');
   }
 
@@ -141,9 +141,9 @@ function changeCanvas(ev) {
     ev.preventDefault();
 
     if (ev.type === 'pinchstart' && ev.target === svg) {
-      scene_transform.initScale = n(scene_transform.scale) || 1;
-      scene_transform.initX = n(scene_transform.x) || 0;
-      scene_transform.initY = n(scene_transform.y) || 0;
+      scene_transform.initScale = Math.n(scene_transform.scale) || 1;
+      scene_transform.initX = Math.n(scene_transform.x) || 0;
+      scene_transform.initY = Math.n(scene_transform.y) || 0;
     }
 
     if (ev.type === 'pinchmove' && ev.target === svg) {
@@ -159,14 +159,14 @@ function changeCanvas(ev) {
 
     if (ev.type === 'panstart' && ev.target === svg) {
       // Get the starting position for this gesture
-      scene_transform.initX = n(scene_transform.x) || 0;
-      scene_transform.initY = n(scene_transform.y) || 0;
+      scene_transform.initX = Math.n(scene_transform.x) || 0;
+      scene_transform.initY = Math.n(scene_transform.y) || 0;
     }
 
     // We're already moving, use the values we stored during 'panstart'
     if (ev.type === 'panmove' && ev.target === svg) {
-      scene_transform.x = n(scene_transform.initX) + n(ev.deltaX);
-      scene_transform.y = n(scene_transform.initY) + n(ev.deltaY);
+      scene_transform.x = Math.n(scene_transform.initX) + Math.n(ev.deltaX);
+      scene_transform.y = Math.n(scene_transform.initY) + Math.n(ev.deltaY);
 
       if (!scene_transform.ticking) {
         requestAnimationFrame(redrawCanvasPan);
@@ -198,11 +198,11 @@ function redrawCanvasScale() {
   scene_transform.y = offset.surfaceMatrix.elements[5];
 
   // debug
-  if (debug_busta !== 'undefined') {
-    window.debugCanvas(scene_transform);
+  if (busta.debug.enabled) {
+    busta.debug.canvas(scene_transform);
   }
 
-  // Redraw and release next frame.
+  // Release next frame.
   scene_transform.ticking = false;
 }
 
@@ -215,8 +215,8 @@ function redrawCanvasPan() {
   zui.updateSurface();
 
   // debug
-  if (debug_busta !== 'undefined') {
-    window.debugCanvas(scene_transform);
+  if (busta.debug.enabled) {
+    busta.debug.canvas(scene_transform);
   }
 
   // Redraw and release next frame.
