@@ -1,5 +1,6 @@
 // Node
 var env = process.env.NODE_ENV || 'local';
+var port = process.env.PORT || 5000;
 
 // Gulp tools
 var gulp = require('gulp');
@@ -28,7 +29,7 @@ log(c.yellow('Detected environment: ' + env));
 // -----------------------------------------------------------------------------
 gulp.task('bs', function() {
   bs({
-    proxy: 'localhost:8080',
+    proxy: 'localhost:' + port,
     files: 'css/*.css',
     open: false,
     ghostMode: false, // incompatible with bustashape's socket data.
