@@ -33,7 +33,10 @@ gulp.task('bs', function() {
     proxy: 'localhost:' + port,
     files: 'css/*.css',
     open: false,
-    ghostMode: false, // incompatible with bustashape's socket data.
+
+    // Incompatible with bustashape's core functionality. the app is designed to
+    // mirror various actions across clients so there's no need to do this.
+    ghostMode: false,
   });
 });
 
@@ -95,7 +98,7 @@ gulp.task('js', function() {
   .pipe(eslint())
   .pipe(eslint.format())
   .pipe(concat('main.min.js'))
-  .pipe(uglify())
+  // .pipe(uglify())
   .pipe(gulp.dest('_public/js'))
   .pipe(reload({stream: true}));
 
