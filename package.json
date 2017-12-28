@@ -38,6 +38,7 @@
   "snyk": true,
   "devDependencies": {
     "eslint": "^3.8.1",
-    "gulp-eslint": "^3.0.1"
+    "gulp-eslint": "^3.0.1",
+    "gulp-task-listing": "^1.0.1"
   }
 }

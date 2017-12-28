@@ -9,6 +9,7 @@ var log = u.log;
 var c = u.colors;
 var plumber = require('gulp-plumber');
 var merge = require('merge-stream');
+var taskListing = require('gulp-task-listing');
 
 // Project deps
 var nodemon = require('gulp-nodemon');
@@ -137,8 +138,10 @@ gulp.task('start', ['sass', 'js', 'img', 'watch', 'bs'], function () {
   });
 });
 
+// Add a task to render the output
+gulp.task('help', taskListing);
 
 // -----------------------------------------------------------------------------
 // Default should just start the server
 // -----------------------------------------------------------------------------
-gulp.task('default', ['start']);
+gulp.task('default', ['help']);
