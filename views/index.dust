@@ -18,7 +18,11 @@
         ga('send', 'pageview');
       </script>
     {:else}
-      <script>window.ga = function() {};</script>
+      <script>
+        var ga = window.ga || function () {
+          console.debug('💁 GA would have logged: ga(', [].slice.call(arguments).join(', '), ')');
+        };
+      </script>
     {/eq}
   </head>
   <body>
