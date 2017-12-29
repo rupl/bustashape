@@ -67,9 +67,23 @@ gulp.task('sass', function() {
 
 
 // -----------------------------------------------------------------------------
-// JS task
+// JS: linting
 // -----------------------------------------------------------------------------
-gulp.task('js', function() {
+gulp.task('js-lint', function() {
+  return gulp.src([
+    'index.js',
+    'js/*.js',
+  ])
+  .pipe(plumber())
+  .pipe(eslint())
+  .pipe(eslint.format());
+});
+
+
+// -----------------------------------------------------------------------------
+// JS: bundles
+// -----------------------------------------------------------------------------
+gulp.task('js-build', function() {
   bs.notify('<span style="color: grey">Running:</span> JS tasks');
 
   var vendor = gulp.src([
@@ -105,6 +119,10 @@ gulp.task('js', function() {
   return merge(vendor, main);
 });
 
+// -----------------------------------------------------------------------------
+// JS: all tasks
+// -----------------------------------------------------------------------------
+gulp.task('js', ['js-lint', 'js-build']);
 
 // -----------------------------------------------------------------------------
 // Prep images
@@ -126,7 +144,8 @@ gulp.task('build', ['sass', 'js', 'img']);
 // -----------------------------------------------------------------------------
 gulp.task('watch', function() {
   gulp.watch('sass/**/*', ['sass']);
-  gulp.watch('js/**/*', ['js']);
+  gulp.watch(['js/*.js', 'index.js'], ['js-lint']);
+  gulp.watch('js/**/*', ['js-build']);
 });
 
 
