@@ -1,7 +1,7 @@
 // Node/npm deps
 var express = require('express');
 var config = require('./config.json');
-var dust = require('dustjs-linkedin');
+var dust = require('dustjs-linkedin'); // eslint-disable-line no-unused-vars
 var cons = require('consolidate');
 // var Twitter = require('twitter');
 var port = process.env.PORT || 5000;
@@ -33,7 +33,7 @@ app.get('/', function(req, res){
   cons.dust('views/index.dust', {
     palette: config.palettes[Math.floor(Math.random() * config.palettes.length)],
     GA: GA,
-    env: env
+    env: env,
   }, function (err, out) {
     if (err) {console.error(err); }
     res.send(out);
@@ -87,7 +87,7 @@ io.on('connection', function(socket){
     // List user as a member of the room.
     client = {
       sid: socket.id,
-      nick: nickname
+      nick: nickname,
     };
     rooms[roomName].push(client);
 
@@ -97,7 +97,7 @@ io.on('connection', function(socket){
     // Tell others that this person joined.
     socket.broadcast.in(roomName).emit('user-joined', {
       'nick': client.nick,
-      'sid' : client.sid
+      'sid' : client.sid,
     });
 
     // Format data for client-side consumption and return it to client.
@@ -106,7 +106,7 @@ io.on('connection', function(socket){
       'sid': client.sid,
       'nick': nickname,
       'room': roomName,
-      'users': rooms[roomName]
+      'users': rooms[roomName],
     });
 
     // Broadcast on twitter
@@ -187,7 +187,7 @@ io.on('connection', function(socket){
         // rooms, not the incoming socket data.
         socket.broadcast.emit('user-left', {
           'nick': client.nick,
-          'sid' : client.sid
+          'sid' : client.sid,
         });
 
         // Log the event.
