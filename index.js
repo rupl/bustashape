@@ -112,7 +112,7 @@ io.on('connection', function(socket){
     // Broadcast on twitter
     // if (rooms[roomName].length >= TWITTER_THRESHOLD) {
     //   var randomTweet = config.tweets[Math.floor(Math.random() * config.tweets.length)];
-    //   twitter.post('statuses/update', {status: randomTweet + ' http://bustashape.com/#' + roomName},  function(error, tweet, response) {
+    //   twitter.post('statuses/update', {status: randomTweet + ' https://bustashape.com/#' + roomName},  function(error, tweet, response) {
     //     if (error) throw error;
     //     // Log the tweet.
     //     console.log('📣  ', tweet.text)

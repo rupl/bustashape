@@ -1,5 +1,5 @@
 //
-// User Interface
+// Control drawer
 //
 
 // The height of the drawer when closed. Defined in CSS.
@@ -37,7 +37,7 @@ var animationEvent = whichAnimationEvent();
 //       space directly above the drawer, so that sloppy grabs still open or
 //       close the drawer.
 //
-$$('#form-controls').forEach(function (el) {
+$$('#form-controls').forEach(function(el) {
   var mc = new Hammer.Manager(el);
   mc.options.domEvents = true;
 
@@ -271,7 +271,7 @@ function dragControls(ev) {
 //
 // Helper function to manage controls state and animation.
 //
-function redrawControls () {
+function redrawControls() {
   requestAnimationFrame(function () {
     var final_value = 'translateY(' + controls_transform.y + 'px)';
 
@@ -346,7 +346,7 @@ function saveCanvas() {
 //
 // Helper function to provide the proper prefix for an event listener.
 //
-function whichAnimationEvent(){
+function whichAnimationEvent() {
   var t;
   var fake = document.createElement('fakeelement');
   var animations = {
@@ -389,7 +389,7 @@ client.socket.on('shape-add', unFocus);
  * Receives data from other users and reconfigures controls to match the
  * settings of the group. Currently only does colors.
  */
-function syncControls (palette) {
+function syncControls(palette) {
   // Sync colors.
   if (palette.hasOwnProperty('colors')) {
     var current = 0;
