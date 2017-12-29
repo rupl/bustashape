@@ -287,7 +287,7 @@ busta.shape = {
         ticking = true;
 
         if (broadcast !== false) {
-          client.socket.emit('change', {
+          client.socket.emit('shape-change', {
             room: client.room,
             id: props.id,
             transform: transform,
@@ -321,7 +321,7 @@ busta.shape = {
     /**
      * Listen for this shape to change.
      */
-    client.socket.on('change', function(props) {
+    client.socket.on('shape-change', function(props) {
       if (props.id === el.id) {
         // Transform and animate the shape.
         transform = props.transform;

@@ -157,12 +157,12 @@ io.on('connection', function(socket){
   /**
    * A shape is being changed.
    */
-  socket.on('change', function(props){
+  socket.on('shape-change', function(props){
     // We use socket.to() instead of io.to() because when shapes are
     // changed, the client who is making the changes should NOT receive the
     // socket data. it happens locally only, and then the changes are then
     // broadcast to all other clients.
-    socket.to(props.room).emit('change', props);
+    socket.to(props.room).emit('shape-change', props);
     console.log('🔷💨 ', JSON.stringify(props).replace('\n',''));
   });
 
