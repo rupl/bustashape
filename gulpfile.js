@@ -88,9 +88,9 @@ gulp.task('js', function() {
     'js/_busta.js',
     'js/_utils.js',
     'js/socket.js',
-    'js/client.js',
-    'js/login.js',
     'js/canvas.js',
+    'js/login.js',
+    'js/client.js',
     'js/controls.js',
     'js/shapes.js',
   ])

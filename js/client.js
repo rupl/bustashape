@@ -1,28 +1,3 @@
-// Initialize the canvas instance of two.js
-var canvas = $('#canvas');
-var two = new Two({
-  fullscreen: true,
-  autostart: true,
-}).appendTo(canvas);
-
-
-// Allow tweening to run continuously.
-two.bind('update', function twoUpdateListener() {
-  TWEEN.update();
-});
-
-
-// debug
-if (busta.debug.enabled) {
-  console.debug('💥 two.js initialized using ' + two.type + ' renderer.');
-}
-
-
-// Define some constants for two.js
-var START_WIDTH = 200;
-var START_HEIGHT = 200;
-
-
 /**
  * Listen for new shapes and add them to DOM.
  */

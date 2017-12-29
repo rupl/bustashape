@@ -1,5 +1,25 @@
 'use strict';
 
+// Initialize the canvas instance of two.js
+var canvas = $('#canvas');
+var two = new Two({
+  fullscreen: true,
+  autostart: true,
+}).appendTo(canvas);
+
+
+// Allow tweening to run continuously.
+two.bind('update', function twoUpdateListener() {
+  TWEEN.update();
+});
+
+
+// debug
+if (busta.debug.enabled) {
+  console.debug('💥 two.js initialized using ' + two.type + ' renderer.');
+}
+
+
 // This is a global so that any piece of the app can be aware of the user's
 // position in space.
 var scene_transform = {
