@@ -45,6 +45,12 @@ var createClient = function() {
     document.dispatchEvent(evt);
   });
 
+  this.socket.on('add', function(data) {
+    var evt = createEvent('add');
+    evt.props = data;
+    document.dispatchEvent(evt);
+  });
+
   function createEvent(name) {
     var ev = document.createEvent('Event');
     ev.initEvent(name, true, true);

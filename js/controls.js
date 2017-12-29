@@ -125,7 +125,7 @@ function handlePresetTap(ev) {
   if (controls.classList.contains('is-open')) {
     setPresetFocus(ev.srcEvent.target);
   } else {
-    busta.shape.add(ev);
+    busta.shape.create(ev);
   }
 }
 
