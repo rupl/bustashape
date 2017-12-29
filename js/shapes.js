@@ -6,7 +6,7 @@ busta.shape = {
   //
   // This event calculates some data about the new shape and sends an event to
   // the server, which triggers a new shape on all clients including the person
-  // who created the shape. See the 'add' method for the client-side event
+  // who created the shape. See the 'shape-add' method for the client-side event
   // listener that handles the socket event.
   //
   create: function(ev) {
@@ -46,8 +46,8 @@ busta.shape = {
     preset.classList.add('active');
 
     // Send to ALL clients including self. It doesn't immediately add a shape to
-    // the DOM, the 'add' socket listener does it after a round trip to server.
-    client.socket.emit('add', {
+    // the DOM, the 'shape-add' socket listener does it after a round trip to server.
+    client.socket.emit('shape-add', {
       room: client.room,
       id: 'shape-' + Math.floor(Math.random() * 1000000000),
       class: preset.dataset.shape,
@@ -335,4 +335,4 @@ busta.shape = {
 //
 // Event listeners
 //
-document.on('add', busta.shape.add, true);
+document.on('shape-add', busta.shape.add, true);

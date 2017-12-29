@@ -45,8 +45,8 @@ var createClient = function() {
     document.dispatchEvent(evt);
   });
 
-  this.socket.on('add', function(data) {
-    var evt = createEvent('add');
+  this.socket.on('shape-add', function(data) {
+    var evt = createEvent('shape-add');
     evt.props = data;
     document.dispatchEvent(evt);
   });

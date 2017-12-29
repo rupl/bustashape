@@ -381,7 +381,7 @@ function unFocus() {
 // Event listeners
 //
 document.on('sync-controls', syncControls, true);
-client.socket.on('add', unFocus);
+client.socket.on('shape-add', unFocus);
 
 /**
  * Sync controls.

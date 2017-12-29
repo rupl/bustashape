@@ -125,11 +125,11 @@ io.on('connection', function(socket){
   /**
    * A new shape appears!
    */
-  socket.on('add', function(props){
+  socket.on('shape-add', function(props){
     // We use io.to() instead of socket.to() because when a shape is
     // added, all clients (including the person who initiated the ADD command)
     // need to receive the ADD event in order to create the shape onscreen.
-    io.to(props.room).emit('add', props);
+    io.to(props.room).emit('shape-add', props);
     console.log('🔷💥 ', JSON.stringify(props).replace('\n',''));
   });
 
@@ -141,7 +141,7 @@ io.on('connection', function(socket){
 
     // Split out the payload and emit individual shapes to the new user.
     shapes.forEach(function (shape) {
-      socket.to(id).emit('add', shape);
+      socket.to(id).emit('shape-add', shape);
     });
   });
 
