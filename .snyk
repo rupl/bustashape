@@ -1,11 +1,11 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.7.1
+version: v1.10.1
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
   'npm:connect:20130701':
     - browser-sync > browser-sync-ui > weinre > express > connect:
         reason: snyk
-        expires: '2017-12-16T15:32:36.227Z'
+        expires: '2018-02-03T15:35:26.014Z'
     - browser-sync-ui > weinre > express > connect:
         reason: snyk
         expires: '2016-10-22T15:49:24.987Z'
@@ -18,7 +18,7 @@ ignore:
   'npm:express:20140912':
     - browser-sync > browser-sync-ui > weinre > express:
         reason: snyk
-        expires: '2017-12-16T15:32:36.227Z'
+        expires: '2018-02-03T15:35:26.014Z'
     - browser-sync-ui > weinre > express:
         reason: snyk
         expires: '2016-10-22T15:49:24.987Z'
@@ -31,7 +31,7 @@ ignore:
   'npm:qs:20140806':
     - browser-sync > browser-sync-ui > weinre > express > qs:
         reason: snyk
-        expires: '2017-12-16T15:32:36.227Z'
+        expires: '2018-02-03T15:35:26.014Z'
     - browser-sync-ui > weinre > express > qs:
         reason: snyk
         expires: '2016-10-22T15:49:24.987Z'
@@ -47,7 +47,7 @@ ignore:
   'npm:qs:20140806-1':
     - browser-sync > browser-sync-ui > weinre > express > qs:
         reason: snyk
-        expires: '2017-12-16T15:32:36.228Z'
+        expires: '2018-02-03T15:35:26.014Z'
     - browser-sync-ui > weinre > express > qs:
         reason: snyk
         expires: '2016-10-22T15:49:24.987Z'
@@ -80,20 +80,23 @@ ignore:
         expires: '2017-05-05T09:37:49.893Z'
       browser-sync > browser-sync-ui > weinre > express > connect:
         reason: snyk
-        expires: '2017-12-16T15:32:36.227Z'
+        expires: '2018-02-03T15:35:26.014Z'
     - browser-sync > browser-sync-ui > weinre > express > connect:
         reason: snyk
         expires: '2017-05-05T09:37:49.894Z'
     - browser-sync > browser-sync-ui > weinre > express > connect:
         reason: snyk
         expires: '2017-08-27T08:59:31.283Z'
+    - browser-sync > browser-sync-ui > weinre > express > connect:
+        reason: snyk
+        expires: '2017-12-16T15:32:36.227Z'
   'npm:qs:20170213':
     - browser-sync-ui > weinre > express > qs:
         reason: snyk
         expires: '2017-05-05T09:37:49.895Z'
       browser-sync > browser-sync-ui > weinre > express > qs:
         reason: snyk
-        expires: '2017-12-16T15:32:36.228Z'
+        expires: '2018-02-03T15:35:26.014Z'
     - browser-sync > browser-sync-ui > weinre > express > qs:
         reason: snyk
         expires: '2017-05-05T09:37:49.896Z'
@@ -103,6 +106,9 @@ ignore:
     - browser-sync > browser-sync-ui > weinre > express > connect > qs:
         reason: None given
         expires: '2017-08-27T08:59:31.283Z'
+    - browser-sync > browser-sync-ui > weinre > express > qs:
+        reason: snyk
+        expires: '2017-12-16T15:32:36.228Z'
   'npm:shelljs:20140723':
     - eslint > shelljs:
         reason: snyk
@@ -113,24 +119,24 @@ ignore:
   'npm:fresh:20170908':
     - browser-sync > browser-sync-client > fresh:
         reason: None given
-        expires: '2017-12-16T15:32:36.227Z'
+        expires: '2018-02-03T15:35:26.014Z'
     - browser-sync > serve-static > send > fresh:
         reason: None given
-        expires: '2017-12-16T15:32:36.227Z'
+        expires: '2018-02-03T15:35:26.014Z'
   'npm:mime:20170907':
     - browser-sync > serve-static > send > mime:
         reason: None given
-        expires: '2017-12-16T15:32:36.227Z'
+        expires: '2018-02-03T15:35:26.014Z'
     - browser-sync > browser-sync-ui > weinre > express > mime:
         reason: None given
-        expires: '2017-12-16T15:32:36.227Z'
+        expires: '2018-02-03T15:35:26.014Z'
   'npm:parsejson:20170908':
     - browser-sync > socket.io-client > engine.io-client > parsejson:
         reason: None given
-        expires: '2017-12-16T15:32:36.227Z'
+        expires: '2018-02-03T15:35:26.014Z'
     - browser-sync > socket.io > socket.io-client > engine.io-client > parsejson:
         reason: None given
-        expires: '2017-12-16T15:32:36.227Z'
+        expires: '2018-02-03T15:35:26.014Z'
   'npm:ws:20171108':
     - browser-sync > socket.io-client > engine.io-client > ws:
         reason: None given
