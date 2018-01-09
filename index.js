@@ -11,8 +11,8 @@ var rooms = [];
 
 // Initialize app
 var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
 // Twitter
 // var twitter = new Twitter({
@@ -43,7 +43,7 @@ app.get('/', function(req, res){
 /**
  * Someone connected.
  */
-io.on('connection', function(socket){
+io.on('connection', function(socket) {
   // console.log('👥➡  somebody connected');
   var client;
   var roomName;
@@ -109,7 +109,12 @@ io.on('connection', function(socket){
       'users': rooms[roomName],
     });
 
+    //
     // Broadcast on twitter
+    //
+    // This has to execute async somehow or I'll repeat the Great Failed Demo™
+    // of SmashingConf 2016.
+    //
     // if (rooms[roomName].length >= TWITTER_THRESHOLD) {
     //   var randomTweet = config.tweets[Math.floor(Math.random() * config.tweets.length)];
     //   twitter.post('statuses/update', {status: randomTweet + ' https://bustashape.com/#' + roomName},  function(error, tweet, response) {
@@ -125,7 +130,7 @@ io.on('connection', function(socket){
   /**
    * A new shape appears!
    */
-  socket.on('shape-add', function(props){
+  socket.on('shape-add', function(props) {
     // We use io.to() instead of socket.to() because when a shape is
     // added, all clients (including the person who initiated the ADD command)
     // need to receive the ADD event in order to create the shape onscreen.
@@ -136,12 +141,12 @@ io.on('connection', function(socket){
   /**
    * Pass shapes along to new users.
    */
-  socket.on('sync-shapes', function (id, shapes) {
-    console.log('🔷🔄 ', id, shapes.length, 'shapes total');
+  socket.on('sync-shapes', function (user, shapes) {
+    console.log('🔷🔄 ', user, shapes.length, 'shapes total');
 
     // Split out the payload and emit individual shapes to the new user.
     shapes.forEach(function (shape) {
-      socket.to(id).emit('shape-add', shape);
+      socket.to(user).emit('shape-add', shape);
     });
   });
 
@@ -157,7 +162,7 @@ io.on('connection', function(socket){
   /**
    * A shape is being changed.
    */
-  socket.on('shape-change', function(props){
+  socket.on('shape-change', function(props) {
     // We use socket.to() instead of io.to() because when shapes are
     // changed, the client who is making the changes should NOT receive the
     // socket data. it happens locally only, and then the changes are then
@@ -210,6 +215,6 @@ io.on('connection', function(socket){
 /**
  * Listen for users to connect
  */
-http.listen(port, function(){
+server.listen(port, function() {
   console.log('⚡  Listening on port ' + port + ' in ' + env + ' mode.');
 });
