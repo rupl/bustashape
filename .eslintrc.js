@@ -14,7 +14,6 @@ module.exports = {
     "io": false,
     "me": false,
     "Modernizr": false,
-    "scene_transform": false,
     "TWEEN": false,
     "Two": false,
     "two": false,

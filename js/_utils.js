@@ -49,8 +49,8 @@ busta.debug = {
   //
   // Output some debug stats for the canvas
   //
-  canvas: function(scene_transform) {
-    var debug_data = 't:' + scene_transform.x +','+ scene_transform.y +' s:'+ scene_transform.scale;
+  canvas: function() {
+    var debug_data = 't:' + busta.canvas.x +','+ busta.canvas.y +' s:'+ busta.canvas.scale;
     $('.debug--canvas').innerText = debug_data;
   },
 

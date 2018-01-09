@@ -34,12 +34,12 @@ busta.shape = {
     //
     // Shapes get lost when the user doesn't see them immediately. New shapes
     // should appear in the center of the user's viewport so it's noticeable when
-    // it appears. The numbers generated here are relative to scene_transform, so
+    // it appears. The numbers generated here are relative to busta.canvas, so
     // they will appear in the same place on the canvas on all other screens, even
     // if it's not the center of the other person's screen.
-    var REL_SCALE = 1 / scene_transform.scale;
-    var REL_X = Math.floor((-scene_transform.x + (two.width / 2)) / scene_transform.scale);
-    var REL_Y = Math.floor((-scene_transform.y + (two.height / 2)) / scene_transform.scale);
+    var REL_SCALE = 1 / busta.canvas.scale;
+    var REL_X = Math.floor((-busta.canvas.x + (two.width / 2)) / busta.canvas.scale);
+    var REL_Y = Math.floor((-busta.canvas.y + (two.height / 2)) / busta.canvas.scale);
 
     // Set button to active so it's obvious that it was pressed. The incoming
     // socket event will unset this class.

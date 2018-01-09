@@ -14,21 +14,20 @@ two.bind('update', function twoUpdateListener() {
 });
 
 
-// debug
+// For local development
 if (busta.debug.enabled) {
   console.debug('💥 two.js initialized using ' + two.type + ' renderer.');
 }
 
 
-// This is a global so that any piece of the app can be aware of the user's
-// position in space.
-var scene_transform = {
+// Define some properties for the canvas.
+busta.canvas = {
   ticking: false,
   initX: 0,
   initY: 0,
-  initScale: 1,
   x: 0,
   y: 0,
+  initScale: 1,
   scale: 1,
   center: {
     x: two.width / 2,
@@ -87,22 +86,22 @@ else {
 
         // Left arrow.
         case 37:
-          scene_transform.x -= (e.shiftKey) ? 100 : 10;
+          busta.canvas.x -= (e.shiftKey) ? 100 : 10;
           break;
 
         // Right arrow.
         case 39:
-          scene_transform.x += (e.shiftKey) ? 100 : 10;
+          busta.canvas.x += (e.shiftKey) ? 100 : 10;
           break;
 
         // Up arrow.
         case 38:
-          scene_transform.y -= (e.shiftKey) ? 100 : 10;
+          busta.canvas.y -= (e.shiftKey) ? 100 : 10;
           break;
 
         // Down arrow.
         case 40:
-          scene_transform.y += (e.shiftKey) ? 100 : 10;
+          busta.canvas.y += (e.shiftKey) ? 100 : 10;
           break;
       }
 
@@ -120,18 +119,18 @@ else {
 
         // Zoom in
         case 45:
-          scene_transform.scale /= 1.08;
+          busta.canvas.scale /= 1.08;
           break;
         case 95: // [Shift]
-          scene_transform.scale /= 2;
+          busta.canvas.scale /= 2;
           break;
 
         // Zoom out
         case 61:
-          scene_transform.scale *= 1.08;
+          busta.canvas.scale *= 1.08;
           break;
         case 43: // [Shift]
-          scene_transform.scale *= 2;
+          busta.canvas.scale *= 2;
           break;
       }
 
@@ -161,36 +160,36 @@ function changeCanvas(ev) {
     ev.preventDefault();
 
     if (ev.type === 'pinchstart' && ev.target === svg) {
-      scene_transform.initScale = Math.n(scene_transform.scale) || 1;
-      scene_transform.initX = Math.n(scene_transform.x) || 0;
-      scene_transform.initY = Math.n(scene_transform.y) || 0;
+      busta.canvas.initScale = Math.n(busta.canvas.scale) || 1;
+      busta.canvas.initX = Math.n(busta.canvas.x) || 0;
+      busta.canvas.initY = Math.n(busta.canvas.y) || 0;
     }
 
     if (ev.type === 'pinchmove' && ev.target === svg) {
-      scene_transform.scale = scene_transform.initScale * ev.scale;
-      scene_transform.center.x = ev.center.x;
-      scene_transform.center.y = ev.center.y;
+      busta.canvas.scale = busta.canvas.initScale * ev.scale;
+      busta.canvas.center.x = ev.center.x;
+      busta.canvas.center.y = ev.center.y;
 
-      if (!scene_transform.ticking) {
+      if (!busta.canvas.ticking) {
         requestAnimationFrame(redrawCanvasScale);
-        scene_transform.ticking = true;
+        busta.canvas.ticking = true;
       }
     }
 
     if (ev.type === 'panstart' && ev.target === svg) {
       // Get the starting position for this gesture
-      scene_transform.initX = Math.n(scene_transform.x) || 0;
-      scene_transform.initY = Math.n(scene_transform.y) || 0;
+      busta.canvas.initX = Math.n(busta.canvas.x) || 0;
+      busta.canvas.initY = Math.n(busta.canvas.y) || 0;
     }
 
     // We're already moving, use the values we stored during 'panstart'
     if (ev.type === 'panmove' && ev.target === svg) {
-      scene_transform.x = Math.n(scene_transform.initX) + Math.n(ev.deltaX);
-      scene_transform.y = Math.n(scene_transform.initY) + Math.n(ev.deltaY);
+      busta.canvas.x = Math.n(busta.canvas.initX) + Math.n(ev.deltaX);
+      busta.canvas.y = Math.n(busta.canvas.initY) + Math.n(ev.deltaY);
 
-      if (!scene_transform.ticking) {
+      if (!busta.canvas.ticking) {
         requestAnimationFrame(redrawCanvasPan);
-        scene_transform.ticking = true;
+        busta.canvas.ticking = true;
       }
     }
   }
@@ -202,28 +201,28 @@ function changeCanvas(ev) {
 //
 function redrawCanvasScale() {
   // First, limit scaling to our official ceiling.
-  if (scene_transform.scale > ZOOM_LIMIT) {
-    scene_transform.scale = ZOOM_LIMIT;
+  if (busta.canvas.scale > ZOOM_LIMIT) {
+    busta.canvas.scale = ZOOM_LIMIT;
   }
-  if (scene_transform.scale < 1/ZOOM_LIMIT) {
-    scene_transform.scale = 1/ZOOM_LIMIT;
+  if (busta.canvas.scale < 1/ZOOM_LIMIT) {
+    busta.canvas.scale = 1/ZOOM_LIMIT;
   }
 
   // Update canvas zoom. This will alter the X/Y coordinates by a bit.
-  var matrix = zui.zoomSet(scene_transform.scale, scene_transform.center.x, scene_transform.center.y);
+  var matrix = zui.zoomSet(busta.canvas.scale, busta.canvas.center.x, busta.canvas.center.y);
 
   // Pull the new X/Y coordinates out of ZUI and keep our stuff in sync.
   var offset = matrix.updateOffset();
-  scene_transform.x = offset.surfaceMatrix.elements[2];
-  scene_transform.y = offset.surfaceMatrix.elements[5];
+  busta.canvas.x = offset.surfaceMatrix.elements[2];
+  busta.canvas.y = offset.surfaceMatrix.elements[5];
 
   // debug
   if (busta.debug.enabled) {
-    busta.debug.canvas(scene_transform);
+    busta.debug.canvas(busta.canvas);
   }
 
   // Release next frame.
-  scene_transform.ticking = false;
+  busta.canvas.ticking = false;
 }
 
 //
@@ -231,14 +230,14 @@ function redrawCanvasScale() {
 //
 function redrawCanvasPan() {
   // Update scene.
-  zui.translateSurfaceTo(scene_transform.x, scene_transform.y);
+  zui.translateSurfaceTo(busta.canvas.x, busta.canvas.y);
   zui.updateSurface();
 
   // debug
   if (busta.debug.enabled) {
-    busta.debug.canvas(scene_transform);
+    busta.debug.canvas(busta.canvas);
   }
 
   // Redraw and release next frame.
-  scene_transform.ticking = false;
+  busta.canvas.ticking = false;
 }
