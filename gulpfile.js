@@ -6,7 +6,7 @@ var port = process.env.PORT || 5000;
 var gulp = require('gulp');
 var u = require('gulp-util');
 var log = u.log;
-var c = u.colors;
+var c = require('chalk');
 var plumber = require('gulp-plumber');
 var merge = require('merge-stream');
 var taskListing = require('gulp-task-listing');
@@ -51,6 +51,7 @@ gulp.task('sass', function() {
 
   return gulp.src('sass/**/*.scss')
     .pipe(plumber())
+    .pipe(sass().on('error', sass.logError))
     .pipe(sass({
         outputStyle: 'nested',
       })
@@ -60,7 +61,10 @@ gulp.task('sass', function() {
         bs.notify('<span style="color: red">Sass failed to compile</span>');
       })
     )
-    .pipe(prefix('last 2 versions', '> 1%'))
+    .pipe(prefix({
+      browsers: ['last 2 versions'],
+      cascade: false,
+    }))
     .pipe(gulp.dest('_public/css'))
     .pipe(reload({stream:true}));
 });
