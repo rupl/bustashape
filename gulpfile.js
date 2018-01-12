@@ -14,10 +14,12 @@ var taskListing = require('gulp-task-listing');
 // Project deps
 var nodemon = require('gulp-nodemon');
 var sass = require('gulp-sass');
-var prefix = require('gulp-autoprefixer');
+var autoprefixer = require('autoprefixer');
 var concat = require('gulp-concat');
 var eslint = require('gulp-eslint');
 var uglify = require('gulp-uglify');
+var cssnano = require('cssnano');
+var postcss = require('gulp-postcss');
 var bs = require('browser-sync');
 var reload = bs.reload;
 
@@ -52,19 +54,13 @@ gulp.task('sass', function() {
   return gulp.src('sass/**/*.scss')
     .pipe(plumber())
     .pipe(sass().on('error', sass.logError))
-    .pipe(sass({
-        outputStyle: 'nested',
-      })
-      .on('error', function(err) {
-        log(c.red('sass'), 'failed to compile');
-        log(c.red('> ') + err.message);
-        bs.notify('<span style="color: red">Sass failed to compile</span>');
-      })
-    )
-    .pipe(prefix({
-      browsers: ['last 2 versions'],
-      cascade: false,
-    }))
+    .pipe(postcss([
+      autoprefixer({
+        browsers: ['last 2 versions'],
+        cascade: false,
+      }),
+      cssnano(),
+    ]))
     .pipe(gulp.dest('_public/css'))
     .pipe(reload({stream:true}));
 });
