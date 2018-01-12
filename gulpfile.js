@@ -88,7 +88,7 @@ gulp.task('js-build', function() {
 
   var vendor = gulp.src([
     'js/vendor/modernizr.min.js',
-    'js/vendor/hammer.min.js',
+    'node_modules/hammerjs/hammer.js',
     'node_modules/two.js/build/two.js',
     'js/vendor/tween-old.js',
     'js/vendor/zui.js',
