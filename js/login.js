@@ -1,6 +1,8 @@
 /**
  * Log a user in
  */
+var me = {};
+
 me.logged_in = false;
 
 
