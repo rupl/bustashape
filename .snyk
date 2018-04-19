@@ -1,126 +1,129 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.7.1
+version: v1.11.0
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
   'npm:connect:20130701':
     - browser-sync > browser-sync-ui > weinre > express > connect:
-        reason: snyk
+        reason: None given
         expires: '2017-12-16T15:32:36.227Z'
     - browser-sync-ui > weinre > express > connect:
-        reason: snyk
+        reason: None given
         expires: '2016-10-22T15:49:24.987Z'
     - browser-sync-ui > weinre > express > connect:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.894Z'
     - browser-sync > browser-sync-ui > weinre > express > connect:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.894Z'
   'npm:express:20140912':
     - browser-sync > browser-sync-ui > weinre > express:
-        reason: snyk
+        reason: None given
         expires: '2017-12-16T15:32:36.227Z'
     - browser-sync-ui > weinre > express:
-        reason: snyk
+        reason: None given
         expires: '2016-10-22T15:49:24.987Z'
     - browser-sync-ui > weinre > express:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.894Z'
     - browser-sync > browser-sync-ui > weinre > express:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.894Z'
   'npm:qs:20140806':
     - browser-sync > browser-sync-ui > weinre > express > qs:
-        reason: snyk
+        reason: None given
         expires: '2017-12-16T15:32:36.227Z'
     - browser-sync-ui > weinre > express > qs:
-        reason: snyk
+        reason: None given
         expires: '2016-10-22T15:49:24.987Z'
     - browser-sync-ui > weinre > express > qs:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.895Z'
     - browser-sync > browser-sync-ui > weinre > express > qs:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.895Z'
     - browser-sync > browser-sync-ui > weinre > express > connect > qs:
         reason: None given
         expires: '2017-08-27T08:59:31.283Z'
   'npm:qs:20140806-1':
     - browser-sync > browser-sync-ui > weinre > express > qs:
-        reason: snyk
+        reason: None given
         expires: '2017-12-16T15:32:36.228Z'
     - browser-sync-ui > weinre > express > qs:
-        reason: snyk
+        reason: None given
         expires: '2016-10-22T15:49:24.987Z'
     - browser-sync-ui > weinre > express > qs:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.895Z'
     - browser-sync > browser-sync-ui > weinre > express > qs:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.895Z'
     - browser-sync > browser-sync-ui > weinre > express > connect > qs:
         reason: None given
         expires: '2017-08-27T08:59:31.283Z'
   'npm:negotiator:20160616':
     - socket.io > engine.io > accepts > negotiator:
-        reason: snyk
+        reason: None given
         expires: '2016-08-10T19:03:01.156Z'
     - browser-sync > serve-index > accepts > negotiator:
-        reason: snyk
+        reason: None given
         expires: '2016-08-10T19:03:01.157Z'
     - browser-sync > socket.io > engine.io > accepts > negotiator:
-        reason: snyk
+        reason: None given
         expires: '2016-08-10T19:03:01.157Z'
   'npm:cli:20160615':
     - dustjs-linkedin > cli:
-        reason: snyk
+        reason: None given
         expires: '2017-01-06T10:20:14.913Z'
   'npm:connect:20120107':
     - browser-sync-ui > weinre > express > connect:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.893Z'
-      browser-sync > browser-sync-ui > weinre > express > connect:
-        reason: snyk
-        expires: '2017-12-16T15:32:36.227Z'
     - browser-sync > browser-sync-ui > weinre > express > connect:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.894Z'
     - browser-sync > browser-sync-ui > weinre > express > connect:
-        reason: snyk
+        reason: None given
         expires: '2017-08-27T08:59:31.283Z'
+    - browser-sync > browser-sync-ui > weinre > express > connect:
+        reason: None given
+        expires: '2017-12-16T15:32:36.227Z'
   'npm:qs:20170213':
     - browser-sync-ui > weinre > express > qs:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.895Z'
-      browser-sync > browser-sync-ui > weinre > express > qs:
-        reason: snyk
-        expires: '2017-12-16T15:32:36.228Z'
     - browser-sync > browser-sync-ui > weinre > express > qs:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.896Z'
     - browser-sync > browser-sync-ui > weinre > express > qs:
-        reason: snyk
+        reason: None given
         expires: '2017-08-27T08:59:31.283Z'
     - browser-sync > browser-sync-ui > weinre > express > connect > qs:
         reason: None given
         expires: '2017-08-27T08:59:31.283Z'
+    - browser-sync > browser-sync-ui > weinre > express > qs:
+        reason: None given
+        expires: '2017-12-16T15:32:36.228Z'
   'npm:shelljs:20140723':
     - eslint > shelljs:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.896Z'
     - gulp-eslint > eslint > shelljs:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.896Z'
   'npm:fresh:20170908':
     - browser-sync > browser-sync-client > fresh:
         reason: None given
         expires: '2017-12-16T15:32:36.227Z'
+      browser-sync > serve-static > send > fresh:
+        reason: None given
+        expires: '2018-05-19T20:45:36.670Z'
     - browser-sync > serve-static > send > fresh:
         reason: None given
         expires: '2017-12-16T15:32:36.227Z'
   'npm:mime:20170907':
     - browser-sync > serve-static > send > mime:
         reason: None given
-        expires: '2017-12-16T15:32:36.227Z'
+        expires: '2018-05-19T20:45:36.671Z'
     - browser-sync > browser-sync-ui > weinre > express > mime:
         reason: None given
         expires: '2017-12-16T15:32:36.227Z'
@@ -141,6 +144,89 @@ ignore:
     - browser-sync > socket.io > socket.io-client > engine.io-client > ws:
         reason: None given
         expires: '2017-12-16T15:32:36.228Z'
+  'npm:braces:20180219':
+    - browser-sync > micromatch > braces:
+        reason: None given
+        expires: '2018-05-19T20:45:36.670Z'
+    - browser-sync > chokidar > anymatch > micromatch > braces:
+        reason: None given
+        expires: '2018-05-19T20:45:36.670Z'
+    - dustjs-linkedin > chokidar > anymatch > micromatch > braces:
+        reason: None given
+        expires: '2018-05-19T20:45:36.670Z'
+  'npm:hoek:20180212':
+    - browser-sync > localtunnel > request > hawk > hoek:
+        reason: None given
+        expires: '2018-05-19T20:45:36.670Z'
+    - browser-sync > localtunnel > request > hawk > boom > hoek:
+        reason: None given
+        expires: '2018-05-19T20:45:36.670Z'
+    - browser-sync > localtunnel > request > hawk > sntp > hoek:
+        reason: None given
+        expires: '2018-05-19T20:45:36.670Z'
+    - browser-sync > localtunnel > request > hawk > cryptiles > boom > hoek:
+        reason: None given
+        expires: '2018-05-19T20:45:36.670Z'
+    - browser-sync > chokidar > fsevents > node-pre-gyp > request > hawk > hoek:
+        reason: None given
+        expires: '2018-05-19T20:45:36.670Z'
+    - browser-sync > chokidar > fsevents > node-pre-gyp > request > hawk > boom > hoek:
+        reason: None given
+        expires: '2018-05-19T20:45:36.670Z'
+    - browser-sync > chokidar > fsevents > node-pre-gyp > request > hawk > sntp > hoek:
+        reason: None given
+        expires: '2018-05-19T20:45:36.670Z'
+    - browser-sync > chokidar > fsevents > node-pre-gyp > request > hawk > cryptiles > boom > hoek:
+        reason: None given
+        expires: '2018-05-19T20:45:36.670Z'
+    - dustjs-linkedin > chokidar > fsevents > node-pre-gyp > request > hawk > hoek:
+        reason: None given
+        expires: '2018-05-19T20:45:36.670Z'
+    - dustjs-linkedin > chokidar > fsevents > node-pre-gyp > request > hawk > boom > hoek:
+        reason: None given
+        expires: '2018-05-19T20:45:36.670Z'
+    - dustjs-linkedin > chokidar > fsevents > node-pre-gyp > request > hawk > sntp > hoek:
+        reason: None given
+        expires: '2018-05-19T20:45:36.670Z'
+    - dustjs-linkedin > chokidar > fsevents > node-pre-gyp > request > hawk > cryptiles > boom > hoek:
+        reason: None given
+        expires: '2018-05-19T20:45:36.670Z'
+    - gulp-nodemon > nodemon > chokidar > fsevents > node-pre-gyp > request > hawk > hoek:
+        reason: None given
+        expires: '2018-05-19T20:45:36.670Z'
+    - gulp-nodemon > nodemon > chokidar > fsevents > node-pre-gyp > request > hawk > boom > hoek:
+        reason: None given
+        expires: '2018-05-19T20:45:36.670Z'
+    - gulp-nodemon > nodemon > chokidar > fsevents > node-pre-gyp > request > hawk > sntp > hoek:
+        reason: None given
+        expires: '2018-05-19T20:45:36.670Z'
+    - gulp-nodemon > nodemon > chokidar > fsevents > node-pre-gyp > request > hawk > cryptiles > boom > hoek:
+        reason: None given
+        expires: '2018-05-19T20:45:36.670Z'
+  'npm:lodash:20180130':
+    - gulp > vinyl-fs > glob-watcher > gaze > globule > lodash:
+        reason: None given
+        expires: '2018-05-19T20:45:36.670Z'
+    - gulp-nodemon > gulp > vinyl-fs > glob-watcher > gaze > globule > lodash:
+        reason: None given
+        expires: '2018-05-19T20:45:36.670Z'
+    - browser-sync > easy-extender > lodash:
+        reason: None given
+        expires: '2018-05-19T20:45:36.671Z'
+  'npm:sshpk:20180409':
+    - browser-sync > chokidar > fsevents > node-pre-gyp > request > http-signature > sshpk:
+        reason: None given
+        expires: '2018-05-19T20:45:36.671Z'
+    - dustjs-linkedin > chokidar > fsevents > node-pre-gyp > request > http-signature > sshpk:
+        reason: None given
+        expires: '2018-05-19T20:45:36.671Z'
+    - gulp-nodemon > nodemon > chokidar > fsevents > node-pre-gyp > request > http-signature > sshpk:
+        reason: None given
+        expires: '2018-05-19T20:45:36.671Z'
+  'npm:ua-parser-js:20171012':
+    - browser-sync > ua-parser-js:
+        reason: None given
+        expires: '2018-05-19T20:45:36.671Z'
 # patches apply the minimum changes required to fix a vulnerability
 patch:
   'npm:request:20160119':
