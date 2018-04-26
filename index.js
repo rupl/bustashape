@@ -4,9 +4,12 @@ var config = require('./config.json');
 var dust = require('dustjs-linkedin');
 var cons = require('consolidate');
 // var Twitter = require('twitter');
-var port = process.env.PORT || 5000;
-var env = process.env.NODE_ENV || 'local';
-var GA = process.env.GA || '';
+const PORT = process.env.PORT || 5000;
+const NODE_ENV = process.env.NODE_ENV || 'local';
+const MATOMO = {
+  URL: process.env.MATOMO_URL || '',
+  ID: process.env.MATOMO_ID || '',
+};
 var rooms = [];
 
 // Initialize app
@@ -32,8 +35,8 @@ app.use(express.static(__dirname + '/_public', {redirect: false}));
 app.get('/', function(req, res){
   cons.dust('views/index.dust', {
     palette: config.palettes[Math.floor(Math.random() * config.palettes.length)],
-    GA: GA,
-    env: env
+    MATOMO: MATOMO,
+    NODE_ENV: NODE_ENV
   }, function (err, out) {
     if (err) {console.error(err); }
     res.send(out);
@@ -210,6 +213,6 @@ io.on('connection', function(socket){
 /**
  * Listen for users to connect
  */
-http.listen(port, function(){
-  console.log('⚡  Listening on port ' + port + ' in ' + env + ' mode.');
+http.listen(PORT, function(){
+  console.log('⚡  Listening on port ' + PORT + ' in ' + NODE_ENV + ' mode.');
 });
