@@ -54,6 +54,6 @@ function createShape(ev) {
     angle: 0,
   });
 
-  // Log to GA
-  ga('send', 'event', 'Shapes', 'create', client.room);
+  // Log to analytics
+  _paq.push(['trackEvent', 'Shapes', 'create', client.room]);
 }
