@@ -377,12 +377,6 @@ function unFocus() {
 }
 
 
-//
-// Event listeners
-//
-document.on('sync-controls', syncControls, true);
-client.socket.on('shape-add', unFocus);
-
 /**
  * Sync controls.
  *
@@ -399,3 +393,10 @@ function syncControls(palette) {
     });
   }
 }
+
+
+//
+// Event listeners
+//
+document.on('sync-controls', syncControls, true);
+client.socket.on('shape-add', unFocus);
