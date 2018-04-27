@@ -1,6 +1,6 @@
 {
   "name": "bustashape",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "Collaborative artwork powered by the web.",
   "repository": "https://github.com/rupl/bustashape",
   "license": "MIT",
@@ -30,8 +30,8 @@
     "two.js": "^0.5.0"
   },
   "engines": {
-    "node": "8.9.4",
-    "npm": "5.6.0"
+    "node": "8.11.1",
+    "npm": "5.8.0"
   },
   "scripts": {
     "postinstall": "gulp build",
