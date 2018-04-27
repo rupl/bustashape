@@ -4,117 +4,117 @@ version: v1.10.1
 ignore:
   'npm:connect:20130701':
     - browser-sync > browser-sync-ui > weinre > express > connect:
-        reason: snyk
+        reason: None given
         expires: '2018-02-03T15:35:26.014Z'
     - browser-sync-ui > weinre > express > connect:
-        reason: snyk
+        reason: None given
         expires: '2016-10-22T15:49:24.987Z'
     - browser-sync-ui > weinre > express > connect:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.894Z'
     - browser-sync > browser-sync-ui > weinre > express > connect:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.894Z'
   'npm:express:20140912':
     - browser-sync > browser-sync-ui > weinre > express:
-        reason: snyk
+        reason: None given
         expires: '2018-02-03T15:35:26.014Z'
     - browser-sync-ui > weinre > express:
-        reason: snyk
+        reason: None given
         expires: '2016-10-22T15:49:24.987Z'
     - browser-sync-ui > weinre > express:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.894Z'
     - browser-sync > browser-sync-ui > weinre > express:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.894Z'
   'npm:qs:20140806':
     - browser-sync > browser-sync-ui > weinre > express > qs:
-        reason: snyk
+        reason: None given
         expires: '2018-02-03T15:35:26.014Z'
     - browser-sync-ui > weinre > express > qs:
-        reason: snyk
+        reason: None given
         expires: '2016-10-22T15:49:24.987Z'
     - browser-sync-ui > weinre > express > qs:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.895Z'
     - browser-sync > browser-sync-ui > weinre > express > qs:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.895Z'
     - browser-sync > browser-sync-ui > weinre > express > connect > qs:
         reason: None given
         expires: '2017-08-27T08:59:31.283Z'
   'npm:qs:20140806-1':
     - browser-sync > browser-sync-ui > weinre > express > qs:
-        reason: snyk
+        reason: None given
         expires: '2018-02-03T15:35:26.014Z'
     - browser-sync-ui > weinre > express > qs:
-        reason: snyk
+        reason: None given
         expires: '2016-10-22T15:49:24.987Z'
     - browser-sync-ui > weinre > express > qs:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.895Z'
     - browser-sync > browser-sync-ui > weinre > express > qs:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.895Z'
     - browser-sync > browser-sync-ui > weinre > express > connect > qs:
         reason: None given
         expires: '2017-08-27T08:59:31.283Z'
   'npm:negotiator:20160616':
     - socket.io > engine.io > accepts > negotiator:
-        reason: snyk
+        reason: None given
         expires: '2016-08-10T19:03:01.156Z'
     - browser-sync > serve-index > accepts > negotiator:
-        reason: snyk
+        reason: None given
         expires: '2016-08-10T19:03:01.157Z'
     - browser-sync > socket.io > engine.io > accepts > negotiator:
-        reason: snyk
+        reason: None given
         expires: '2016-08-10T19:03:01.157Z'
   'npm:cli:20160615':
     - dustjs-linkedin > cli:
-        reason: snyk
+        reason: None given
         expires: '2017-01-06T10:20:14.913Z'
   'npm:connect:20120107':
     - browser-sync-ui > weinre > express > connect:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.893Z'
       browser-sync > browser-sync-ui > weinre > express > connect:
-        reason: snyk
+        reason: None given
         expires: '2018-02-03T15:35:26.014Z'
     - browser-sync > browser-sync-ui > weinre > express > connect:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.894Z'
     - browser-sync > browser-sync-ui > weinre > express > connect:
-        reason: snyk
+        reason: None given
         expires: '2017-08-27T08:59:31.283Z'
     - browser-sync > browser-sync-ui > weinre > express > connect:
-        reason: snyk
+        reason: None given
         expires: '2017-12-16T15:32:36.227Z'
   'npm:qs:20170213':
     - browser-sync-ui > weinre > express > qs:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.895Z'
       browser-sync > browser-sync-ui > weinre > express > qs:
-        reason: snyk
+        reason: None given
         expires: '2018-02-03T15:35:26.014Z'
     - browser-sync > browser-sync-ui > weinre > express > qs:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.896Z'
     - browser-sync > browser-sync-ui > weinre > express > qs:
-        reason: snyk
+        reason: None given
         expires: '2017-08-27T08:59:31.283Z'
     - browser-sync > browser-sync-ui > weinre > express > connect > qs:
         reason: None given
         expires: '2017-08-27T08:59:31.283Z'
     - browser-sync > browser-sync-ui > weinre > express > qs:
-        reason: snyk
+        reason: None given
         expires: '2017-12-16T15:32:36.228Z'
   'npm:shelljs:20140723':
     - eslint > shelljs:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.896Z'
     - gulp-eslint > eslint > shelljs:
-        reason: snyk
+        reason: None given
         expires: '2017-05-05T09:37:49.896Z'
   'npm:fresh:20170908':
     - browser-sync > browser-sync-client > fresh:
