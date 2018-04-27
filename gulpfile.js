@@ -103,8 +103,8 @@ gulp.task('js-build', function() {
     'js/_utils.js',
     'js/socket.js',
     'js/canvas.js',
-    'js/login.js',
     'js/client.js',
+    'js/login.js',
     'js/controls.js',
     'js/shapes.js',
   ])
