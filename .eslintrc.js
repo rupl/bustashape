@@ -5,11 +5,11 @@ module.exports = {
     "node": true,
   },
   "globals": {
+    "_paq": false,
     "$": false,
     "$$": false,
     "busta": false,
     "client": false,
-    "ga": false,
     "Hammer": false,
     "io": false,
     "me": false,

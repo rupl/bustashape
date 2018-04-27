@@ -30,8 +30,8 @@ me.join = function () {
     client.room = data.room;
     window.location.hash = ('#' + data.room);
 
-    // Log to GA
-    ga('send', 'event', 'Users', 'join', data.room);
+    // Log to analytics
+    _paq.push(['trackEvent', 'Users', 'join', data.room]);
 
     // Hide login form.
     $('#btn-login').value = '👍';
