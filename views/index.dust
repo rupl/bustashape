@@ -7,10 +7,12 @@
     <meta name="author" content="Chris Ruppel">
     <meta name="description" content="Collaborative real-time art powered by the web.">
     <link rel="stylesheet" media="all" href="/css/style.css">
+    <script>
+      var _paq = _paq || [];
+    </script>
     {@eq key=NODE_ENV value="production"}
       <!-- Matomo -->
       <script>
-        var _paq = _paq || [];
         /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
         _paq.push(['trackPageView']);
         _paq.push(['enableLinkTracking']);

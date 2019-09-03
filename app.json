@@ -6,7 +6,7 @@
     "websockets",
     "real-time"
   ],
-  "website": "http://www.bustashape.com",
+  "website": "https://bustashape.art",
   "repository": "https://github.com/rupl/bustashape",
   "success_url": "/",
   "buildpacks": [
