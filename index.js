@@ -115,12 +115,15 @@ io.on('connection', function(socket){
 
     // Broadcast on twitter
     if (TWITTER_THRESHOLDS.includes(rooms[roomName].length.toString())) {
-      var randomTweet = config.tweets[Math.floor(Math.random() * config.tweets.length)];
-      twitter.post('statuses/update', {status: randomTweet + ' https://bustashape.art/#' + roomName})
+      const hashtags = ['#art', '#digitalart', '#realtime'];
+      const introText = config.tweets[Math.floor(Math.random() * config.tweets.length)];
+      const tweetText = introText + ' https://bustashape.art/#' + roomName + '\n\n' + hashtags.join(' ');
+      twitter.post('statuses/update', {status: tweetText})
         .then(tweet => {
           // Log the tweet.
-          console.log('📣  ', tweet.text, '— room: https://bustashape.art/#' + roomName);
+          console.log('📣  ', tweet.text)
           console.log('🔗  ', 'https://twitter.com/bustashape/status/' + tweet.id);
+          console.log('🐛', 'room: https://bustashape.art/#' + roomName);
         }).catch(err => {
           throw err;
         });
