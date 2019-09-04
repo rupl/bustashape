@@ -1,38 +1,39 @@
 // Node/npm deps
-var express = require('express');
-var config = require('./config.json');
-var dust = require('dustjs-linkedin');
-var cons = require('consolidate');
-// var Twitter = require('twitter');
+const express = require('express');
+const config = require('./config.json');
+const dust = require('dustjs-linkedin');
+const cons = require('consolidate');
+const Twitter = require('twitter');
 const PORT = process.env.PORT || 5000;
 const NODE_ENV = process.env.NODE_ENV || 'local';
 const MATOMO = {
   URL: process.env.MATOMO_URL || '',
   ID: process.env.MATOMO_ID || '',
 };
-var rooms = [];
+const rooms = [];
 
 // Initialize app
-var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+const app = express();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 
 // Twitter
-// var twitter = new Twitter({
-//   consumer_key: process.env.TWITTER_CONSUMER_KEY,
-//   consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-//   access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
-//   access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
-// });
+const twitter = new Twitter({
+  consumer_key: process.env.TWITTER_CONSUMER_KEY || '',
+  consumer_secret: process.env.TWITTER_CONSUMER_SECRET || '',
+  access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY || '',
+  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET || '',
+});
 
 // Twitter threshold. Number of people that must be present to tweet the room.
-// var TWITTER_THRESHOLD = process.env.TWITTER_THRESHOLD || 2;
+const TWITTER_THRESHOLDS = process.env.TWITTER_THRESHOLDS && process.env.TWITTER_THRESHOLDS.split(',') || [2,3,5];
+console.log('🐛 TWITTER_THRESHOLDS:', TWITTER_THRESHOLDS);
 
 // Expose static assets
 app.use(express.static(__dirname + '/_public', {redirect: false}));
 
 // Main app URL
-app.get('/', function(req, res){
+app.get('/', function(req, res) {
   cons.dust('views/index.dust', {
     palette: config.palettes[Math.floor(Math.random() * config.palettes.length)],
     MATOMO: MATOMO,
@@ -113,15 +114,20 @@ io.on('connection', function(socket){
     });
 
     // Broadcast on twitter
-    // if (rooms[roomName].length >= TWITTER_THRESHOLD) {
-    //   var randomTweet = config.tweets[Math.floor(Math.random() * config.tweets.length)];
-    //   twitter.post('statuses/update', {status: randomTweet + ' http://bustashape.com/#' + roomName},  function(error, tweet, response) {
-    //     if (error) throw error;
-    //     // Log the tweet.
-    //     console.log('📣  ', tweet.text)
-    //     console.log('🔗  ', 'https://twitter.com/bustashape/status/' + tweet.id);
-    //   });
-    // }
+    if (TWITTER_THRESHOLDS.includes(rooms[roomName].length.toString())) {
+      const hashtags = ['#art', '#digitalart', '#realtime'];
+      const introText = config.tweets[Math.floor(Math.random() * config.tweets.length)];
+      const tweetText = introText + ' https://bustashape.art/#' + roomName + '\n\n' + hashtags.join(' ');
+      twitter.post('statuses/update', {status: tweetText})
+        .then(tweet => {
+          // Log the tweet.
+          console.log('📣  ', tweet.text)
+          console.log('🔗  ', 'https://twitter.com/bustashape/status/' + tweet.id);
+          console.log('🐛', 'room: https://bustashape.art/#' + roomName);
+        }).catch(err => {
+          throw err;
+        });
+    }
   });
 
 
