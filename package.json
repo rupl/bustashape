@@ -11,7 +11,7 @@
     "dustjs-linkedin": "^2.7.2",
     "express": "^4.16.3",
     "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^2.3.1",
+    "gulp-autoprefixer": "^8.0.0",
     "gulp-concat": "^2.6.0",
     "gulp-nodemon": "^2.4.2",
     "gulp-plumber": "^1.2.0",
