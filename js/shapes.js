@@ -53,7 +53,4 @@ function createShape(ev) {
     scale: REL_SCALE,
     angle: 0,
   });
-
-  // Log to analytics
-  _paq.push(['trackEvent', 'Shapes', 'create', client.room]);
 }

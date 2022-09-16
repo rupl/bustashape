@@ -39,9 +39,6 @@ function join() {
     client.room = data.room;
     window.location.hash = ('#' + data.room);
 
-    // Log to analytics
-    _paq.push(['trackEvent', 'Users', 'join', data.room]);
-
     // Hide login form.
     $('#btn-login').value = '👍';
 
