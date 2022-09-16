@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en-US">
   <head>
     <meta charset="utf-8">
@@ -7,26 +7,6 @@
     <meta name="author" content="Chris Ruppel">
     <meta name="description" content="Collaborative real-time art powered by the web.">
     <link rel="stylesheet" media="all" href="/css/style.css">
-    <script>
-      var _paq = _paq || [];
-    </script>
-    {@eq key=NODE_ENV value="production"}
-      <!-- Matomo -->
-      <script>
-        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-        _paq.push(['trackPageView']);
-        _paq.push(['enableLinkTracking']);
-        (function() {
-          var u="{MATOMO.URL}/";
-          _paq.push(['setTrackerUrl', u+'piwik.php']);
-          _paq.push(['setSiteId', '{MATOMO.ID}']);
-          var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-          g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-        })();
-      </script>
-      <noscript><p><img src="{MATOMO.URL}/piwik.php?idsite={MATOMO.ID}&rec=1" style="border:0;" alt="" /></p></noscript>
-      <!-- End Matomo Code -->
-    {/eq}
   </head>
   <body>
 
