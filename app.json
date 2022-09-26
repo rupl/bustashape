@@ -3,7 +3,7 @@
   "description": "Collaborative artwork powered by the web.",
   "website": "https://bustashape.art",
   "repository": "https://github.com/rupl/bustashape",
-  "stack": "heroku-20",
+  "stack": "heroku-22",
   "keywords": [
     "art",
     "websockets",
