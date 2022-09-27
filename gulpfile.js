@@ -12,7 +12,7 @@ var merge = require('merge-stream');
 
 // Project deps
 var nodemon = require('gulp-nodemon');
-var sass = require('gulp-sass');
+var sass = require('gulp-sass')(require('sass'));
 var prefix = require('gulp-autoprefixer');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
@@ -26,14 +26,16 @@ log(c.yellow('Detected environment:'), c.bgYellow.black(' ' + env + ' '));
 //——————————————————————————————————————————————————————————————————————————————
 // Browser Sync
 //——————————————————————————————————————————————————————————————————————————————
-gulp.task('bs', function() {
+function bsTask() {
   bs({
     proxy: 'localhost:' + port,
     files: 'css/*.css',
     open: false,
     ghostMode: false // ghostMode is incompatible with bustashape's socket data.
   });
-});
+};
+bsTask.description = 'Runs browser-sync and listens for changes to CSS';
+module.exports.bs = bsTask;
 
 
 //——————————————————————————————————————————————————————————————————————————————
@@ -41,14 +43,12 @@ gulp.task('bs', function() {
 //
 // Compiles Sass and runs the CSS through autoprefixer.
 //——————————————————————————————————————————————————————————————————————————————
-gulp.task('sass', function() {
+function sassTask() {
   bs.notify('<span style="color: grey">Running:</span> Sass task');
 
   return gulp.src('sass/**/*.scss')
     .pipe(plumber())
-    .pipe(sass({
-        outputStyle: 'nested',
-      })
+    .pipe(sass()
       .on('error', function(err, res) {
         log(c.red('sass'), 'failed to compile');
         log(c.red('> ') + err.message);
@@ -58,13 +58,15 @@ gulp.task('sass', function() {
     .pipe(prefix('last 2 versions', '> 1%'))
     .pipe(gulp.dest('_public/css'))
     .pipe(reload({stream:true}));
-});
+};
+sassTask.description = 'Compiles sass';
+module.exports.sass = sassTask;
 
 
 //——————————————————————————————————————————————————————————————————————————————
 // JS task
 //——————————————————————————————————————————————————————————————————————————————
-gulp.task('js', function() {
+function jsTask() {
   bs.notify('<span style="color: grey">Running:</span> JS tasks');
 
   var bootstrap = gulp.src([
@@ -95,46 +97,49 @@ gulp.task('js', function() {
   .pipe(reload({stream: true}));
 
   return merge(bootstrap, ui);
-});
+};
+jsTask.description = 'Bundles and minifies JS';
+module.exports.js = jsTask;
 
 
 //——————————————————————————————————————————————————————————————————————————————
 // Prep images
 //——————————————————————————————————————————————————————————————————————————————
-gulp.task('img', function() {
+function imgTask() {
   return gulp.src('img/*')
     .pipe(gulp.dest('_public/img'));
-});
+};
+imgTask.description = 'Copies images to public directory.';
+module.exports.img = imgTask;
 
 
 //——————————————————————————————————————————————————————————————————————————————
 // Build all the assets
 //——————————————————————————————————————————————————————————————————————————————
-gulp.task('build', ['sass', 'js', 'img']);
+gulp.task('build', gulp.series(sassTask, jsTask, imgTask));
 
 
 //——————————————————————————————————————————————————————————————————————————————
 // Watch tasks
 //——————————————————————————————————————————————————————————————————————————————
-gulp.task('watch', function() {
-  gulp.watch('sass/**/*', ['sass']);
-  gulp.watch('js/**/*', ['js']);
+gulp.task('watch', () => {
+  gulp.watch('sass/**/*', gulp.series(sassTask));
+  gulp.watch('js/**/*', gulp.series(jsTask));
 });
 
 
 //——————————————————————————————————————————————————————————————————————————————
 // Run the dev server
 //——————————————————————————————————————————————————————————————————————————————
-gulp.task('start', ['sass', 'js', 'img', 'watch', 'bs'], function () {
+gulp.task('start', gulp.parallel(sassTask, jsTask, imgTask, 'watch', bsTask, () => {
   nodemon({
     script: 'index.js',
     ext: 'html dust js json',
     env: { 'NODE_ENV': env }
   });
-});
-
+}));
 
 //——————————————————————————————————————————————————————————————————————————————
 // Default should just start the server
 //——————————————————————————————————————————————————————————————————————————————
-gulp.task('default', ['start']);
+gulp.task('default', gulp.series('start'));
