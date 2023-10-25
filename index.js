@@ -3,7 +3,7 @@ const express = require('express');
 const config = require('./config.json');
 const dust = require('dustjs-linkedin');
 const cons = require('consolidate');
-const Twitter = require('twitter');
+// const Twitter = require('twitter');
 const PORT = process.env.PORT || 5000;
 const NODE_ENV = process.env.NODE_ENV || 'local';
 const MATOMO = {
@@ -18,16 +18,16 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
 // Twitter
-const twitter = new Twitter({
-  consumer_key: process.env.TWITTER_CONSUMER_KEY || '',
-  consumer_secret: process.env.TWITTER_CONSUMER_SECRET || '',
-  access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY || '',
-  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET || '',
-});
+// const twitter = new Twitter({
+//   consumer_key: process.env.TWITTER_CONSUMER_KEY || '',
+//   consumer_secret: process.env.TWITTER_CONSUMER_SECRET || '',
+//   access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY || '',
+//   access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET || '',
+// });
 
 // Twitter threshold. Number of people that must be present to tweet the room.
-const TWITTER_THRESHOLDS = process.env.TWITTER_THRESHOLDS && process.env.TWITTER_THRESHOLDS.split(',') || [2,3,5];
-console.log('🐛 TWITTER_THRESHOLDS:', TWITTER_THRESHOLDS);
+// const TWITTER_THRESHOLDS = process.env.TWITTER_THRESHOLDS && process.env.TWITTER_THRESHOLDS.split(',') || [2,3,5];
+// console.log('🐛 TWITTER_THRESHOLDS:', TWITTER_THRESHOLDS);
 
 // Expose static assets
 app.use(express.static(__dirname + '/_public', {redirect: false}));
@@ -114,20 +114,20 @@ io.on('connection', function(socket){
     });
 
     // Broadcast on twitter
-    if (TWITTER_THRESHOLDS.includes(rooms[roomName].length.toString())) {
-      const hashtags = ['#art', '#digitalart', '#realtime'];
-      const introText = config.tweets[Math.floor(Math.random() * config.tweets.length)];
-      const tweetText = introText + ' https://bustashape.art/#' + roomName + '\n\n' + hashtags.join(' ');
-      twitter.post('statuses/update', {status: tweetText})
-        .then(tweet => {
-          // Log the tweet.
-          console.log('📣  ', tweet.text)
-          console.log('🔗  ', 'https://twitter.com/bustashape/status/' + tweet.id);
-          console.log('🐛', 'room: https://bustashape.art/#' + roomName);
-        }).catch(err => {
-          throw err;
-        });
-    }
+    // if (TWITTER_THRESHOLDS.includes(rooms[roomName].length.toString())) {
+    //   const hashtags = ['#art', '#digitalart', '#realtime'];
+    //   const introText = config.tweets[Math.floor(Math.random() * config.tweets.length)];
+    //   const tweetText = introText + ' https://bustashape.art/#' + roomName + '\n\n' + hashtags.join(' ');
+    //   twitter.post('statuses/update', {status: tweetText})
+    //     .then(tweet => {
+    //       // Log the tweet.
+    //       console.log('📣  ', tweet.text)
+    //       console.log('🔗  ', 'https://twitter.com/bustashape/status/' + tweet.id);
+    //       console.log('🐛', 'room: https://bustashape.art/#' + roomName);
+    //     }).catch(err => {
+    //       throw err;
+    //     });
+    // }
   });
 
 
